@@ -1,0 +1,432 @@
+MESHX – ADAPTIVE OFF-GRID COMMUNICATION SYSTEM USING LoRa
+HARDWARE PROCUREMENT LIST + ALTERNATIVES
+===============================================================
+
+Project basis
+-------------
+- 5–6 physical LoRa mesh nodes
+- ESP32-S3 + SX1262 as the primary node platform
+- SX1262 connected to ESP32-S3 over SPI
+- Li-ion/LiPo battery with charging/protection
+- BLE interface to Android phone
+- Custom mesh networking protocol
+- Alternatives mentioned in the proposal: LLCC68 / SX1278
+- Optional/stretch items: GPS, OLED, solar charging
+- Development tools: Arduino / ESP-IDF, Android Studio, Python, Git/GitHub
+
+===============================================================
+A. CORE NODE HARDWARE
+===============================================================
+
+1. ESP32-S3 DEVELOPMENT BOARD
+---------------------------------------------------------------
+Primary:
+- ESP32-S3-DevKitC-1
+- Recommended variant: ESP32-S3-WROOM-1-N8R8
+- Flash: 8 MB
+- PSRAM: 8 MB
+- Logic: 3.3 V
+- Interfaces needed: SPI, UART, GPIO, BLE
+- Bluetooth: BLE 5-class support
+- USB for programming/debugging
+- Quantity: 7 (6 required + 1 spare)
+
+Alternatives:
+A) ESP32-S3-WROOM-1 development board with equivalent 8 MB Flash /
+   8 MB PSRAM configuration
+B) LilyGO T3-S3 / similar ESP32-S3 LoRa development board
+   (only if using an integrated SX1262 version)
+
+Recommendation:
+Use separate ESP32-S3 DevKitC-1 boards for the first prototype because
+they make SPI debugging and the hardware architecture easier to understand.
+
+---------------------------------------------------------------
+
+2. LoRa TRANSCEIVER
+---------------------------------------------------------------
+Primary:
+- Semtech SX1262 based LoRa module
+- SPI interface exposed
+- Sub-GHz operation
+- 3.3 V logic
+- Up to approximately +22 dBm TX capability depending on module/configuration
+- Must support the exact RF band selected for Pakistan operation
+- Quantity: 7 (6 required + 1 spare)
+
+Alternatives:
+A) LLCC68 based LoRa module
+   - Lower-cost SX126x-family alternative
+   - Verify exact frequency, power and library support before purchase
+
+B) SX1278 based LoRa module
+   - Older, mature and often cheaper
+   - Verify exact frequency/regulatory compatibility
+   - Verify library and driver support for the chosen board
+
+C) SX1276 based LoRa module
+   - Mature LoRa transceiver family
+   - Often widely available
+   - Verify frequency variant and integration effort
+
+IMPORTANT:
+Do not order a UART-only LoRa module. The accepted proposal requires
+ESP32-S3 <-> SX1262 communication over SPI.
+The exact RF frequency/module variant must be finalized before ordering.
+
+---------------------------------------------------------------
+
+3. LoRa ANTENNA
+---------------------------------------------------------------
+Primary:
+- Antenna matched to the final selected LoRa operating band
+- 50 ohm impedance
+- Omnidirectional
+- Approximately 2–5 dBi gain for initial testing
+- Vertical polarization
+- Correct connector for the selected LoRa module
+- Quantity: 8 (6 required + 2 spares)
+
+Alternatives:
+A) Flexible whip antenna
+B) Rubber-duck antenna
+C) Quarter-wave antenna designed for the selected frequency
+
+Do NOT mix antenna frequency bands.
+Antenna must match the actual RF operating frequency.
+
+---------------------------------------------------------------
+
+4. BATTERY
+---------------------------------------------------------------
+Primary:
+- 1-cell Li-ion or LiPo
+- Nominal voltage: 3.7 V
+- Fully charged voltage: approximately 4.2 V
+- Capacity: approximately 3000–5000 mAh
+- Recommended starting choice: approximately 4000 mAh
+- Protected cell preferred
+- Quantity: 7
+
+Alternatives:
+A) 3000 mAh protected 1S Li-ion/LiPo
+B) 5000 mAh protected 1S Li-ion/LiPo
+
+Choose battery capacity after measuring actual node power consumption.
+
+---------------------------------------------------------------
+
+5. BATTERY CHARGER + PROTECTION
+---------------------------------------------------------------
+Primary:
+- 1S Li-ion/LiPo charging board
+- 5 V input
+- Approximately 1 A charging capability
+- Overcharge protection
+- Over-discharge protection
+- Over-current/short-circuit protection
+- Quantity: 7
+
+Alternative:
+- Any reputable 1S power-management/charger board with integrated
+  protection and suitable charging current.
+
+Important:
+A charger/protection board is NOT automatically a 3.3 V regulator.
+
+---------------------------------------------------------------
+
+6. 3.3 V REGULATOR / POWER MANAGEMENT
+---------------------------------------------------------------
+Primary:
+- Stable 3.3 V regulated output
+- At least 1 A continuous capability
+- Preferably 1.5–2 A peak capability
+- Suitable for ESP32-S3 + SX1262 transient current
+- Quantity: 7
+
+Alternatives:
+A) Low-IQ 3.3 V buck-boost regulator
+B) Suitable 3.3 V buck regulator where the voltage range permits
+C) Appropriate 3.3 V LDO for prototype testing if heat/current
+   requirements are acceptable
+
+Do not connect a raw Li-ion battery directly to a 3.3 V-only rail.
+
+---------------------------------------------------------------
+
+7. POWER SWITCH
+---------------------------------------------------------------
+- Small SPST ON/OFF switch
+- Quantity: 7
+
+Alternative:
+- Slide switch / rocker switch with adequate current rating.
+
+---------------------------------------------------------------
+
+8. BATTERY CONNECTORS
+---------------------------------------------------------------
+Primary:
+- JST-PH 2.0 mm or connector matching the selected battery
+- Quantity: 10
+
+Alternatives:
+- JST-XH or another locking connector only if it matches the chosen
+  battery/PCB wiring.
+
+===============================================================
+B. PROTOTYPING + WIRING
+===============================================================
+
+9. BREADBOARDS
+- Full-size solderless breadboard
+- Quantity: 6
+
+Alternative:
+- Half-size breadboard for compact testing.
+
+10. JUMPER WIRES
+- Male-to-male: 2–3 packs
+- Male-to-female: 2–3 packs
+- Female-to-female: 2 packs
+
+11. PIN HEADERS
+- 2.54 mm male/female headers
+- Quantity: 3 packs/strips
+
+12. RESISTORS
+- Assorted resistor kit
+- Especially useful values: 220 ohm, 1 kohm, 4.7 kohm, 10 kohm
+
+13. CAPACITORS
+- Assorted ceramic/electrolytic capacitor kit
+
+14. LEDS
+- General-purpose LEDs
+- Quantity: 20–30
+
+15. PUSH BUTTONS
+- Momentary tactile switches
+- Quantity: 12
+
+16. HEAT-SHRINK TUBING
+- Assorted sizes
+- Quantity: 1 pack
+
+===============================================================
+C. DEBUGGING / TEST EQUIPMENT
+===============================================================
+
+17. DIGITAL MULTIMETER
+- Basic DC voltage/current/resistance measurement
+- Quantity: 1–2
+
+Alternative:
+- Any reliable auto-ranging digital multimeter.
+
+18. USB LOGIC ANALYZER
+- Minimum: 8 channels
+- Recommended: 24 MHz or higher
+- Quantity: 1
+
+Purpose:
+- Inspect SPI signals: SCLK, MOSI, MISO, CS
+- Debug ESP32-S3 <-> SX1262 communication
+
+Alternative:
+- Any compatible logic analyzer supported by Saleae Logic /
+  PulseView / sigrok.
+
+19. USB DATA CABLES
+- USB cable compatible with the selected ESP32-S3 boards
+- Quantity: 8
+
+Important:
+Buy DATA cables, not charge-only cables.
+
+20. USB POWER ADAPTERS
+- 5 V USB power supplies
+- Quantity: 2–3
+
+21. USB POWER METER
+- USB voltage/current/power meter
+- Quantity: 1
+- Useful for measuring prototype power consumption.
+
+22. SOLDERING STATION
+- Temperature-controlled soldering iron/station
+- Quantity: 1
+
+Alternatives:
+- Quality soldering iron + separate temperature control.
+
+23. SOLDER + FLUX
+- Electronics solder
+- Flux
+- Quantity: 1 set
+
+24. WIRE CUTTER / STRIPPER
+- Quantity: 1
+
+===============================================================
+D. OPTIONAL
+===============================================================
+
+25. OLED DISPLAY
+Primary:
+- 0.96 inch
+- 128 x 64
+- SSD1306
+- I2C
+- Quantity: 6
+
+Alternatives:
+
+- 1.3 inch SSD1306/SH1106 I2C OLED
+
+Status:
+OPTIONAL. The proposal treats OLED as a stretch goal after the core
+mesh is stable.
+
+---------------------------------------------------------------
+
+26. GPS / GNSS
+Primary:
+- u-blox NEO-M8N or comparable GNSS module
+- Quantity: 1–6 depending on final requirement
+
+Alternatives:
+- u-blox M8-series modules
+- Other UART GNSS modules with documented support
+
+Status:
+OPTIONAL. Do not buy until the core mesh works.
+
+---------------------------------------------------------------
+
+27. SOLAR CHARGING
+Primary:
+- Small solar panel + appropriate Li-ion solar charging/power-management
+  circuit
+
+Alternative:
+- USB power-bank style charging for demonstration
+
+Status:
+OPTIONAL STRETCH GOAL. Do not prioritize during initial development.
+
+---------------------------------------------------------------
+
+28. FINAL NODE ENCLOSURE
+Primary:
+- 3D-printed enclosure designed around the final PCB/wiring
+- Quantity: 6
+
+Alternative:
+- ABS/polycarbonate electronics enclosure
+
+Status:
+Order/design after the electronics and wiring are finalized.
+
+===============================================================
+E. RECOMMENDED PROCUREMENT STRATEGY
+===============================================================
+
+PHASE 1 – BUY FIRST (2-NODE PROTOTYPE)
+---------------------------------------------------------------
+- ESP32-S3 DevKitC-1 x2
+- SX1262 SPI LoRa module x2
+- Correct-band LoRa antenna x2
+- 3.7 V battery x2
+- Charger/protection x2
+- 3.3 V regulator/power solution x2
+- Power switch x2
+- Breadboard x2
+- Jumper wires
+- Multimeter
+- Logic analyzer
+- USB data cables
+
+Goal:
+ESP32-S3 -> SPI -> SX1262 -> LoRa -> SX1262 -> SPI -> ESP32-S3
+
+First successful message:
+NODE_A: HELLO
+NODE_B: HELLO ACK
+
+Then log:
+- RSSI
+- SNR
+- packet success/failure
+- latency
+
+PHASE 2 – REPLICATE
+---------------------------------------------------------------
+After the 2-node link is stable:
+- Purchase/assemble remaining 4 nodes
+- Keep 1 spare ESP32-S3 and 1 spare LoRa module
+
+PHASE 3 – MESH
+---------------------------------------------------------------
+Then implement:
+- Node IDs
+- Packet format
+- Neighbor discovery
+- Forwarding
+- TTL
+- Duplicate detection
+- ACK
+- Retransmission
+- Store-and-forward
+- Route recovery
+
+PHASE 4 – ADAPTIVE ROUTING
+---------------------------------------------------------------
+Collect:
+- RSSI
+- SNR
+- Packet-loss rate / PDR
+- Battery level
+
+Then implement:
+- Link-quality normalization
+- Composite routing score
+- Adaptive path selection
+
+Compare:
+- Flooding
+- Shortest-hop
+- Adaptive routing
+
+PHASE 5 – SECURITY + ANDROID
+---------------------------------------------------------------
+Security:
+- AES-256-GCM
+- Node authentication / signed identities
+- Message integrity
+- Replay protection as part of the detailed protocol design
+
+Android:
+- BLE connection
+- Send/receive message
+- Connected-node information
+- RSSI
+- Hop count
+- Delivery status
+- Network topology
+
+===============================================================
+F. QUICK ALTERNATIVE MATRIX
+===============================================================
+
+Component       Primary             Alternative 1       Alternative 2
+-----------------------------------------------------------------------
+MCU             ESP32-S3 DevKitC    ESP32-S3 board      ESP32-S3 LoRa board
+Radio           SX1262              LLCC68              SX1278/SX1276
+Antenna         Matched 50 ohm      Whip               Quarter-wave
+Battery         1S 4000 mAh         1S 3000 mAh        1S 5000 mAh
+Charger         1S protected        PMIC/charger        Equivalent 1S board
+Regulator       3.3 V buck-boost    3.3 V buck         3.3 V LDO
+OLED (later)    SSD1306 0.96"       SH1106             Larger I2C OLED
+GPS (later)     NEO-M8N             Other u-blox M8     UART GNSS

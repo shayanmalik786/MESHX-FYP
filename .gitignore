@@ -1,0 +1,15 @@
+.DS_Store
+Thumbs.db
+*.swp
+# Android / Gradle (also see android-app/.gitignore)
+.gradle/
+build/
+local.properties
+.idea/
+# PlatformIO / Arduino
+.pio/
+.vscode/
+# Python
+__pycache__/
+*.pyc
+.venv/

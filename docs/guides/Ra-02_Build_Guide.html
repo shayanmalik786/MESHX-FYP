@@ -1,0 +1,594 @@
+<title>MeshX Ra-02 Build Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: parts check, then a stepper rail beside one big live view (breadboard or schematic); reference tables and code below. */
+:root{
+  --bg:#eef3f1;--surface:#ffffff;--ink:#14211f;--muted:#566a66;--line:#d0dbd8;--accent:#b5651d;--accent-soft:#f6e6d6;
+  --ok:#2f8a4c;--warn:#b7791f;--bad:#c0392b;--pcb:#1e2827;--mod:#1d4f8f;--oled:#14324f;--on-pcb:#e9f0ec;--pad:#c9a14a;
+  --bb:#f7f6f1;--bb-hole:#b9b5a8;--bb-edge:#d9d5c7;
+  --w-red:#d0342c;--w-blk:#262b2a;--w-blue:#2563eb;--w-teal:#0f9b8e;--w-green:#2f9e44;--w-purple:#7c3aed;
+  --w-coral:#e8590c;--w-amber:#c9930e;--w-pink:#d6336c;--w-grey:#868e96;--w-olive:#5c940d;--w-cyan:#0b7285;--w-brown:#8d5524;
+  --f-disp:"Chakra Petch","Segoe UI",system-ui,sans-serif;--f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1613;--surface:#13211d;--ink:#e3ece9;--muted:#93a6a1;--line:#273a33;--accent:#e39550;--accent-soft:#3a2716;
+  --ok:#5cc47e;--warn:#e0b04f;--bad:#ff7b6b;--pcb:#0a0f0e;--mod:#1a4478;--oled:#0e2740;--bb:#d6d2c6;--bb-hole:#8f8a7c;--bb-edge:#b3ae9f;
+  --w-red:#ff6b5e;--w-blk:#3a403f;--w-blue:#6ea8ff;--w-teal:#3fd1c1;--w-green:#69db7c;--w-purple:#b197fc;
+  --w-coral:#ff922b;--w-amber:#ffd43b;--w-pink:#f783ac;--w-grey:#adb5bd;--w-olive:#a9e34b;--w-cyan:#66d9e8;--w-brown:#d9a066;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1613;--surface:#13211d;--ink:#e3ece9;--muted:#93a6a1;--line:#273a33;--accent:#e39550;--accent-soft:#3a2716;
+  --ok:#5cc47e;--warn:#e0b04f;--bad:#ff7b6b;--pcb:#0a0f0e;--mod:#1a4478;--oled:#0e2740;--bb:#d6d2c6;--bb-hole:#8f8a7c;--bb-edge:#b3ae9f;
+  --w-red:#ff6b5e;--w-blk:#3a403f;--w-blue:#6ea8ff;--w-teal:#3fd1c1;--w-green:#69db7c;--w-purple:#b197fc;
+  --w-coral:#ff922b;--w-amber:#ffd43b;--w-pink:#f783ac;--w-grey:#adb5bd;--w-olive:#a9e34b;--w-cyan:#66d9e8;--w-brown:#d9a066;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:20px 16px}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(26px,4vw,40px)/1.05 var(--f-disp);margin:8px 0 6px;text-wrap:balance}
+h2{font:600 24px/1.15 var(--f-disp);margin:0 0 8px;text-wrap:balance}
+h3{font:600 17px/1.25 var(--f-disp);margin:0 0 6px}
+p{margin:0 0 10px;max-width:76ch}
+.lede{color:var(--muted);max-width:80ch;margin:0}
+main .wrap{padding-block:22px 60px;display:grid;gap:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:10px}
+.part{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg);display:grid;grid-template-columns:26px 1fr;gap:8px;font-size:14.5px}
+.part .ic{font:700 15px/1.3 var(--f-mono);text-align:center;border-radius:50%;width:24px;height:24px}
+.part.ok .ic{color:var(--ok);border:1.5px solid var(--ok)}
+.part.warn .ic{color:var(--warn);border:1.5px solid var(--warn)}
+.part.ask .ic{color:var(--muted);border:1.5px solid var(--muted)}
+.part b{font-family:var(--f-disp)}
+.layout{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:18px;align-items:start}
+@media (max-width:980px){.layout{grid-template-columns:1fr}}
+.steps{display:grid;gap:5px}
+.steps button{all:unset;cursor:pointer;display:grid;grid-template-columns:28px 1fr 16px;gap:8px;align-items:center;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:14.5px}
+.steps button .k{font:700 12px/1 var(--f-mono);color:var(--muted);text-align:center}
+.steps button[aria-current="step"]{border-color:var(--accent);background:var(--accent-soft)}
+.steps button[aria-current="step"] .k{color:var(--accent)}
+.steps button .d{font-size:13px;color:var(--ok);text-align:right}
+.detail{display:grid;gap:12px}
+.detail .head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:600 13px/1 var(--f-disp);letter-spacing:.03em;padding:10px 14px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:disabled{opacity:.4;cursor:default}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:600 13px/1 var(--f-disp);letter-spacing:.03em;padding:9px 12px;border:0;background:var(--bg);color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.todo{margin:0;padding-left:22px;display:grid;gap:6px}
+.todo li{max-width:76ch}
+.why{font-size:14.5px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+.callout{border-left:3px solid var(--warn);background:var(--bg);padding:10px 14px;border-radius:0 8px 8px 0;font-size:15px}
+.callout.red{border-color:var(--bad)}
+.callout.green{border-color:var(--ok)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+svg text{font-family:var(--f-mono)}
+svg .el{transition:opacity .25s}
+svg .future{opacity:0;pointer-events:none}
+svg .past{opacity:.5}
+svg .part.past{opacity:1}
+svg .now path,svg .now line{filter:drop-shadow(0 0 4px var(--accent))}
+svg .hot{cursor:pointer}
+.view{width:100%;min-width:760px;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted)}
+.sw{display:inline-block;width:22px;height:6px;border-radius:3px;vertical-align:middle;margin-right:6px}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-size:13px}
+pre{margin:0;background:var(--pcb);color:var(--on-pcb);border-radius:8px;padding:14px;overflow-x:auto;font:12.5px/1.55 var(--f-mono);max-height:520px}
+.codehead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.info{border:1px dashed var(--line);border-radius:8px;padding:10px 14px;background:var(--bg);font-size:14.5px;min-height:60px}
+.info b{font-family:var(--f-disp)}
+label.chk{display:flex;gap:8px;align-items:center;font-size:14.5px;cursor:pointer}
+label.chk input{accent-color:var(--ok);width:16px;height:16px}
+.bands{display:inline-flex;gap:2px;vertical-align:middle;margin:0 4px}
+.bands i{display:inline-block;width:8px;height:16px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top"><div class="wrap">
+  <div class="eyebrow">MeshX · 2-node prototype · breadboard only, no soldering</div>
+  <h1>MeshX Ra-02 Build Guide</h1>
+  <p class="lede">Build one node step by step: an ESP32-S3 board and a Ra-02 LoRa radio on one breadboard. At each step, only the new wires light up, and the breadboard view shows the exact hole for every leg and wire. Build node A, test it, then build node B the same way.</p>
+</div></header>
+
+<main><div class="wrap">
+
+<section class="panel">
+  <h2>Your parts check</h2>
+  <p style="font-size:15px">From your photos. Green is good to go, amber needs a quick check, grey wasn't in the photos.</p>
+  <div class="parts" id="parts"></div>
+</section>
+
+<div class="layout">
+  <div class="panel">
+    <h3>Build steps (one node)</h3>
+    <div class="steps" id="steps"></div>
+    <div class="bar"><i id="bar"></i></div>
+    <p class="mono" id="prog" style="margin-top:6px;color:var(--muted)"></p>
+  </div>
+  <div class="panel detail">
+    <div class="head">
+      <div><div class="eyebrow" id="stepNo"></div><h2 id="stepTitle" style="margin-top:6px"></h2></div>
+      <div class="nav">
+        <button class="btn" id="prev">← Back</button>
+        <button class="btn primary" id="next">Next step →</button>
+      </div>
+    </div>
+    <ol class="todo" id="stepTodo"></ol>
+    <div class="why" id="stepWhy"></div>
+    <div id="stepNote"></div>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+      <label class="chk"><input type="checkbox" id="stepDone"> I finished this step</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <div class="seg" id="viewSeg"><button data-v="bb">Breadboard view</button><button data-v="sch">Schematic view</button></div>
+        <button class="btn" id="all">Show everything</button>
+      </div>
+    </div>
+    <div class="scroll" id="bbWrap"><svg id="bb" class="view" viewBox="0 0 960 620" role="img" aria-label="Breadboard layout of one MeshX node"></svg></div>
+    <div class="scroll" id="schWrap" hidden><svg id="sch" class="view" viewBox="0 0 900 770" role="img" aria-label="Schematic of one MeshX node"></svg></div>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--w-red)"></span>+ rail = 3.3 V</span>
+      <span><span class="sw" style="background:var(--w-blk)"></span>− rail = GND</span>
+      <span>Holes: columns 1–63 left to right, rows a–j top to bottom</span>
+      <span>Tap any wire or part for an explanation</span>
+    </div>
+    <div class="info" id="hover">Tap or hover over a wire or part to see what it does.</div>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="panel scroll">
+    <h2>Every connection in one table</h2>
+    <p style="font-size:14.5px;color:var(--muted)">Plug each wire into <b>row a</b> of the column shown. The ESP32 pin sits in row c of the same column, and rows a to e of one column are joined inside the breadboard.</p>
+    <table><thead><tr><th>Wire</th><th>From (breadboard)</th><th>ESP32 pin</th><th>To</th><th>Job</th></tr></thead><tbody id="pinTable"></tbody></table>
+  </div>
+  <div class="panel">
+    <h2>How a breadboard works</h2>
+    <ul class="todo">
+      <li>The <b>long lines</b> at the top and bottom are the power rails. Every hole on the red <b>+</b> line is joined, and every hole on the blue/black <b>−</b> line is joined.</li>
+      <li>In the middle, each <b>column of 5 holes</b> (a to e, or f to j) is joined. The gap in the middle splits them.</li>
+      <li>So if the ESP32 pin is in hole <span class="mono">14c</span>, a wire in hole <span class="mono">14a</span> touches that pin.</li>
+      <li>Some breadboards cut the rails in half in the middle. If yours has a gap in the red/blue line, bridge the two halves with a short jumper.</li>
+    </ul>
+    <h3 style="margin-top:14px">Reading your resistors</h3>
+    <ul class="todo">
+      <li><b>220 Ω</b> (for the LEDs): <span class="bands"><i style="background:#d0342c"></i><i style="background:#d0342c"></i><i style="background:#8d5524"></i><i style="background:#c9a14a"></i></span> red, red, brown, gold. On 5-band resistors: red, red, black, black, brown.</li>
+      <li><b>10 kΩ</b>: <span class="bands"><i style="background:#8d5524"></i><i style="background:#262b2a"></i><i style="background:#e8590c"></i><i style="background:#c9a14a"></i></span> brown, black, orange, gold. Not used in this build; keep as spares.</li>
+      <li>Not sure? Multimeter on Ω mode: a 220 Ω resistor reads about 215–225.</li>
+    </ul>
+    <h3 style="margin-top:14px">Legs that have a direction</h3>
+    <ul class="todo">
+      <li><b>LED</b>: long leg is + (goes to the ESP32 side), short leg is − (flat edge on the rim).</li>
+      <li><b>100 µF capacitor</b>: long leg is +. The stripe with "−" marks goes on the − rail.</li>
+      <li>Resistors, the small 104 capacitor and the push button work either way round.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="grid2">
+  <div class="panel" style="min-width:0">
+    <div class="codehead"><h2 style="margin:0">Test 1: does the radio answer?</h2><button class="btn" data-copy="code1">Copy</button></div>
+    <pre id="code1"></pre>
+    <p style="margin-top:8px;font-size:14.5px">Open Serial Monitor at 115200. <b>Radio OK</b> means your 8 radio wires are right. <b>Radio error: -2</b> means the ESP32 can't find the radio: check NSS, SCK, MOSI, MISO, RST.</p>
+  </div>
+  <div class="panel" style="min-width:0">
+    <div class="codehead"><h2 style="margin:0">Test 2: HELLO / ACK between two nodes</h2><button class="btn" data-copy="code2">Copy</button></div>
+    <pre id="code2"></pre>
+    <p style="margin-top:8px;font-size:14.5px">Upload with <span class="mono">NODE_NAME "A"</span> on the first node and <span class="mono">"B"</span> on the second. Press the button (or type in Serial Monitor and press Enter). The other node's screen shows the message with RSSI and SNR, its red LED blinks, and it sends an ACK back.</p>
+  </div>
+</div>
+
+<div class="panel scroll">
+  <h2>If something goes wrong</h2>
+  <table><thead><tr><th>What you see</th><th>Likely cause</th><th>What to do</th></tr></thead><tbody>
+    <tr><td>Laptop doesn't see the board</td><td>Wrong USB port or cable</td><td>Use the USB-C port labelled <b>UART</b> (or COM). Your Samsung cables carry data, so try the other port. If upload hangs, hold <b>BOOT</b>, tap <b>RST</b>, release BOOT.</td></tr>
+    <tr><td>Test 1 prints <span class="mono">-2</span></td><td>A radio wire is wrong or loose</td><td>Match names on the Ra-02 board (NSS, MOSI, MISO, SCK on the top row; 3.3V, RST, DIO0 on the bottom row). Push female ends fully onto the pins.</td></tr>
+    <tr><td>OLED stays black</td><td>SDA/SCL swapped, or address</td><td>Swap the SDA and SCL wires. In code, try 0x3D instead of 0x3C. Check VCC and GND are not reversed.</td></tr>
+    <tr><td>LED never lights</td><td>LED in backwards</td><td>Turn the LED round: long leg to the column with the yellow/green jumper.</td></tr>
+    <tr><td>Messages don't arrive</td><td>Settings differ between nodes</td><td>Both nodes must use the same code settings: 433.0, 125, 9, 7, 0x12.</td></tr>
+    <tr><td>Board restarts when it sends</td><td>Power dips</td><td>Check both capacitors are on the rails, and use a good USB port or a charged battery.</td></tr>
+    <tr><td>Garbled packets at close range</td><td>Signal too strong</td><td>Keep the two nodes at least 1 m apart.</td></tr>
+    <tr><td>Very short range</td><td>Wrong antenna or loose IPEX plug</td><td>Antenna must be 433 MHz. Press the IPEX plug until it clicks.</td></tr>
+  </tbody></table>
+</div>
+
+</div></main>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(t,a={},p,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;if(p)p.appendChild(e);return e}
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+const info=(t,d)=>$("#hover").innerHTML=`<b>${t}</b><br>${d}`;
+function hot(n,t,d){n.classList.add("hot");n.setAttribute("tabindex",0);n.onmouseenter=n.onfocus=n.onclick=()=>info(t,d)}
+
+/* ---------- parts check ---------- */
+const PARTS=[
+ ["ok","Ra-02 SX1278 433 MHz ×2","Header pins are now on both adapter boards. Top row: GND, NSS, MOSI, MISO, SCK, DIO5, DIO4, GND. Bottom row: GND, GND, 3.3V, RST, DIO0, DIO1, DIO2, DIO3."],
+ ["ok","Jumper wires","Two packs: male-to-male (pins on both ends) and male-to-female (pin + socket). M-F goes to the Ra-02, M-M stays on the breadboard."],
+ ["ok","USB-C data cables ×2","Samsung cables carry data, so they will upload code. USB-C also tells us your ESP32 is the S3 type."],
+ ["warn","Antennas ×2 + IPEX-to-SMA cables ×2","Right type of cable. Check the antenna is <b>433 MHz</b>: these look like Wi-Fi antennas, which are 2.4 GHz and give poor range. Look for '433' on the sticker or ask the shop. Also check the antenna screws fully onto the gold connector."],
+ ["ok","LEDs, resistors, capacitors","Red and green LEDs, resistors, 16 V electrolytic capacitors and small ceramic ones are in the bag. Use the colour bands guide below to find the 220 Ω ones."],
+ ["warn","TP4056 Type-C + 18650 holder + 2 cells","Good charger with protection (it has OUT+ and OUT−). Cells are 1800 mAh, fine for testing. There is no 3.3 V regulator, so the battery goes to the ESP32 <b>5V</b> pin, never 3V3 (step 15)."],
+ ["ask","Push buttons and OLED","Not visible in the photos. You need 1 button and 1 OLED (4-pin I2C) per node. The guide works without the OLED: Serial Monitor shows the same data."],
+ ["ask","ESP32 boards","Not in the photos. This guide is for the <b>ESP32-S3 DevKitC-1</b> (two USB-C ports, 44 pins). If yours looks different, send a photo and I'll redo the layout."]];
+$("#parts").innerHTML=PARTS.map(p=>`<div class="part ${p[0]}"><span class="ic">${p[0]==="ok"?"✓":p[0]==="warn"?"!":"?"}</span><div><b>${p[1]}</b><br>${p[2]}</div></div>`).join("");
+
+/* ---------- steps ---------- */
+const S=[
+ {t:"Check your parts",todo:["Use the parts check at the top of this page.","Make sure each node has: ESP32-S3, Ra-02 with antenna, breadboard, 1 green LED, 1 red LED, 2 × 220 Ω resistors, 1 × 100 µF and 1 × 104 capacitor, 1 button, OLED (if you have it), about 12 M-M and 8 M-F jumpers."],why:"Having everything in one place before you start means you won't pull out half-built wiring to look for something."},
+ {t:"Set up the laptop",todo:["Install <b>Arduino IDE 2</b> from arduino.cc.","File → Preferences → Additional boards manager URLs: <span class='mono'>https://espressif.github.io/arduino-esp32/package_esp32_index.json</span>","Tools → Board → Boards Manager: install <b>esp32 by Espressif</b>.","Sketch → Include Library → Manage Libraries: install <b>RadioLib</b>, <b>Adafruit SSD1306</b>, <b>Adafruit GFX</b>.","Tools → Board: choose <b>ESP32S3 Dev Module</b>."],why:"The board package teaches Arduino how to talk to the ESP32. RadioLib drives the LoRa radio and the Adafruit libraries drive the screen."},
+ {t:"Put the ESP32 on the breadboard",todo:["Hold the board with the two USB-C ports on the <b>left</b>.","Push it into the breadboard so the top row of pins goes into <b>row c</b> and the bottom row into <b>row j</b>.","The pin marked <b>G</b> (top row, next to 5V, near the USB ports) must go into <b>column 8</b>. Then <b>3V3</b> (top row, far right) lands in <b>column 29</b>.","Rows a and b above the top pins stay empty. That's where your wires go.","Plug the USB-C cable into the port marked <b>UART</b> and upload File → Examples → 01.Basics → Blink to check the board works."],why:"The ESP32 is the brain of the node. Every wire in this build comes from its top row of pins, so we leave two free holes above each of those pins.",note:"<div class='callout'>Press the board down evenly with both thumbs. It's a tight fit; that's normal.</div>"},
+ {t:"Power rails",todo:["Unplug the USB cable. Always wire with the power off.","M-M jumper (red): hole <span class='mono'>29a</span> → top <b>+</b> rail (column 31).","M-M jumper (black): hole <span class='mono'>8a</span> → top <b>−</b> rail (column 6).","Two long M-M jumpers at the right end: top + rail → bottom + rail, and top − rail → bottom − rail (columns 61, 62)."],why:"The ESP32 makes 3.3 V from the USB power. We put that 3.3 V on the + rail and ground on the − rail so every other part can grab power from anywhere along the board."},
+ {t:"Capacitors on the rails",todo:["<b>100 µF</b>: long leg in the top + rail at column 33, striped leg in the top − rail at column 34.","<b>104 (100 nF)</b>: one leg in the + rail at column 35, other leg in the − rail at column 36."],why:"When the radio sends a message it suddenly needs extra current. The capacitors are tiny water tanks that fill that gap, so the ESP32 doesn't restart."},
+ {t:"Antenna on the Ra-02",todo:["Take the IPEX-to-SMA cable. Put its tiny round plug straight down onto the small socket on the Ra-02 and press until it <b>clicks</b>.","Screw the antenna onto the gold end of the cable.","Lay the Ra-02 flat next to the breadboard, pins facing up or sideways."],why:"The antenna is the radio's ears and mouth. Without it, the energy the radio sends has nowhere to go and can damage the chip.",note:"<div class='callout red'><b>Never power the Ra-02 without the antenna.</b> Do this step before any power.</div>"},
+ {t:"Power to the Ra-02",todo:["M-F jumper (red): top <b>+</b> rail at column 39 → Ra-02 <b>3.3V</b> pin (bottom row, 3rd pin).","M-F jumper (black): top <b>−</b> rail at column 37 → Ra-02 <b>GND</b> pin (bottom row, 2nd pin)."],why:"The radio runs on 3.3 V. It takes it from the rails, not from the ESP32's 5V pin, which would damage it."},
+ {t:"SPI wires (4 wires)",todo:["Blue: hole <span class='mono'>14a</span> (GPIO10) → Ra-02 <b>NSS</b>","Teal: hole <span class='mono'>12a</span> (GPIO12) → Ra-02 <b>SCK</b>","Green: hole <span class='mono'>13a</span> (GPIO11) → Ra-02 <b>MOSI</b>","Purple: hole <span class='mono'>11a</span> (GPIO13) → Ra-02 <b>MISO</b>","All four are M-F: pin end in the breadboard, socket end on the Ra-02 top row."],why:"SPI is how the ESP32 talks to the radio. SCK is the drum beat, MOSI carries words from ESP32 to radio, MISO carries words back, and NSS taps the radio on the shoulder to say 'I'm talking to you'.",note:"<div class='callout'>MOSI goes to MOSI and MISO to MISO. Don't cross them.</div>"},
+ {t:"RST and DIO0 (2 wires)",todo:["Orange: hole <span class='mono'>25a</span> (GPIO5) → Ra-02 <b>RST</b> (bottom row)","Pink: hole <span class='mono'>26a</span> (GPIO4) → Ra-02 <b>DIO0</b> (bottom row)","Leave DIO1–DIO5 and the spare GND pins empty."],why:"RST lets the ESP32 restart the radio cleanly. DIO0 is the radio's doorbell: it rings when a message arrives or finishes sending."},
+ {t:"Test 1: does the radio answer?",todo:["Look over every wire once against the table below.","Multimeter on the beep setting: one probe in the + rail, one in the − rail. <b>If it beeps, there's a short</b>: find it before powering.","Plug in the USB cable and upload <b>Test 1</b> (further down this page).","Open Tools → Serial Monitor, set 115200. You want to see <b>Radio OK</b>."],why:"Testing the radio before adding anything else means that if something is wrong, you know it's one of only 8 wires.",note:"<div class='callout green'>When you see Radio OK, the core of the node works. The next steps add the screen, lights and button.</div>",code:1},
+ {t:"OLED screen",todo:["Plug the OLED's 4 pins into <b>row j</b>, columns <b>54–57</b>, screen hanging down over the bottom edge.","Read the labels on the OLED. This guide assumes the order <b>GND, VCC, SCL, SDA</b>. If yours differs, follow the labels.","Black M-M: hole <span class='mono'>54g</span> (GND) → bottom − rail, column 52.","Red M-M: hole <span class='mono'>55g</span> (VCC) → bottom + rail, column 53.","Cyan M-M: hole <span class='mono'>56f</span> (SCL) → hole <span class='mono'>19a</span> (GPIO18).","Olive M-M: hole <span class='mono'>57f</span> (SDA) → hole <span class='mono'>20a</span> (GPIO17)."],why:"The screen shows the node's name, each message, and its signal strength, so you can test outdoors without a laptop. It talks over I2C: two wires, SDA for data and SCL for the clock."},
+ {t:"LEDs",todo:["Green LED (sending light): long leg in <span class='mono'>40d</span>, short leg in <span class='mono'>41d</span>.","220 Ω resistor: from <span class='mono'>41a</span> into the top − rail at column 41.","M-M jumper: <span class='mono'>24a</span> (GPIO6) → <span class='mono'>40a</span>.","Red LED (receiving light): long leg in <span class='mono'>44d</span>, short leg in <span class='mono'>45d</span>.","220 Ω resistor: from <span class='mono'>45a</span> into the top − rail at column 45.","M-M jumper: <span class='mono'>23a</span> (GPIO7) → <span class='mono'>44a</span>."],why:"Green flashes when the node sends, red when it receives. The resistor stops too much current flowing so the LED and the ESP32 pin don't burn out."},
+ {t:"Push button",todo:["Push the button across the middle gap: legs in <span class='mono'>49e</span>, <span class='mono'>51e</span>, <span class='mono'>49f</span>, <span class='mono'>51f</span>.","Amber M-M: <span class='mono'>10a</span> (GPIO14) → <span class='mono'>49a</span>.","Black M-M: <span class='mono'>51j</span> → bottom − rail at column 50."],why:"Pressing the button joins GPIO14 to ground, and the code reads that as 'send a message now'. Using opposite corners of the button means it works whichever way round it sits."},
+ {t:"Test 2 and build node B",todo:["Upload <b>Test 2</b> with <span class='mono'>NODE_NAME \"A\"</span>.","Build the second node on the other breadboard: repeat steps 3 to 13 exactly.","Upload Test 2 to node B with <span class='mono'>\"B\"</span>.","Place the nodes at least 1 m apart and press node A's button. Node B should show the message with RSSI and SNR, and node A should show the ACK."],why:"This is your first real LoRa link: two nodes talking with no Wi-Fi or SIM. It's the first milestone of the project.",code:2},
+ {t:"Battery power (optional)",todo:["Charge the 18650 cell: put it in the holder and plug USB-C into the TP4056. Red light = charging, blue/green = full.","<b>Unplug the laptop USB from the ESP32 first.</b>","TP4056 <b>OUT+</b> wire → hole <span class='mono'>9a</span> (the ESP32 <b>5V</b> pin).","TP4056 <b>OUT−</b> wire → bottom − rail, column 14.","To switch the node off, pull the OUT+ wire out."],why:"The battery gives 3.7–4.2 V. The ESP32's 5V pin feeds its own 3.3 V regulator, which turns that into a clean 3.3 V. It works well while the battery is above about 3.6 V; when the node starts restarting, recharge.",note:"<div class='callout red'><b>Never connect the battery to the 3V3 pin or the + rail</b>: 4.2 V can damage the ESP32 and the radio. And never use the battery and laptop USB at the same time.</div>"},
+ {t:"Range test",todo:["Put node B on battery (or a power bank) and walk away with it: 1 m, 10 m, 50 m, 100 m, then another building.","At each spot press the button 10 times on node A and write down: how many arrived, RSSI, SNR.","That table is your first mid-year result: packet delivery ratio and link quality over distance."],why:"These numbers are the start of your adaptive routing data: they show how signal strength and noise change with distance and walls.",note:"<div class='callout green'>For mid-year: two working nodes, live RSSI/SNR on the screens, and your range-test table.</div>"}];
+let cur=store("ra2-step")??0,done=store("ra2-done")||{},showAll=false,view=store("ra2-view")||"bb";
+
+/* ---------- breadboard view ---------- */
+const P=14,X0=40,col=c=>X0+(c-1)*P;
+const Y={rp:250,rn:264,a:290,b:304,c:318,d:332,e:346,f:380,g:394,h:408,i:422,j:436,bp:462,bn:476};
+const J1=["3V3","3V3","RST","4","5","6","7","15","16","17","18","8","3","46","9","10","11","12","13","14","5V","G"];
+function drawBB(){
+ const s=$("#bb");s.innerHTML="";
+ const g=(step,cls="el")=>el("g",{class:cls,"data-step":step},s);
+ // board
+ const base=el("g",{},s);
+ el("rect",{x:18,y:236,width:912,height:254,rx:8,fill:"var(--bb)",stroke:"var(--bb-edge)"},base);
+ el("rect",{x:18,y:358,width:912,height:10,fill:"var(--bb-edge)"},base);
+ [["rp","var(--w-red)","+",-8],["rn","var(--w-blue)","−",8],["bp","var(--w-red)","+",-8],["bn","var(--w-blue)","−",8]].forEach(([k,c,l,o])=>{el("line",{x1:col(1)-6,y1:Y[k]+o,x2:col(63)+6,y2:Y[k]+o,stroke:c,"stroke-width":1.5},base);el("text",{x:24,y:Y[k]+4,"font-size":12,"font-weight":700,fill:c},base,l)});
+ for(let c=1;c<=63;c++){
+  "abcdefghij".split("").forEach(r=>el("rect",{x:col(c)-2.5,y:Y[r]-2.5,width:5,height:5,fill:"var(--bb-hole)"},base));
+  if(c%6!==0)["rp","rn","bp","bn"].forEach(r=>el("rect",{x:col(c)-2.5,y:Y[r]-2.5,width:5,height:5,fill:"var(--bb-hole)"},base));
+  if(c===1||c%5===0)el("text",{x:col(c),y:Y.f-22,"font-size":8,"text-anchor":"middle",fill:"var(--muted)"},base,c)}
+ "abcdefghij".split("").forEach(r=>el("text",{x:col(63)+12,y:Y[r]+3,"font-size":8,fill:"var(--muted)"},base,r));
+ // ESP32
+ const e=g(3,"el part");
+ el("rect",{x:col(5)+4,y:Y.c-12,width:col(34)-col(5),height:Y.j-Y.c+24,rx:5,fill:"var(--pcb)"},e);
+ el("rect",{x:col(5)-10,y:Y.d,width:24,height:22,rx:4,fill:"#a3abaa"},e);el("text",{x:col(5)-6,y:Y.d+38,"font-size":8,fill:"var(--on-pcb)"},e,"UART");
+ el("rect",{x:col(5)-10,y:Y.g,width:24,height:22,rx:4,fill:"#a3abaa"},e);el("text",{x:col(5)-6,y:Y.g+38,"font-size":8,fill:"var(--on-pcb)"},e,"USB");
+ el("rect",{x:col(30),y:Y.d+4,width:col(34)-col(30)-6,height:Y.i-Y.d-8,rx:3,fill:"none",stroke:"var(--pad)"},e);
+ el("text",{x:col(30)+6,y:Y.f+4,"font-size":8,fill:"var(--pad)"},e,"antenna");
+ el("text",{x:col(13),y:Y.f+2,"font-size":13,"font-weight":700,fill:"var(--on-pcb)"},e,"ESP32-S3-DevKitC-1");
+ for(let k=1;k<=22;k++){const c=30-k;el("circle",{cx:col(c),cy:Y.c,r:3.3,fill:"var(--pad)"},e);el("circle",{cx:col(c),cy:Y.j,r:3.3,fill:"var(--pad)"},e);
+  el("text",{x:col(c),y:Y.d+6,"font-size":6.5,"text-anchor":"middle",fill:"var(--on-pcb)"},e,J1[k-1])}
+ el("text",{x:col(14),y:Y.h+2,"font-size":9,fill:"var(--on-pcb)",opacity:.7},e,"bottom row (row j): no wires");
+ hot(e,"ESP32-S3 board","The brain. Top row of pins sits in row c, from G (column 8) to 3V3 (column 29). The small labels on it are GPIO numbers. Bottom row sits in row j and is not used.");
+ // USB cable
+ const u=g(3);el("path",{d:`M-10 ${Y.d+11} H${col(5)-10}`,stroke:"#9aa3a2","stroke-width":7},u);el("text",{x:0,y:Y.d-6,"font-size":9,fill:"var(--muted)"},u,"to laptop");
+ hot(u,"USB-C cable","Into the UART port. Gives power and uploads code. Unplug it before changing wires.");
+ const wire=(id,step,c,d,t,desc,ends,dash)=>{const w=g(step);w.dataset.id=id;
+  el("path",{d,fill:"none",stroke:`var(--w-${c})`,"stroke-width":3.4,"stroke-linecap":"round","stroke-dasharray":dash?"7 5":"none"},w);
+  el("path",{d,fill:"none",stroke:"transparent","stroke-width":13},w);
+  (ends||[]).forEach(([x,y])=>el("circle",{cx:x,cy:y,r:3.6,fill:`var(--w-${c})`,stroke:"var(--surface)","stroke-width":1},w));
+  hot(w,t,desc);return w};
+ const arc=(x1,y1,x2,y2,lift)=>`M${x1} ${y1} C${x1} ${y1-lift} ${x2} ${y2-lift} ${x2} ${y2}`;
+ // step 4 rails
+ wire("r3",4,"red",`M${col(29)} ${Y.a} Q${col(30)} ${Y.a-36} ${col(31)} ${Y.rp}`,"3V3 → + rail","Hole 29a (the ESP32 3V3 pin) to the top + rail. Now the whole + rail has 3.3 V.",[[col(29),Y.a],[col(31),Y.rp]]);
+ wire("rg",4,"blk",`M${col(8)} ${Y.a} Q${col(7)} ${Y.a-30} ${col(6)} ${Y.rn}`,"G → − rail","Hole 8a (the ESP32 G pin) to the top − rail. This is the shared ground.",[[col(8),Y.a],[col(6),Y.rn]]);
+ wire("b+",4,"red",`M${col(61)} ${Y.rp} C${col(61)+50} ${Y.rp} ${col(61)+50} ${Y.bp} ${col(61)} ${Y.bp}`,"Rail bridge +","Joins the top + rail to the bottom + rail so the OLED can get 3.3 V from the bottom.",[[col(61),Y.rp],[col(61),Y.bp]]);
+ wire("b-",4,"blk",`M${col(62)} ${Y.rn} C${col(62)+30} ${Y.rn} ${col(62)+30} ${Y.bn} ${col(62)} ${Y.bn}`,"Rail bridge −","Joins the top − rail to the bottom − rail.",[[col(62),Y.rn],[col(62),Y.bn]]);
+ // step 5 caps
+ const c1=g(5);el("line",{x1:col(33),y1:Y.rp,x2:col(33),y2:Y.rp-22,stroke:"#9aa3a2","stroke-width":2},c1);el("line",{x1:col(34),y1:Y.rn,x2:col(34),y2:Y.rp-22,stroke:"#9aa3a2","stroke-width":2},c1);
+ el("rect",{x:col(33)-6,y:Y.rp-46,width:col(34)-col(33)+12,height:26,rx:5,fill:"#253f75"},c1);el("rect",{x:col(34)-1,y:Y.rp-46,width:6,height:26,fill:"#d6deeb"},c1);
+ el("text",{x:col(33)-8,y:Y.rp-52,"font-size":9,fill:"var(--muted)"},c1,"100µF");
+ hot(c1,"100 µF capacitor","Long leg in + rail (column 33), striped leg in − rail (column 34). Backwards it can pop, so check the stripe.");
+ const c2=g(5);el("line",{x1:col(35),y1:Y.rp,x2:col(35),y2:Y.rp-18,stroke:"#9aa3a2","stroke-width":2},c2);el("line",{x1:col(36),y1:Y.rn,x2:col(36),y2:Y.rp-18,stroke:"#9aa3a2","stroke-width":2},c2);
+ el("ellipse",{cx:(col(35)+col(36))/2,cy:Y.rp-24,rx:10,ry:8,fill:"#d9822b"},c2);el("text",{x:col(35)-2,y:Y.rp-36,"font-size":9,fill:"var(--muted)"},c2,"104");
+ hot(c2,"104 capacitor (100 nF)","Either way round: one leg in the + rail (column 35), one in the − rail (column 36).");
+ // step 6 Ra-02
+ const MX=600,MY=55,MW=230,MH=118,pinX=i=>MX+16+i*28;
+ const R=g(6,"el part");
+ el("rect",{x:MX,y:MY,width:MW,height:MH,rx:6,fill:"var(--mod)"},R);
+ el("rect",{x:MX+40,y:MY+26,width:140,height:66,rx:4,fill:"#b9c0c4"},R);
+ el("text",{x:MX+110,y:MY+56,"font-size":14,"font-weight":700,"text-anchor":"middle",fill:"#33424a"},R,"Ra-02");
+ el("text",{x:MX+110,y:MY+72,"font-size":8.5,"text-anchor":"middle",fill:"#33424a"},R,"SX1278 · 433 MHz");
+ const top=["GND","NSS","MOSI","MISO","SCK","DIO5","DIO4","GND"],bot=["GND","GND","3.3V","RST","DIO0","DIO1","DIO2","DIO3"];
+ top.forEach((n,i)=>{el("circle",{cx:pinX(i),cy:MY+8,r:4,fill:"var(--pad)"},R);el("text",{x:pinX(i),y:MY+22,"font-size":7.5,"text-anchor":"middle",fill:"var(--on-pcb)"},R,n)});
+ bot.forEach((n,i)=>{el("circle",{cx:pinX(i),cy:MY+MH-8,r:4,fill:"var(--pad)"},R);el("text",{x:pinX(i),y:MY+MH-16,"font-size":7.5,"text-anchor":"middle",fill:"var(--on-pcb)"},R,n)});
+ hot(R,"Ra-02 LoRa radio","Lies next to the breadboard. Its pins take the socket ends of M-F jumpers. Only 8 pins are used: GND, 3.3V, NSS, SCK, MOSI, MISO, RST, DIO0.");
+ const ant=g(6);el("rect",{x:MX+20,y:MY+80,width:10,height:10,rx:2,fill:"var(--pad)"},ant);
+ el("path",{d:`M${MX+25} ${MY+85} C${MX-10} ${MY+85} ${MX-10} ${MY+140} ${MX+MW+40} ${MY+150} L${MX+MW+70} ${MY+150}`,stroke:"#555","stroke-width":2.5,fill:"none"},ant);
+ el("rect",{x:MX+MW+70,y:MY+143,width:16,height:14,rx:2,fill:"var(--pad)"},ant);
+ el("rect",{x:MX+MW+74,y:MY-30,width:9,height:174,rx:4,fill:"#2b2f2e"},ant);
+ el("text",{x:MX+MW+40,y:MY-36,"font-size":9,fill:"var(--muted)"},ant,"433 MHz antenna");
+ hot(ant,"Antenna","IPEX plug clicks onto the small socket on the Ra-02; the antenna screws onto the gold SMA end. Fit it before any power.");
+ // step 7 Ra power
+ wire("rv",7,"red",`M${pinX(2)} ${MY+MH-8} C${pinX(2)} ${MY+MH+40} ${col(39)} ${Y.rp-60} ${col(39)} ${Y.rp}`,"+ rail → Ra-02 3.3V","M-F jumper: pin end in the top + rail (column 39), socket on the Ra-02 3.3V pin.",[[col(39),Y.rp]]);
+ wire("rg2",7,"blk",`M${pinX(1)} ${MY+MH-8} C${pinX(1)} ${MY+MH+40} ${col(37)} ${Y.rn-70} ${col(37)} ${Y.rn}`,"− rail → Ra-02 GND","M-F jumper: pin end in the top − rail (column 37), socket on a Ra-02 GND pin.",[[col(37),Y.rn]]);
+ // step 8 SPI (top row pins arc over)
+ [["nss",14,1,"blue","NSS","GPIO10",150],["mosi",13,2,"green","MOSI","GPIO11",165],["miso",11,3,"purple","MISO","GPIO13",195],["sck",12,4,"teal","SCK","GPIO12",180]].forEach(([id,c,pi,co,n,gp,l])=>{
+  const x1=pinX(pi),y1=MY+8;
+  wire(id,8,co,`M${x1} ${y1} C${x1} ${y1-l*0.35} ${col(c)} ${Y.a-l} ${col(c)} ${Y.a}`,`${c}a (${gp}) → Ra-02 ${n}`,`M-F jumper. Pin end in hole ${c}a, right above the ESP32 ${gp} pin. Socket end on ${n} (top row of the Ra-02).`,[[col(c),Y.a]])});
+ // step 9 RST DIO0
+ wire("rst",9,"coral",`M${pinX(3)} ${MY+MH-8} C${pinX(3)} ${MY+MH+60} ${col(25)} ${Y.a-90} ${col(25)} ${Y.a}`,"25a (GPIO5) → Ra-02 RST","M-F jumper. Lets the ESP32 restart the radio.",[[col(25),Y.a]]);
+ wire("dio0",9,"pink",`M${pinX(4)} ${MY+MH-8} C${pinX(4)} ${MY+MH+70} ${col(26)} ${Y.a-80} ${col(26)} ${Y.a}`,"26a (GPIO4) → Ra-02 DIO0","M-F jumper. The radio's doorbell: goes high when a message arrives.",[[col(26),Y.a]]);
+ // step 11 OLED
+ const O=g(11,"el part");
+ el("rect",{x:col(54)-14,y:Y.j-6,width:col(57)-col(54)+28,height:118,rx:5,fill:"var(--oled)"},O);
+ el("rect",{x:col(54)-8,y:Y.j+18,width:col(57)-col(54)+16,height:60,rx:2,fill:"#05080c",stroke:"#3b6ea5"},O);
+ el("text",{x:col(54)-4,y:Y.j+36,"font-size":8,fill:"#7fd4ff"},O,"Node A");el("text",{x:col(54)-4,y:Y.j+50,"font-size":8,fill:"#7fd4ff"},O,"RSSI -71");
+ ["GND","VCC","SCL","SDA"].forEach((n,i)=>{el("circle",{cx:col(54+i),cy:Y.j,r:3.3,fill:"var(--pad)"},O);el("text",{x:col(54+i),y:Y.j+12,"font-size":6.5,"text-anchor":"middle",fill:"var(--on-pcb)"},O,n)});
+ el("text",{x:col(54)-10,y:Y.j+98,"font-size":8,fill:"var(--on-pcb)"},O,"OLED 0.96\"");
+ hot(O,"OLED screen","4 pins in row j, columns 54–57. Labels on most boards: GND, VCC, SCL, SDA. If yours are in a different order, move the wires to match the labels.");
+ wire("og",11,"blk",`M${col(54)} ${Y.g} C${col(54)} ${Y.g+40} ${col(52)} ${Y.bn-30} ${col(52)} ${Y.bn}`,"54g (OLED GND) → − rail","M-M jumper to the bottom − rail at column 52.",[[col(54),Y.g],[col(52),Y.bn]]);
+ wire("ov",11,"red",`M${col(55)} ${Y.g} C${col(55)} ${Y.g+30} ${col(53)} ${Y.bp-30} ${col(53)} ${Y.bp}`,"55g (OLED VCC) → + rail","M-M jumper to the bottom + rail at column 53 (3.3 V).",[[col(55),Y.g],[col(53),Y.bp]]);
+ wire("scl",11,"cyan",`M${col(56)} ${Y.f} C${col(56)} ${Y.f-200} ${col(19)} ${Y.a-200} ${col(19)} ${Y.a}`,"56f (OLED SCL) → 19a (GPIO18)","M-M jumper. I2C clock line.",[[col(56),Y.f],[col(19),Y.a]]);
+ wire("sda",11,"olive",`M${col(57)} ${Y.f} C${col(57)} ${Y.f-185} ${col(20)} ${Y.a-185} ${col(20)} ${Y.a}`,"57f (OLED SDA) → 20a (GPIO17)","M-M jumper. I2C data line.",[[col(57),Y.f],[col(20),Y.a]]);
+ // step 12 LEDs
+ const led=(step,a,k,colr,lbl)=>{const L=g(step,"el part");
+  el("line",{x1:col(a),y1:Y.d,x2:col(a)+3,y2:Y.d-14,stroke:"#9aa3a2","stroke-width":2},L);el("line",{x1:col(k),y1:Y.d,x2:col(k)-3,y2:Y.d-14,stroke:"#9aa3a2","stroke-width":2},L);
+  el("circle",{cx:(col(a)+col(k))/2,cy:Y.d-20,r:9,fill:colr,stroke:"#00000033"},L);
+  el("text",{x:(col(a)+col(k))/2,y:Y.e+12,"font-size":7.5,"text-anchor":"middle",fill:"var(--muted)"},L,lbl);
+  hot(L,lbl,`Long leg (+) in ${a}d, short leg (−) in ${k}d.`);
+  const Rr=g(step,"el part");el("line",{x1:col(k),y1:Y.a,x2:col(k),y2:Y.rn,stroke:"#9aa3a2","stroke-width":2},Rr);
+  el("rect",{x:col(k)-4,y:Y.rn+5,width:8,height:Y.a-Y.rn-10,rx:3,fill:"#c8a27a"},Rr);
+  [Y.rn+9,Y.rn+12,Y.rn+15].forEach((yy,i)=>el("line",{x1:col(k)-4,y1:yy,x2:col(k)+4,y2:yy,stroke:["#d0342c","#d0342c","#8d5524"][i],"stroke-width":1.6},Rr));
+  hot(Rr,"220 Ω resistor",`From hole ${k}a into the top − rail. Protects the LED.`)};
+ led(12,40,41,"#4cc96b","green LED (TX)");led(12,44,45,"#e5484d","red LED (RX)");
+ wire("ltx",12,"green",arc(col(24),Y.a,col(40),Y.a,55),"24a (GPIO6) → 40a","M-M jumper to the green LED's long leg column.",[[col(24),Y.a],[col(40),Y.a]]);
+ wire("lrx",12,"red",arc(col(23),Y.a,col(44),Y.a,75),"23a (GPIO7) → 44a","M-M jumper to the red LED's long leg column.",[[col(23),Y.a],[col(44),Y.a]]);
+ // step 13 button
+ const Bt=g(13,"el part");
+ el("rect",{x:col(49)-6,y:Y.e-4,width:col(51)-col(49)+12,height:Y.f-Y.e+8,rx:3,fill:"#2b2f2e"},Bt);
+ el("circle",{cx:col(50),cy:(Y.e+Y.f)/2,r:8,fill:"#5d6463"},Bt);
+ [[49,"e"],[51,"e"],[49,"f"],[51,"f"]].forEach(([c,r])=>el("circle",{cx:col(c),cy:Y[r],r:2.6,fill:"var(--pad)"},Bt));
+ hot(Bt,"Push button","Sits across the middle gap with legs in 49e, 51e, 49f, 51f. We use opposite corners (49e and 51f) so it works whichever way round it is.");
+ wire("btn",13,"amber",arc(col(10),Y.a,col(49),Y.a,115),"10a (GPIO14) → 49a","M-M jumper from the ESP32 GPIO14 column to the button's top-left leg column.",[[col(10),Y.a],[col(49),Y.a]]);
+ wire("bg",13,"blk",`M${col(51)} ${Y.j} Q${col(50)+4} ${Y.j+20} ${col(50)} ${Y.bn}`,"51j → − rail","M-M jumper from the button's bottom-right leg column to the bottom − rail.",[[col(51),Y.j],[col(50),Y.bn]]);
+ // step 15 battery
+ const Bp=g(15,"el part");
+ el("rect",{x:40,y:540,width:200,height:46,rx:6,fill:"#1c1f1f"},Bp);
+ el("rect",{x:52,y:549,width:120,height:28,rx:12,fill:"#7a2e33"},Bp);el("text",{x:60,y:567,"font-size":9,fill:"#fff"},Bp,"18650 · 1800 mAh");
+ el("rect",{x:180,y:546,width:52,height:34,rx:3,fill:"#1f4f9a"},Bp);el("text",{x:184,y:566,"font-size":8,fill:"#fff"},Bp,"TP4056");
+ hot(Bp,"Battery pack","18650 cell in the holder with the TP4056 charger. Charge through its USB-C. Its OUT+ and OUT− wires power the node.");
+ wire("bat+",15,"red",`M226 546 C226 470 ${col(9)} ${Y.a-60} ${col(9)} ${Y.a}`,"TP4056 OUT+ → 9a (5V pin)","Battery + goes to the ESP32 5V pin. Never to 3V3 or the + rail. Pull it out to switch the node off.",[[col(9),Y.a]]);
+ wire("bat-",15,"blk",`M200 546 C200 500 ${col(14)} ${Y.bn+30} ${col(14)} ${Y.bn}`,"TP4056 OUT− → − rail","Battery − to the bottom − rail.",[[col(14),Y.bn]]);
+ [e,R,O].forEach(n=>s.appendChild(n));
+}
+
+/* ---------- schematic view ---------- */
+const PINS={V:"3V3",G:"GND",NSS:"GPIO10",SCK:"GPIO12",MOSI:"GPIO11",MISO:"GPIO13",RST:"GPIO5",DIO0:"GPIO4",SDA:"GPIO17",SCL:"GPIO18",LTX:"GPIO6",LRX:"GPIO7",BTN:"GPIO14",V5:"5V"};
+const HOLE={V:29,G:8,NSS:14,SCK:12,MOSI:13,MISO:11,RST:25,DIO0:26,SDA:20,SCL:19,LTX:24,LRX:23,BTN:10,V5:9};
+const W=[
+ {id:"V",y:70,c:"red",to:"+ rail",fn:"3.3 V power",step:4},
+ {id:"G",y:100,c:"blk",to:"− rail",fn:"Ground",step:4},
+ {id:"NSS",y:255,c:"blue",to:"Ra-02 NSS",fn:"SPI chip select",step:8},
+ {id:"SCK",y:290,c:"teal",to:"Ra-02 SCK",fn:"SPI clock",step:8},
+ {id:"MOSI",y:325,c:"green",to:"Ra-02 MOSI",fn:"Data ESP32 → radio",step:8},
+ {id:"MISO",y:360,c:"purple",to:"Ra-02 MISO",fn:"Data radio → ESP32",step:8},
+ {id:"RST",y:395,c:"coral",to:"Ra-02 RST",fn:"Radio reset",step:9},
+ {id:"DIO0",y:430,c:"pink",to:"Ra-02 DIO0",fn:"Message interrupt",step:9},
+ {id:"SDA",y:520,c:"olive",to:"OLED SDA",fn:"I2C data",step:11},
+ {id:"SCL",y:550,c:"cyan",to:"OLED SCL",fn:"I2C clock",step:11},
+ {id:"LTX",y:595,c:"green",to:"green LED + 220 Ω",fn:"Send light",step:12},
+ {id:"LRX",y:635,c:"red",to:"red LED + 220 Ω",fn:"Receive light",step:12},
+ {id:"BTN",y:675,c:"amber",to:"button → GND",fn:"Send button",step:13},
+ {id:"V5",y:725,c:"red",to:"TP4056 OUT+",fn:"Battery in (5V pin)",step:15,dash:1}];
+const PW=[{y:195,c:"red",r:"+",to:"Ra-02 3.3V",step:7},{y:220,c:"blk",r:"−",to:"Ra-02 GND",step:7},{y:470,c:"red",r:"+",to:"OLED VCC",step:11},{y:495,c:"blk",r:"−",to:"OLED GND",step:11}];
+function drawSch(){
+ const s=$("#sch");s.innerHTML="";
+ const g=(step,cls="el")=>el("g",{class:cls,"data-step":step},s);
+ const gnd=(p,x,y)=>{[[10,8],[6,13],[2,18]].forEach(([w,dy])=>el("line",{x1:x-w,y1:y+dy,x2:x+w,y2:y+dy,stroke:"var(--ink)","stroke-width":2.5},p));el("line",{x1:x,y1:y,x2:x,y2:y+8,stroke:"var(--ink)","stroke-width":2.5},p)};
+ const e=g(3,"el part");
+ el("rect",{x:20,y:40,width:200,height:705,rx:10,fill:"var(--pcb)"},e);
+ el("text",{x:36,y:70,fill:"var(--on-pcb)","font-size":13,"font-weight":600},e,"ESP32-S3");
+ el("text",{x:36,y:88,fill:"var(--on-pcb)","font-size":10,opacity:.7},e,"DevKitC-1");
+ W.forEach(w=>{el("text",{x:206,y:w.y+4,"text-anchor":"end","font-size":11,fill:"var(--on-pcb)"},e,PINS[w.id]);el("circle",{cx:220,cy:w.y,r:5,fill:"var(--pad)"},e)});
+ hot(e,"ESP32-S3","Only the pins this project uses are drawn.");
+ const r=g(4,"el part");
+ el("line",{x1:300,y1:60,x2:300,y2:700,stroke:"var(--w-red)","stroke-width":5},r);el("line",{x1:350,y1:60,x2:350,y2:700,stroke:"var(--w-blk)","stroke-width":5},r);
+ el("text",{x:300,y:50,"text-anchor":"middle","font-size":11,fill:"var(--w-red)"},r,"+3.3V");el("text",{x:350,y:50,"text-anchor":"middle","font-size":11,fill:"var(--ink)"},r,"GND");
+ hot(r,"Power rails","+ carries 3.3 V and − is ground for every part.");
+ const c=g(5);[[135,"100 µF"],[160,"104"]].forEach(([y,l])=>{el("line",{x1:300,y1:y,x2:319,y2:y,stroke:"var(--ink)","stroke-width":2},c);el("line",{x1:331,y1:y,x2:350,y2:y,stroke:"var(--ink)","stroke-width":2},c);el("line",{x1:319,y1:y-9,x2:319,y2:y+9,stroke:"var(--ink)","stroke-width":3},c);el("line",{x1:331,y1:y-9,x2:331,y2:y+9,stroke:"var(--ink)","stroke-width":3},c);el("text",{x:360,y:y+4,"font-size":10,fill:"var(--muted)"},c,l)});
+ hot(c,"Capacitors","100 µF and 100 nF between + and −. They steady the power when the radio transmits.");
+ const R=g(6,"el part");
+ el("rect",{x:620,y:178,width:170,height:270,rx:8,fill:"var(--mod)"},R);
+ el("text",{x:705,y:300,"text-anchor":"middle",fill:"var(--on-pcb)","font-size":15,"font-weight":600},R,"Ra-02");
+ el("text",{x:705,y:318,"text-anchor":"middle",fill:"var(--on-pcb)","font-size":10},R,"SX1278 · 433 MHz");
+ [["3.3V",195],["GND",220],["NSS",255],["SCK",290],["MOSI",325],["MISO",360],["RST",395],["DIO0",430]].forEach(([n,y])=>{el("circle",{cx:620,cy:y,r:5,fill:"var(--pad)"},R);el("text",{x:630,y:y+4,"font-size":11,fill:"var(--on-pcb)"},R,n)});
+ el("path",{d:"M790 405 C830 405 830 380 850 380",stroke:"var(--w-grey)","stroke-width":3,fill:"none"},R);el("rect",{x:846,y:240,width:8,height:140,rx:4,fill:"#2b2f2e"},R);
+ hot(R,"Ra-02","8 wires: 3.3V, GND, NSS, SCK, MOSI, MISO, RST, DIO0.");
+ const O=g(11,"el part");
+ el("rect",{x:620,y:458,width:170,height:108,rx:8,fill:"var(--oled)"},O);
+ el("text",{x:700,y:552,"font-size":10,fill:"var(--on-pcb)"},O,"OLED I2C");
+ [["VCC",470],["GND",495],["SDA",520],["SCL",550]].forEach(([n,y])=>{el("circle",{cx:620,cy:y,r:5,fill:"var(--pad)"},O);el("text",{x:630,y:y+4,"font-size":11,fill:"var(--on-pcb)"},O,n)});
+ hot(O,"OLED","VCC to +3.3V, GND to ground, SDA and SCL to the ESP32.");
+ PW.forEach(p=>{const w=g(p.step),x1=p.r==="+"?300:350;el("line",{x1,y1:p.y,x2:620,y2:p.y,stroke:`var(--w-${p.c})`,"stroke-width":3.5},w);el("circle",{cx:x1,cy:p.y,r:4.5,fill:`var(--w-${p.c})`},w);hot(w,`${p.r} rail → ${p.to}`,"Power from the rail.")});
+ W.forEach(w=>{const k=g(w.step),co=`var(--w-${w.c})`,y=w.y;
+  if(w.id==="V"||w.id==="G"){const x2=w.id==="V"?300:350;el("line",{x1:220,y1:y,x2,y2:y,stroke:co,"stroke-width":4},k);el("circle",{cx:x2,cy:y,r:4.5,fill:co},k)}
+  else if(w.id==="LTX"||w.id==="LRX"){el("line",{x1:220,y1:y,x2:430,y2:y,stroke:co,"stroke-width":4},k);
+   el("path",{d:`M430 ${y-10} L450 ${y} L430 ${y+10} Z`,fill:w.id==="LTX"?"#4cc96b":"#e5484d"},k);el("line",{x1:451,y1:y-10,x2:451,y2:y+10,stroke:"var(--ink)","stroke-width":2.5},k);
+   el("line",{x1:451,y1:y,x2:480,y2:y,stroke:"var(--ink)","stroke-width":2.5},k);el("rect",{x:480,y:y-7,width:50,height:14,rx:3,fill:"#c8a27a"},k);el("text",{x:482,y:y-11,"font-size":9,fill:"var(--muted)"},k,"220Ω");
+   el("line",{x1:530,y1:y,x2:560,y2:y,stroke:"var(--ink)","stroke-width":2.5},k);gnd(k,560,y)}
+  else if(w.id==="BTN"){el("line",{x1:220,y1:y,x2:450,y2:y,stroke:co,"stroke-width":4},k);el("circle",{cx:452,cy:y,r:4,fill:"var(--ink)"},k);el("circle",{cx:498,cy:y,r:4,fill:"var(--ink)"},k);
+   el("line",{x1:455,y1:y-14,x2:495,y2:y-14,stroke:"var(--ink)","stroke-width":3},k);el("line",{x1:475,y1:y-14,x2:475,y2:y-24,stroke:"var(--ink)","stroke-width":3},k);el("line",{x1:500,y1:y,x2:560,y2:y,stroke:"var(--ink)","stroke-width":2.5},k);gnd(k,560,y)}
+  else if(w.id==="V5"){el("line",{x1:220,y1:y,x2:520,y2:y,stroke:co,"stroke-width":4,"stroke-dasharray":"8 6"},k);el("rect",{x:520,y:y-16,width:130,height:32,rx:5,fill:"#1f4f9a"},k);el("text",{x:530,y:y+4,"font-size":10,fill:"#fff"},k,"TP4056 + 18650");el("line",{x1:650,y1:y,x2:670,y2:y,stroke:"var(--ink)","stroke-width":2.5},k);gnd(k,670,y)}
+  else el("line",{x1:220,y1:y,x2:620,y2:y,stroke:co,"stroke-width":4},k);
+  el("line",{x1:220,y1:y,x2:w.id==="V5"?650:620,y2:y,stroke:"transparent","stroke-width":14},k);
+  if(!["V","G"].includes(w.id))el("text",{x:372,y:y-6,"font-size":10,fill:"var(--muted)"},k,w.fn);
+  hot(k,`${PINS[w.id]} → ${w.to}`,`${w.fn}. On the breadboard: hole ${HOLE[w.id]}a.`)});
+ [e,R,O].forEach(n=>s.appendChild(n))}
+
+/* ---------- step UI ---------- */
+function paint(){const st=cur+1;$$("svg.view .el").forEach(n=>{const k=+n.dataset.step;n.classList.remove("future","past","now");if(showAll||k<st)n.classList.add(showAll?"x":"past");else if(k===st)n.classList.add("now");else n.classList.add("future")})}
+function renderSteps(){
+ $("#steps").innerHTML=S.map((s,i)=>`<button data-i="${i}" ${i===cur?'aria-current="step"':''}><span class="k">${String(i+1).padStart(2,"0")}</span><span>${s.t}</span><span class="d">${done[i]?"✓":""}</span></button>`).join("");
+ $$("#steps button").forEach(b=>b.onclick=()=>go(+b.dataset.i));
+ const n=S.filter((_,i)=>done[i]).length;$("#bar").style.width=(n/S.length*100)+"%";$("#prog").textContent=`${n} of ${S.length} steps done`}
+function go(i){
+ cur=Math.max(0,Math.min(S.length-1,i));store("ra2-step",cur);showAll=false;$("#all").textContent="Show everything";
+ const s=S[cur];
+ $("#stepNo").textContent=`Step ${cur+1} of ${S.length}`;$("#stepTitle").textContent=s.t;
+ $("#stepTodo").innerHTML=s.todo.map(t=>`<li>${t}</li>`).join("");
+ $("#stepWhy").innerHTML=`<b>Why:</b> ${s.why}`;
+ $("#stepNote").innerHTML=(s.note||"")+(s.code?`<p style="margin-top:8px;font-size:14.5px">The code is further down: <b>Test ${s.code}</b>.</p>`:"");
+ $("#stepDone").checked=!!done[cur];$("#prev").disabled=cur===0;$("#next").disabled=cur===S.length-1;
+ renderSteps();paint()}
+$("#prev").onclick=()=>go(cur-1);
+$("#next").onclick=()=>{done[cur]=true;store("ra2-done",done);go(cur+1)};
+$("#stepDone").onchange=e=>{done[cur]=e.target.checked;store("ra2-done",done);renderSteps()};
+$("#all").onclick=()=>{showAll=!showAll;$("#all").textContent=showAll?"Show only this step":"Show everything";paint()};
+function setView(v){view=v;store("ra2-view",v);$$("#viewSeg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===v));$("#bbWrap").hidden=v!=="bb";$("#schWrap").hidden=v!=="sch"}
+$$("#viewSeg button").forEach(b=>b.onclick=()=>setView(b.dataset.v));
+
+/* ---------- table ---------- */
+const TB=[["red","29a","3V3","top + rail","3.3 V for everything"],["blk","8a","G","top − rail","Ground"],["red","top + rail col 61","–","bottom + rail","Rail bridge"],["blk","top − rail col 62","–","bottom − rail","Rail bridge"],
+ ["red","top + rail col 39","–","Ra-02 3.3V","Radio power (M-F)"],["blk","top − rail col 37","–","Ra-02 GND","Radio ground (M-F)"],
+ ["blue","14a","GPIO10","Ra-02 NSS","SPI select (M-F)"],["teal","12a","GPIO12","Ra-02 SCK","SPI clock (M-F)"],["green","13a","GPIO11","Ra-02 MOSI","Data to radio (M-F)"],["purple","11a","GPIO13","Ra-02 MISO","Data from radio (M-F)"],
+ ["coral","25a","GPIO5","Ra-02 RST","Radio reset (M-F)"],["pink","26a","GPIO4","Ra-02 DIO0","Message doorbell (M-F)"],
+ ["cyan","19a","GPIO18","OLED SCL (56f)","Screen clock"],["olive","20a","GPIO17","OLED SDA (57f)","Screen data"],["red","55g","–","bottom + rail col 53","OLED VCC"],["blk","54g","–","bottom − rail col 52","OLED GND"],
+ ["green","24a","GPIO6","40a → green LED","Send light"],["red","23a","GPIO7","44a → red LED","Receive light"],
+ ["amber","10a","GPIO14","49a → button","Send button"],["blk","51j","–","bottom − rail col 50","Button ground"],
+ ["red","9a","5V","TP4056 OUT+","Battery in (only on battery)"],["blk","bottom − rail col 14","–","TP4056 OUT−","Battery ground"]];
+$("#pinTable").innerHTML=TB.map(r=>`<tr><td><span class="sw" style="background:var(--w-${r[0]})"></span></td><td class="mono">${r[1]}</td><td class="mono">${r[2]}</td><td class="mono">${r[3]}</td><td>${r[4]}</td></tr>`).join("");
+
+/* ---------- code ---------- */
+const PINDEF=`// ESP32-S3 DevKitC-1 pins
+#define PIN_NSS  10
+#define PIN_SCK  12
+#define PIN_MOSI 11
+#define PIN_MISO 13
+#define PIN_RST  5
+#define PIN_DIO0 4`;
+$("#code1").textContent=`#include <RadioLib.h>
+
+${PINDEF}
+
+SX1278 radio = new Module(PIN_NSS, PIN_DIO0, PIN_RST, RADIOLIB_NC);
+
+void setup() {
+  Serial.begin(115200);
+  delay(1500);
+  SPI.begin(PIN_SCK, PIN_MISO, PIN_MOSI, PIN_NSS);
+  // freq MHz, bandwidth kHz, SF, coding rate 4/x, sync word, power dBm, preamble, gain
+  int state = radio.begin(433.0, 125.0, 9, 7, 0x12, 10, 8, 0);
+  if (state == RADIOLIB_ERR_NONE) Serial.println("Radio OK");
+  else { Serial.print("Radio error: "); Serial.println(state); }
+}
+
+void loop() {}`;
+$("#code2").textContent=`#include <RadioLib.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+const char* NODE_NAME = "A";        // write "B" on the second node
+
+${PINDEF}
+#define PIN_SDA    17
+#define PIN_SCL    18
+#define PIN_LED_TX 6
+#define PIN_LED_RX 7
+#define PIN_BTN    14
+
+SX1278 radio = new Module(PIN_NSS, PIN_DIO0, PIN_RST, RADIOLIB_NC);
+Adafruit_SSD1306 oled(128, 64, &Wire, -1);
+volatile bool radioFlag = false;
+int sent = 0, received = 0;
+unsigned long lastPress = 0;
+
+void IRAM_ATTR onDio0() { radioFlag = true; }
+
+void show(const String& a, const String& b) {
+  oled.clearDisplay();
+  oled.setTextSize(1);
+  oled.setTextColor(SSD1306_WHITE);
+  oled.setCursor(0, 0);
+  oled.printf("MeshX node %s\\n", NODE_NAME);
+  oled.printf("TX %d   RX %d\\n\\n", sent, received);
+  oled.println(a);
+  oled.println(b);
+  oled.display();
+}
+
+void sendMsg(const String& msg) {
+  digitalWrite(PIN_LED_TX, HIGH);
+  int state = radio.transmit(msg);
+  digitalWrite(PIN_LED_TX, LOW);
+  radioFlag = false;                 // ignore the "finished sending" interrupt
+  radio.startReceive();
+  if (state == RADIOLIB_ERR_NONE) sent++;
+  Serial.printf("TX \\"%s\\" (%d)\\n", msg.c_str(), state);
+  show("Sent:", msg);
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(PIN_LED_TX, OUTPUT);
+  pinMode(PIN_LED_RX, OUTPUT);
+  pinMode(PIN_BTN, INPUT_PULLUP);
+
+  Wire.begin(PIN_SDA, PIN_SCL);
+  if (!oled.begin(SSD1306_SWITCHCAPVCC, 0x3C)) Serial.println("OLED not found");
+
+  SPI.begin(PIN_SCK, PIN_MISO, PIN_MOSI, PIN_NSS);
+  int state = radio.begin(433.0, 125.0, 9, 7, 0x12, 10, 8, 0);
+  Serial.printf("Radio begin: %d\\n", state);
+  if (state != RADIOLIB_ERR_NONE) { show("Radio error", String(state)); while (true) delay(1000); }
+
+  radio.setDio0Action(onDio0, RISING);
+  radio.startReceive();
+  show("Ready", "Press the button");
+}
+
+void loop() {
+  // button: send HELLO
+  if (digitalRead(PIN_BTN) == LOW && millis() - lastPress > 500) {
+    lastPress = millis();
+    sendMsg(String("HELLO from ") + NODE_NAME + " #" + (sent + 1));
+  }
+
+  // Serial Monitor: send your own text
+  if (Serial.available()) {
+    String line = Serial.readStringUntil('\\n');
+    line.trim();
+    if (line.length()) sendMsg(String(NODE_NAME) + ": " + line);
+  }
+
+  // a message arrived
+  if (radioFlag) {
+    radioFlag = false;
+    String msg;
+    int state = radio.readData(msg);
+    if (state == RADIOLIB_ERR_NONE) {
+      received++;
+      digitalWrite(PIN_LED_RX, HIGH);
+      float rssi = radio.getRSSI(), snr = radio.getSNR();
+      Serial.printf("RX \\"%s\\" | RSSI %.0f dBm | SNR %.1f dB\\n", msg.c_str(), rssi, snr);
+      show(msg, "RSSI " + String(rssi, 0) + "  SNR " + String(snr, 1));
+      delay(100);
+      digitalWrite(PIN_LED_RX, LOW);
+      if (!msg.startsWith("ACK")) {    // reply to every message that isn't an ACK
+        delay(200);
+        sendMsg(String("ACK from ") + NODE_NAME);
+        return;
+      }
+    }
+    radio.startReceive();
+  }
+}`;
+$$("[data-copy]").forEach(b=>b.onclick=()=>{const pre=$("#"+b.dataset.copy);const ok=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)};
+ const sel=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected: press Ctrl+C"};
+ try{navigator.clipboard.writeText(pre.textContent).then(ok).catch(sel)}catch(e){sel()}});
+
+drawBB();drawSch();setView(view);go(cur);
+</script>

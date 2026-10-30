@@ -1,0 +1,837 @@
+<title>MeshX Node Hardware Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky tab bar over one working pane per topic; diagrams scroll sideways inside their own frames. */
+:root{
+  --bg:#eef3f1;--surface:#ffffff;--ink:#14211f;--muted:#566a66;--line:#d0dbd8;--accent:#b5651d;--accent-soft:#f6e6d6;
+  --ok:#2f8a4c;--warn:#b7791f;--bad:#c0392b;
+  --bb:#f7f6f1;--bb-hole:#b9b5a8;--pcb:#1e2827;--mod:#1d5b3c;--on-pcb:#e9f0ec;--pad:#c9a14a;
+  --w-red:#d0342c;--w-blk:#262b2a;--w-blue:#2563eb;--w-teal:#0f9b8e;--w-green:#2f9e44;--w-purple:#7c3aed;
+  --w-coral:#e8590c;--w-amber:#c9930e;--w-pink:#d6336c;--w-grey:#868e96;--w-brown:#8d5524;--w-olive:#5c940d;--w-cyan:#0b7285;
+  --f-disp:"Chakra Petch","Segoe UI",system-ui,sans-serif;--f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0c1613;--surface:#13211d;--ink:#e3ece9;--muted:#93a6a1;--line:#273a33;--accent:#e39550;--accent-soft:#3a2716;
+  --ok:#5cc47e;--warn:#e0b04f;--bad:#ff7b6b;--bb:#d6d2c6;--bb-hole:#8f8a7c;--pcb:#0a0f0e;--mod:#174a31;
+  --w-red:#ff6b5e;--w-blk:#cfd6d4;--w-blue:#6ea8ff;--w-teal:#3fd1c1;--w-green:#69db7c;--w-purple:#b197fc;
+  --w-coral:#ff922b;--w-amber:#ffd43b;--w-pink:#f783ac;--w-grey:#adb5bd;--w-brown:#d9a066;--w-olive:#a9e34b;--w-cyan:#66d9e8;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1613;--surface:#13211d;--ink:#e3ece9;--muted:#93a6a1;--line:#273a33;--accent:#e39550;--accent-soft:#3a2716;
+  --ok:#5cc47e;--warn:#e0b04f;--bad:#ff7b6b;--bb:#d6d2c6;--bb-hole:#8f8a7c;--pcb:#0a0f0e;--mod:#174a31;
+  --w-red:#ff6b5e;--w-blk:#cfd6d4;--w-blue:#6ea8ff;--w-teal:#3fd1c1;--w-green:#69db7c;--w-purple:#b197fc;
+  --w-coral:#ff922b;--w-amber:#ffd43b;--w-pink:#f783ac;--w-grey:#adb5bd;--w-brown:#d9a066;--w-olive:#a9e34b;--w-cyan:#66d9e8;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .wrap{padding-block:22px 14px}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+h1{font:700 clamp(28px,4.4vw,44px)/1.05 var(--f-disp);margin:8px 0 6px;text-wrap:balance}
+h2{font:600 26px/1.15 var(--f-disp);margin:0 0 6px;text-wrap:balance}
+h3{font:600 18px/1.2 var(--f-disp);margin:0 0 6px}
+p{margin:0 0 10px;max-width:72ch}
+.lede{color:var(--muted);max-width:80ch}
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:6px}
+nav.tabs button{font:600 14px/1 var(--f-disp);letter-spacing:.03em;border:1px solid transparent;background:none;color:var(--muted);padding:10px 14px;border-radius:6px;cursor:pointer;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--line);background:var(--bg);box-shadow:inset 0 -3px 0 var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main .wrap{padding-block:26px 60px;display:grid;gap:26px}
+section.pane{display:grid;gap:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+svg text{font-family:var(--f-mono)}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.mono{font-family:var(--f-mono);font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 12px/1 var(--f-mono);padding:5px 8px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--muted);white-space:nowrap}
+.chip.core{color:var(--ok);border-color:currentColor}
+.chip.opt{color:var(--warn);border-color:currentColor}
+.chip.add{color:var(--accent);border-color:currentColor}
+.chip.bad{color:var(--bad);border-color:currentColor}
+.callout{border-left:3px solid var(--warn);background:var(--bg);padding:10px 14px;border-radius:0 8px 8px 0;font-size:15px}
+.callout.red{border-color:var(--bad)}
+.callout b{font-family:var(--f-disp)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1.2 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+tr.hl td{background:var(--accent-soft)}
+.sw{display:inline-block;width:22px;height:6px;border-radius:3px;vertical-align:middle;margin-right:6px}
+.flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.flow .node{flex:1 1 120px;min-width:0;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:10px;cursor:pointer;text-align:center}
+.flow .node[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.flow .node b{display:block;font:600 15px/1.2 var(--f-disp)}
+.flow .link{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:0 6px;font:600 11px/1.2 var(--f-mono);color:var(--muted);min-width:56px}
+.flow .link::before{content:"";display:block;width:100%;min-width:40px;height:2px;background:repeating-linear-gradient(90deg,var(--accent) 0 6px,transparent 6px 10px);margin-bottom:4px}
+.stack{display:grid;gap:4px}
+.stack button{all:unset;cursor:pointer;display:grid;grid-template-columns:120px 1fr;gap:10px;padding:9px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg);font-size:14.5px}
+.stack button span:first-child{font:600 13px/1.4 var(--f-mono);color:var(--accent)}
+.stack button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.info{min-height:90px;border:1px dashed var(--line);border-radius:8px;padding:12px 14px;background:var(--bg)}
+.info h3{color:var(--accent)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.toolbar button,.btn{font:600 13px/1 var(--f-disp);letter-spacing:.03em;padding:9px 12px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.toolbar button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+input[type=search],select,input[type=number]{font:15px var(--f-body);padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+input[type=range]{accent-color:var(--accent);width:100%}
+label.row{display:grid;grid-template-columns:150px 1fr 70px;gap:10px;align-items:center;font-size:14.5px}
+label.row output{font:600 13px var(--f-mono);text-align:right}
+.bom{display:grid;gap:8px}
+.bom details{border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.bom summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:11px 14px}
+.bom summary::-webkit-details-marker{display:none}
+.bom summary .n{font:600 12px var(--f-mono);color:var(--muted)}
+.bom summary .nm{font-weight:700;min-width:0}
+.bom summary .nm small{display:block;font-weight:400;color:var(--muted);font-size:13.5px}
+.bom summary .meta{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.bom details[open] summary{border-bottom:1px solid var(--line)}
+.bom .body{padding:12px 14px 14px 58px;display:grid;gap:8px;font-size:15px}
+.bom .body ul{margin:0;padding-left:18px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:4px 12px}
+.kv dt{font:600 12px/1.6 var(--f-mono);text-transform:uppercase;color:var(--muted);letter-spacing:.05em}
+.kv dd{margin:0}
+.totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.totals div{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--bg)}
+.totals b{display:block;font:700 22px/1.1 var(--f-disp);font-variant-numeric:tabular-nums}
+.totals span{font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+pre{margin:0;background:var(--pcb);color:var(--on-pcb);border-radius:8px;padding:14px;overflow-x:auto;font:13px/1.55 var(--f-mono)}
+.codehead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.steps{display:grid;gap:8px;counter-reset:s}
+.steps label{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}
+.steps input{margin-top:4px;accent-color:var(--ok);width:16px;height:16px}
+.steps label:has(input:checked){background:var(--bg)}
+.steps label:has(input:checked) .t{text-decoration:line-through;color:var(--muted)}
+.steps .t b{font-family:var(--f-disp)}
+.phase-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 2px}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.gantt{display:grid;grid-template-columns:minmax(220px,2.4fr) repeat(9,minmax(34px,1fr));font-size:13.5px;min-width:640px}
+.gantt div{padding:6px 6px;border-bottom:1px solid var(--line)}
+.gantt .m{font:600 11px var(--f-mono);text-align:center;color:var(--muted)}
+.gantt .on{background:var(--accent);border-radius:3px;margin:3px 1px;padding:0;min-height:20px}
+.gantt .now{box-shadow:inset 2px 0 0 var(--bad)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px}
+.score{font:700 44px/1 var(--f-disp);font-variant-numeric:tabular-nums}
+svg .hot{cursor:pointer}
+svg .dim{opacity:.18}
+svg .hot:hover{filter:drop-shadow(0 0 3px var(--accent))}
+@media (max-width:560px){.bom .body{padding-left:14px}.kv{grid-template-columns:1fr}label.row{grid-template-columns:1fr 60px}label.row span{grid-column:1/-1}.stack button{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top"><div class="wrap">
+  <div class="eyebrow">MeshX · CS-406 FYDP · Schematics &amp; Hardware</div>
+  <h1>MeshX Node Hardware Guide</h1>
+  <p class="lede">One LoRa mesh node, explained part by part: how the ESP32-S3 talks to the SX1262 radio, where every wire goes on the breadboard, how the battery powers it, and every component you need to buy, with alternatives and Pakistan prices from your price list.</p>
+</div></header>
+
+<nav class="tabs" aria-label="Sections"><div class="wrap" role="tablist">
+  <button role="tab" data-tab="overview">System</button>
+  <button role="tab" data-tab="wiring">Node wiring</button>
+  <button role="tab" data-tab="breadboard">Breadboard</button>
+  <button role="tab" data-tab="power">Power</button>
+  <button role="tab" data-tab="bom">Hardware list</button>
+  <button role="tab" data-tab="build">Build &amp; test</button>
+  <button role="tab" data-tab="concepts">Concepts</button>
+</div></nav>
+
+<main><div class="wrap">
+
+<!-- ============ SYSTEM ============ -->
+<section class="pane" id="overview">
+  <div class="panel">
+    <h2>What MeshX does</h2>
+    <p>5–6 battery nodes placed around campus pass text messages hop by hop over LoRa, with no cellular, Wi-Fi or internet. A phone talks to its nearest node over BLE. Routing picks the path with the best measured link quality (RSSI, SNR, packet loss, battery) instead of the fewest hops. That adaptive routing is your original contribution. Tap any block below.</p>
+    <div class="flow" id="flow" style="margin-top:12px"></div>
+    <div class="info" id="flowInfo" style="margin-top:12px"></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Inside one node (firmware stack)</h3>
+      <p class="small muted">Top is what the user touches, bottom is copper. Tap a layer.</p>
+      <div class="stack" id="stack"></div>
+    </div>
+    <div class="panel">
+      <h3>Layer detail</h3>
+      <div class="info" id="stackInfo"></div>
+      <h3 style="margin-top:16px">Demo you must deliver</h3>
+      <p class="small">Phone A sends a text to Phone B across several hops. Then an intermediate node is switched off and the network finds a new route automatically. Metrics: packet delivery ratio, end-to-end delay, throughput, energy.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Timeline from your proposal (Sept 2026 – May 2027)</h3>
+    <p class="small muted">Red line marks this month (October 2026).</p>
+    <div class="scroll"><div class="gantt" id="gantt"></div></div>
+  </div>
+  <div class="panel small">
+    <b>Team:</b> Shayan Malik (CS-23053), Syyeda Fatima Shoaib (CS-23075), Umaiza Asif (CS-23080), Hamna Rizvi (CS-23082). <b>Supervisor:</b> Dr. Sumayya Zafar (CISD). <b>Co-supervisor:</b> Sheikh Abdul Basit (NCCS).
+  </div>
+</section>
+
+<!-- ============ WIRING ============ -->
+<section class="pane" id="wiring" hidden>
+  <div class="panel">
+    <div class="phase-h"><h2>Node wiring schematic</h2>
+      <div class="toolbar" id="wireTb">
+        <button data-f="all" aria-pressed="true">All core</button>
+        <button data-f="spi">SPI bus</button>
+        <button data-f="ctrl">Control lines</button>
+        <button data-f="pwr">Power</button>
+        <button data-f="opt">+ Optional parts</button>
+      </div></div>
+    <p class="small muted">ESP32-S3-DevKitC-1, left header J1, pins 1–22. Every wire comes from J1. Hover or tap a wire or a table row. Flags on the right are net labels: a wire ending in a flag connects to the part with the same label below.</p>
+    <div class="scroll"><svg id="schem" viewBox="0 0 780 560" width="780" role="img" aria-label="ESP32-S3 J1 header wired to SX1262 module"></svg></div>
+    <div class="info" id="wireInfo" style="margin-top:10px"><h3>Pick a wire</h3><p class="small">Each wire shows what the signal does and what goes wrong if it is missing.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="panel scroll">
+      <h3>Pin-by-pin table</h3>
+      <table id="pinTable"><thead><tr><th>Wire</th><th>ESP32 J1</th><th>Goes to</th><th>Job</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="panel">
+      <h3>Rules for this board</h3>
+      <div class="callout red"><b>Never</b> connect J1 pin 21 (5V0) to the radio. SX1262 is a 3.3 V part and 5 V can kill it.</div>
+      <ul class="small">
+        <li><b>Pins to avoid:</b> GPIO3 and GPIO46 (J1 pins 13, 14) are strapping pins that set boot mode. GPIO35–37 are used by the octal PSRAM on N8R8/N16R8. GPIO19/20 are the native USB.</li>
+        <li><b>Module pin order differs</b> from this drawing. Match by the names printed on your module (NSS, SCK, BUSY…), never by position.</li>
+        <li><b>RXEN/TXEN</b> exist on Ebyte E22 and Waveshare Core1262. Modules without them switch the antenna with DIO2; skip those two grey wires and leave <span class="mono">setRfSwitchPins</span> commented.</li>
+        <li><b>Battery sense on GPIO9</b> is my addition, not in your list. Your routing score needs battery %, and this two-resistor divider is how the node measures it.</li>
+        <li><b>Onboard RGB LED</b> is GPIO48 on DevKitC-1 v1.0 and GPIO38 on v1.1. Check the silkscreen version before using it as a status light.</li>
+        <li>Pin order follows the Espressif DevKitC-1 datasheet. Check once against the GPIO numbers printed on your board.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BREADBOARD ============ -->
+<section class="pane" id="breadboard" hidden>
+  <div class="panel">
+    <h2>Complete node on a breadboard</h2>
+    <p class="small muted">830-point board, top view. ESP32 with USB ports on the left, J1 in row c, J3 in row j. J1 pin k sits in column 30 − k. Each wire starts in row a of that column (rows a–e of a column are one metal strip). The radio module and power modules sit off the board on jumpers. Hover any part or wire.</p>
+    <div class="scroll"><svg id="bb" viewBox="0 0 920 520" width="920" role="img" aria-label="Breadboard layout of one MeshX node"></svg></div>
+    <div class="info" id="bbInfo" style="margin-top:10px"><h3>Hover a part</h3><p class="small">The breadboard carries the ESP32, both 3V3 and GND rails, the two decoupling capacitors and the battery-sense divider.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="panel scroll">
+      <h3>Column map</h3>
+      <table id="colTable"><thead><tr><th>Column</th><th>J1 pin</th><th>Wire to</th></tr></thead><tbody></tbody></table>
+    </div>
+    <div class="panel">
+      <h3>Assembly order</h3>
+      <ol class="small">
+        <li>Seat the ESP32: J1 in row c, J3 in row j, pin 22 (G) in column 8. Rows a and b above J1 stay free.</li>
+        <li>Check your rail markings. If the rail is split in the middle, bridge both halves with a short jumper.</li>
+        <li>Rail wires: column 8 row a → − rail (black). Column 29 row a → + rail (red).</li>
+        <li>Capacitors across the rails at columns 40–42: 100 µF striped leg on −, and the 100 nF either way.</li>
+        <li>Battery-sense divider: R1 100 kΩ from column 44 to column 47 (row c), R2 100 kΩ from column 47 (row b) to − rail. Brown jumper from column 47 row a to column 15 row a (GPIO9).</li>
+        <li>Nine M-F signal jumpers: male end in the column, female end on the module pin (see column map).</li>
+        <li>Module power: two M-F jumpers from the + and − rails (columns 45, 46) to module 3V3 and GND.</li>
+        <li>Screw the antenna on <b>before</b> any power. Transmitting without an antenna can damage the SX1262.</li>
+        <li>Multimeter continuity between + and − rails. A beep means a short: fix before powering.</li>
+        <li>First power from the laptop USB only. Battery path comes after the radio test passes.</li>
+      </ol>
+      <div class="callout">Do not connect laptop USB and the battery regulator at the same time. Both would drive the 3V3 rail and fight each other. Switch the battery off while flashing.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POWER ============ -->
+<section class="pane" id="power" hidden>
+  <div class="panel">
+    <h2>Power path</h2>
+    <p class="small muted">USB-C charges the cell through the TP4056. The protected output goes through the switch to a buck-boost that makes a steady 3.3 V from a battery that swings 4.2 V → 3.0 V. Tap any part.</p>
+    <div class="scroll"><svg id="pwr" viewBox="0 0 800 360" width="800" role="img" aria-label="Battery to 3.3 V power schematic"></svg></div>
+    <div class="info" id="pwrInfo" style="margin-top:10px"><h3>Why a buck-boost?</h3><p class="small">A Li-ion cell sits above 3.3 V when full and below it near empty. A buck-only regulator stops working once the cell drops near 3.6 V, and an LDO like AMS1117 needs about 4.4 V in. A buck-boost keeps 3.3 V across the whole discharge.</p></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Battery life estimator</h3>
+      <p class="small muted">Rough planning numbers from typical datasheet currents. Measure your real node with the USB power meter and replace these.</p>
+      <div style="display:grid;gap:10px;margin-top:8px">
+        <label class="row"><span>Battery (mAh)</span><input type="range" id="pBat" min="1000" max="6000" step="500" value="4000"><output id="oBat"></output></label>
+        <label class="row"><span>ESP32 + BLE avg (mA)</span><input type="range" id="pMcu" min="15" max="110" step="5" value="60"><output id="oMcu"></output></label>
+        <label class="row"><span>TX power (dBm)</span><input type="range" id="pTx" min="2" max="22" step="1" value="14"><output id="oTx"></output></label>
+        <label class="row"><span>Time transmitting (%)</span><input type="range" id="pDuty" min="0" max="10" step="0.5" value="1"><output id="oDuty"></output></label>
+      </div>
+      <div class="totals" style="margin-top:14px">
+        <div><span>Average draw</span><b id="rAvg">–</b></div>
+        <div><span>Peak draw</span><b id="rPeak">–</b></div>
+        <div><span>Runtime</span><b id="rLife">–</b></div>
+      </div>
+      <p class="small muted" style="margin-top:8px">Assumes SX1262 RX ≈ 5 mA, TX ≈ 25 mA at 10 dBm rising to ≈ 118 mA at 22 dBm, 90% regulator efficiency and 85% usable capacity.</p>
+    </div>
+    <div class="panel">
+      <h3>Battery % for the routing score</h3>
+      <p class="small">The divider halves the battery voltage so it fits the ESP32 ADC (4.2 V → 2.1 V). Two 100 kΩ resistors draw only about 21 µA.</p>
+      <div class="codehead"><b class="small">battery.cpp</b><button class="btn" data-copy="codeBat">Copy</button></div>
+<pre id="codeBat">float batteryVolts() {
+  uint32_t mv = 0;
+  for (int i = 0; i &lt; 16; i++) mv += analogReadMilliVolts(9); // GPIO9
+  return (mv / 16.0f) * 2.0f / 1000.0f;   // x2 undoes the divider
+}
+
+int batteryPercent() {                      // simple linear map
+  float v = batteryVolts();
+  return constrain((int)((v - 3.30f) / (4.20f - 3.30f) * 100), 0, 100);
+}</pre>
+      <div class="callout" style="margin-top:12px">A TP4056 board is a charger plus protection only. It is <b>not</b> a 3.3 V regulator. Never wire the raw cell straight to the 3V3 rail.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOM ============ -->
+<section class="pane" id="bom" hidden>
+  <div class="panel">
+    <div class="phase-h"><h2>Complete hardware list</h2><span class="small muted" id="bomCount"></span></div>
+    <p class="small muted">Every item from your hardware list and price list, plus the small parts the build needs that the list left implicit (marked <span class="chip add">added</span>). Tap an item for spec, why it is needed, where it connects and alternatives.</p>
+    <div class="toolbar" id="bomTb" style="margin:10px 0"></div>
+    <input type="search" id="bomSearch" placeholder="Search parts, e.g. capacitor, SX1276, antenna" style="width:100%;margin-bottom:12px" aria-label="Search parts">
+    <div class="bom" id="bomList"></div>
+  </div>
+  <div class="panel">
+    <div class="phase-h"><h3>Budget calculator</h3>
+      <div class="toolbar" id="budTb">
+        <button data-b="2" aria-pressed="true">2-node prototype</button>
+        <button data-b="6">6-node build</button>
+        <label class="small"><input type="checkbox" id="budOpt"> include optional</label>
+        <label class="small"><input type="checkbox" id="budTools" checked> include tools</label>
+      </div></div>
+    <div class="totals" style="margin-top:10px">
+      <div><span>Low estimate</span><b id="bLo">–</b></div>
+      <div><span>High estimate</span><b id="bHi">–</b></div>
+      <div><span>Items not priced</span><b id="bNp">–</b></div>
+    </div>
+    <p class="small muted" style="margin-top:8px">Sums quantity × unit price from your price list. Items with no price (GPS, solar, enclosure) are counted separately. Your price list's own advice: plan Rs. 15,000–22,000 for two nodes and Rs. 80,000 for the full project.</p>
+  </div>
+</section>
+
+<!-- ============ BUILD ============ -->
+<section class="pane" id="build" hidden>
+  <div class="panel">
+    <div class="phase-h"><h2>Build and test plan</h2><span class="small muted" id="buildPct"></span></div>
+    <div class="bar"><i id="buildBar"></i></div>
+    <p class="small muted" style="margin-top:8px">Ticks are saved in this browser only.</p>
+    <div id="phases" style="display:grid;gap:18px;margin-top:10px"></div>
+  </div>
+  <div class="grid2">
+    <div class="panel" style="min-width:0">
+      <div class="codehead"><h3>Test 1: does the radio answer?</h3><button class="btn" data-copy="code1">Copy</button></div>
+<pre id="code1">#include &lt;RadioLib.h&gt;
+#define NSS 10
+#define SCK 12
+#define MOSI 11
+#define MISO 13
+#define RST 5
+#define BUSY 4
+#define DIO1 8
+SX1262 radio = new Module(NSS, DIO1, RST, BUSY);
+
+void setup() {
+  Serial.begin(115200);
+  SPI.begin(SCK, MISO, MOSI, NSS);
+  // freq MHz, bw kHz, SF, CR 4/5, private sync word,
+  // power dBm, preamble, TCXO volts
+  int s = radio.begin(868.0, 125.0, 7, 5, 0x12, 10, 8, 1.8);
+  Serial.println(s);   // 0 means the radio responded
+  // radio.setRfSwitchPins(6, 7); // RXEN, TXEN if your module has them
+}
+void loop() {}</pre>
+      <p class="small" style="margin-top:8px"><b>0</b> on the serial monitor means wiring and radio are fine. Set your band first (868.0 or 433.0). Error −2 (chip not found) usually means wiring; then try TCXO 0 instead of 1.8 if your module uses a crystal.</p>
+    </div>
+    <div class="panel" style="min-width:0">
+      <div class="codehead"><h3>Test 2: HELLO / HELLO ACK</h3><button class="btn" data-copy="code2">Copy</button></div>
+<pre id="code2">// same #defines and radio object as Test 1
+const bool IS_NODE_A = true;      // false on Node B
+volatile bool flag = false;
+void IRAM_ATTR onDio1() { flag = true; }
+
+void send(const char* m) {
+  radio.transmit(m);
+  flag = false;                    // ignore the TX-done interrupt
+  radio.startReceive();
+}
+void setup() {
+  Serial.begin(115200);
+  SPI.begin(SCK, MISO, MOSI, NSS);
+  Serial.println(radio.begin(868.0, 125.0, 7, 5, 0x12, 10, 8, 1.8));
+  radio.setDio1Action(onDio1);
+  radio.startReceive();
+}
+unsigned long last = 0;
+void loop() {
+  if (IS_NODE_A &amp;&amp; millis() - last &gt; 5000) {
+    last = millis(); send("NODE_A: HELLO");
+  }
+  if (flag) {
+    flag = false;
+    String msg;
+    if (radio.readData(msg) == RADIOLIB_ERR_NONE) {
+      Serial.printf("RX %s | RSSI %.1f dBm | SNR %.1f dB\n",
+        msg.c_str(), radio.getRSSI(), radio.getSNR());
+      if (!IS_NODE_A) send("NODE_B: HELLO ACK");
+      else radio.startReceive();
+    } else radio.startReceive();
+  }
+}</pre>
+      <p class="small" style="margin-top:8px">Log RSSI, SNR, success/failure and latency from this test. That data is the start of your link-quality dataset.</p>
+    </div>
+  </div>
+  <div class="panel scroll">
+    <h3>Troubleshooting</h3>
+    <table><thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead><tbody>
+      <tr><td>begin() returns −2</td><td>SPI wiring or BUSY/RESET wrong</td><td>Recheck NSS/SCK/MOSI/MISO by printed names. Probe SCK and NSS with the logic analyzer.</td></tr>
+      <tr><td>begin() returns −707 or TCXO error</td><td>TCXO voltage mismatch</td><td>Set the last argument to 0 (crystal) or the voltage from the module datasheet.</td></tr>
+      <tr><td>Board not seen by laptop</td><td>Charge-only cable, or wrong USB port</td><td>Use a data cable on the port marked UART. Hold BOOT, tap RST to force download mode.</td></tr>
+      <tr><td>Random resets when transmitting</td><td>3V3 sags on TX current spike</td><td>Add the 100 µF + 100 nF at the module, shorten power wires, use a ≥1 A regulator.</td></tr>
+      <tr><td>Sends fine, never receives</td><td>RF switch not driven</td><td>Enable <span class="mono">setRfSwitchPins(6,7)</span> on E22/Core1262, or DIO2 control on others.</td></tr>
+      <tr><td>Very short range</td><td>Antenna band mismatch or loose u.FL</td><td>Antenna must match the band (868 vs 433). Reseat the pigtail.</td></tr>
+      <tr><td>Two nodes 30 cm apart lose packets</td><td>Receiver overload at short range</td><td>Keep 10 dBm and at least 1 m between nodes when testing.</td></tr>
+    </tbody></table>
+  </div>
+</section>
+
+<!-- ============ CONCEPTS ============ -->
+<section class="pane" id="concepts" hidden>
+  <div class="grid3" id="conceptCards"></div>
+  <div class="grid2">
+    <div class="panel">
+      <h3>LoRa airtime calculator</h3>
+      <p class="small muted">Semtech's time-on-air formula. Higher SF reaches farther but each packet takes longer, which costs battery and channel time.</p>
+      <div style="display:grid;gap:10px;margin-top:8px">
+        <label class="row"><span>Spreading factor</span><input type="range" id="aSf" min="7" max="12" value="7"><output id="oSf"></output></label>
+        <label class="row"><span>Bandwidth (kHz)</span><select id="aBw"><option>125</option><option>250</option><option>500</option></select><output></output></label>
+        <label class="row"><span>Coding rate 4/x</span><input type="range" id="aCr" min="5" max="8" value="5"><output id="oCr"></output></label>
+        <label class="row"><span>Payload (bytes)</span><input type="range" id="aPl" min="10" max="255" value="64"><output id="oPl"></output></label>
+      </div>
+      <div class="totals" style="margin-top:14px">
+        <div><span>Time on air</span><b id="rToa">–</b></div>
+        <div><span>Bit rate</span><b id="rBr">–</b></div>
+        <div><span>Max packets/hour at 1%</span><b id="rPph">–</b></div>
+      </div>
+      <p class="small muted" style="margin-top:8px">Preamble 8 symbols, explicit header, CRC on. The 1% column assumes a 1% duty-cycle limit, which is common in sub-GHz bands; confirm the rule for your approved band.</p>
+    </div>
+    <div class="panel">
+      <h3>Link score playground</h3>
+      <p class="small muted">An example of the composite score your adaptive routing will compute per neighbour. Weights and ranges are starting points for you to tune with real data.</p>
+      <div style="display:grid;gap:10px;margin-top:8px">
+        <label class="row"><span>RSSI (dBm)</span><input type="range" id="lR" min="-125" max="-40" value="-95"><output id="oR"></output></label>
+        <label class="row"><span>SNR (dB)</span><input type="range" id="lS" min="-20" max="12" value="2"><output id="oS"></output></label>
+        <label class="row"><span>Delivery ratio (%)</span><input type="range" id="lP" min="0" max="100" value="85"><output id="oP"></output></label>
+        <label class="row"><span>Neighbour battery (%)</span><input type="range" id="lB" min="0" max="100" value="70"><output id="oB"></output></label>
+      </div>
+      <div style="display:flex;gap:16px;align-items:center;margin-top:12px;flex-wrap:wrap">
+        <div class="score" id="lScore">–</div>
+        <div class="small mono" style="min-width:0">score = 0.30·RSSIₙ + 0.25·SNRₙ + 0.30·PDR + 0.15·BAT<br>RSSIₙ = (RSSI + 125) / 85, SNRₙ = (SNR + 20) / 32</div>
+      </div>
+      <p class="small" id="lVerdict" style="margin-top:8px"></p>
+    </div>
+  </div>
+</section>
+
+</div></main>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs={},parent,txt){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;if(parent)parent.appendChild(e);return e}
+function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
+
+/* ---------- tabs ---------- */
+const tabs=$$("nav.tabs button");
+function show(id){tabs.forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===id));$$("section.pane").forEach(s=>s.hidden=s.id!==id);store("mx-tab",id)}
+tabs.forEach(b=>b.onclick=()=>show(b.dataset.tab));
+const h=location.hash.slice(1);show(tabs.some(b=>b.dataset.tab===h)?h:(store("mx-tab")||"overview"));
+
+/* ---------- system flow ---------- */
+const FLOW=[
+ ["Phone A","Android app",`<h3>Phone A</h3><p class="small">Android app (Kotlin/Java, Android Studio). Chat screen plus live topology, hop count, signal strength and delivery ticks. It never touches LoRa; it only talks BLE to its own node.</p>`],
+ ["BLE","~10 m"],
+ ["Node 1","ESP32-S3 + SX1262",`<h3>Source node</h3><p class="small">Receives the text over BLE, encrypts it with AES-256-GCM, wraps it in a mesh packet (source, destination, ID, TTL, sequence) and picks the best next hop from its link-score table.</p>`],
+ ["LoRa","km range"],
+ ["Node 2","relay",`<h3>Relay node</h3><p class="small">Has no phone. Checks the packet ID against recently seen IDs (duplicate suppression), lowers TTL, and forwards it to its best neighbour. Logs RSSI/SNR of every packet it hears to update link scores.</p>`],
+ ["LoRa",""],
+ ["Node 3","relay",`<h3>Relay node</h3><p class="small">If this node is switched off during the demo, Node 2 stops hearing its beacons, its link score drops, and traffic reroutes through another neighbour. That is the route-recovery demo.</p>`],
+ ["LoRa",""],
+ ["Node 4","destination",`<h3>Destination node</h3><p class="small">Decrypts and verifies the message, sends an ACK back along the mesh so Phone A can show "delivered", and pushes the text to Phone B over BLE. If Phone B is not connected it stores the message and forwards later.</p>`],
+ ["BLE",""],
+ ["Phone B","Android app",`<h3>Phone B</h3><p class="small">Shows the message with hop count and delivery status. No cellular, Wi-Fi or internet was used anywhere in the path.</p>`]];
+const flow=$("#flow");
+FLOW.forEach(f=>{if(f.length===2){const d=document.createElement("div");d.className="link";d.textContent=f[0]+(f[1]?" · "+f[1]:"");flow.appendChild(d)}else{const b=document.createElement("button");b.className="node";b.setAttribute("aria-pressed","false");b.innerHTML=`<b>${f[0]}</b><span class="small muted">${f[1]}</span>`;b.onclick=()=>{$$("#flow .node").forEach(x=>x.setAttribute("aria-pressed",x===b));$("#flowInfo").innerHTML=f[2]};flow.appendChild(b)}});
+$$("#flow .node")[0].click();
+
+const STACK=[
+ ["App link","BLE GATT service","The node runs a BLE GATT server with one characteristic to write outgoing texts and one to notify incoming texts and status. ESP32-S3 supports BLE 5, so no extra hardware."],
+ ["Security","AES-256-GCM + signed IDs","GCM encrypts and adds an authentication tag in one step, so a tampered or spoofed packet fails verification. Each node signs its identity so others cannot impersonate it on the shared channel."],
+ ["Routing","adaptive link score","Each node keeps a neighbour table with RSSI, SNR, delivery ratio and battery, combines them into one score, and forwards along the highest-scoring path. You compare it against flooding and shortest-hop on the same nodes."],
+ ["Mesh layer","IDs · TTL · dedupe · ACK","Packet framing, neighbour discovery beacons, TTL-bounded flooding for discovery, duplicate detection with a recent-ID cache, ACK plus retransmission, store-and-forward and route recovery. Written from scratch; Meshtastic is a design reference only."],
+ ["Radio driver","RadioLib (Arduino/ESP-IDF)","Library that turns SX1262 register commands into begin(), transmit(), startReceive(), getRSSI(), getSNR()."],
+ ["Bus","SPI + BUSY + DIO1","ESP32 sends commands over SPI (SCK, MOSI, MISO, NSS). BUSY tells it when the radio can take the next command. DIO1 raises an interrupt when a packet arrives or TX finishes."],
+ ["Copper","SX1262 + antenna","The Semtech chip modulates the data as LoRa chirps in the sub-GHz band, up to about +22 dBm. Range comes from chirp spread spectrum, which can decode signals below the noise floor."]];
+const stack=$("#stack");
+STACK.forEach(s=>{const b=document.createElement("button");b.setAttribute("aria-pressed","false");b.innerHTML=`<span>${s[0]}</span><span>${s[1]}</span>`;b.onclick=()=>{$$("#stack button").forEach(x=>x.setAttribute("aria-pressed",x===b));$("#stackInfo").innerHTML=`<h3>${s[0]}: ${s[1]}</h3><p class="small">${s[2]}</p>`};stack.appendChild(b)});
+$$("#stack button")[2].click();
+
+const G=[["Research LoRa / RF / mesh fundamentals",[0]],["First point-to-point ESP32 ↔ LoRa link",[0,1]],["BLE bridge to Android, phone to phone via two nodes",[2]],["4-node chain: discovery, forwarding, TTL, dedupe",[3]],["Reliability: ACK, retransmit, sequence, store-and-forward, route recovery",[4]],["Security: encryption, node authentication, integrity",[4,5]],["Adaptive routing: collect RSSI/SNR/loss/battery, tune metric",[5]],["Evaluation: adaptive vs shortest-hop vs flooding",[6]],["Field tests across campus",[7]],["Results, thesis, poster, final demo",[8]]];
+const M=["Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr","May"];
+let gh='<div class="m" style="text-align:left">Task</div>'+M.map((m,i)=>`<div class="m${i===1?' now':''}">${m}</div>`).join("");
+G.forEach(g=>{gh+=`<div>${g[0]}</div>`+M.map((m,i)=>`<div class="${i===1?'now':''}" style="padding:0">${g[1].includes(i)?'<div class="on"></div>':''}</div>`).join("")});
+$("#gantt").innerHTML=gh;
+
+/* ---------- wiring schematic ---------- */
+const J1=["3V3","3V3","RST","GPIO4","GPIO5","GPIO6","GPIO7","GPIO15","GPIO16","GPIO17","GPIO18","GPIO8","GPIO3","GPIO46","GPIO9","GPIO10","GPIO11","GPIO12","GPIO13","GPIO14","5V0","G"];
+const W=[
+ {p:1,to:"3V3",dev:"sx",c:"red",g:"pwr",fn:"Power",d:"3.3 V supply for the radio. The SX1262 draws up to ~118 mA during a +22 dBm transmit, so keep this wire short and put the 100 µF + 100 nF capacitors next to the module."},
+ {p:22,to:"GND",dev:"sx",c:"blk",g:"pwr",fn:"Ground",d:"Common ground. Every signal is measured against it, so without it nothing on SPI works even if 3V3 is connected."},
+ {p:16,to:"NSS",dev:"sx",c:"blue",g:"spi",fn:"SPI chip select",d:"ESP32 pulls NSS low to start talking to the radio and high to end the command. Also called CS. An optional 10 kΩ pull-up to 3V3 keeps the radio quiet while the ESP32 boots."},
+ {p:18,to:"SCK",dev:"sx",c:"teal",g:"spi",fn:"SPI clock",d:"ESP32 generates the clock; one bit moves on MOSI and MISO per tick. First thing to probe with the logic analyzer if begin() fails."},
+ {p:17,to:"MOSI",dev:"sx",c:"green",g:"spi",fn:"Data ESP32 → radio",d:"Master Out Slave In. Commands, settings and the packet to transmit travel this way."},
+ {p:19,to:"MISO",dev:"sx",c:"purple",g:"spi",fn:"Data radio → ESP32",d:"Master In Slave Out. Status, received packets, RSSI and SNR come back on this line."},
+ {p:5,to:"RESET",dev:"sx",c:"coral",g:"ctrl",fn:"Radio reset",d:"Pulled low briefly by RadioLib at startup to put the radio in a known state."},
+ {p:4,to:"BUSY",dev:"sx",c:"amber",g:"ctrl",fn:"Radio ready flag",d:"SX126x-specific. High while the radio is processing a command. The driver waits for it to go low before sending the next one; a missing BUSY wire is a classic cause of begin() errors."},
+ {p:12,to:"DIO1",dev:"sx",c:"pink",g:"ctrl",fn:"Interrupt",d:"Goes high when a packet is received or transmission finishes, so the ESP32 does not have to poll the radio. Used by setDio1Action()."},
+ {p:6,to:"RXEN",dev:"sx",c:"grey",g:"ctrl",fn:"RF switch: receive",dash:1,d:"Only on modules with an external RF switch (Ebyte E22, Waveshare Core1262). Turns on the receive path. Skip if your module has no RXEN pin."},
+ {p:7,to:"TXEN",dev:"sx",c:"grey",g:"ctrl",fn:"RF switch: transmit",dash:1,d:"Pair of RXEN. Turns on the transmit power amplifier path. Skip if your module has no TXEN pin."},
+ {p:15,to:"BAT_SENSE",dev:"net",c:"brown",g:"pwr",fn:"Battery voltage (ADC)",d:"Middle of the 100 kΩ / 100 kΩ divider from the switched battery line. GPIO9 is an ADC1 pin, which still works while BLE is on. Gives the battery % your routing score needs. Added by me."},
+ {p:10,to:"OLED_SDA",dev:"net",c:"olive",g:"opt",dash:1,fn:"I²C data (optional OLED)",d:"Stretch goal. SSD1306 0.96\" OLED data line. OLED VCC to 3V3, GND to GND."},
+ {p:11,to:"OLED_SCL",dev:"net",c:"olive",g:"opt",dash:1,fn:"I²C clock (optional OLED)",d:"Stretch goal. OLED clock line. Most OLED boards already include I²C pull-ups."},
+ {p:8,to:"GPS_RX",dev:"net",c:"cyan",g:"opt",dash:1,fn:"UART TX → GPS RX (optional)",d:"Stretch goal. ESP32 GPIO15 transmits to the GPS module's RX pin (TX crosses to RX)."},
+ {p:9,to:"GPS_TX",dev:"net",c:"cyan",g:"opt",dash:1,fn:"GPS TX → UART RX (optional)",d:"Stretch goal. NEO-M8N sends NMEA sentences at 9600 baud into GPIO16."},
+ {p:20,to:"BTN",dev:"net",c:"grey",g:"opt",dash:1,fn:"User button (optional)",d:"Tactile button from GPIO14 to GND, using the internal pull-up. Handy for a test-send or SOS button during field tests."}];
+const yP=k=>40+(k-1)*22;
+let wFilter="all";
+function drawSchem(){
+ const s=$("#schem");s.innerHTML="";
+ const showOpt=wFilter==="opt";
+ const H=showOpt?600:560;s.setAttribute("viewBox",`0 0 780 ${H}`);
+ // ESP32 body
+ el("rect",{x:20,y:14,width:220,height:yP(22)+12,rx:8,fill:"var(--pcb)"},s);
+ el("text",{x:40,y:yP(8),fill:"var(--on-pcb)","font-size":13,"font-weight":600},s,"ESP32-S3");
+ el("text",{x:40,y:yP(9),fill:"var(--on-pcb)","font-size":11,opacity:.75},s,"DevKitC-1 N8R8");
+ el("text",{x:40,y:yP(10),fill:"var(--on-pcb)","font-size":11,opacity:.75},s,"header J1");
+ el("rect",{x:34,y:yP(19)-6,width:44,height:30,rx:3,fill:"none",stroke:"var(--pad)"},s);
+ el("text",{x:38,y:yP(20)+2,fill:"var(--pad)","font-size":9},s,"USB ×2");
+ const used=new Set(W.filter(w=>w.g!=="opt"||showOpt).map(w=>w.p));
+ J1.forEach((n,i)=>{const k=i+1,y=yP(k);
+  const bad=[13,14,21].includes(k);
+  el("text",{x:206,y:y+4,"text-anchor":"end","font-size":11,fill:bad?"var(--w-coral)":"var(--on-pcb)",opacity:used.has(k)||bad?1:.5},s,`${n}`);
+  el("text",{x:226,y:y+4,"text-anchor":"end","font-size":9,fill:"var(--pad)"},s,k);
+  el("circle",{cx:240,cy:y,r:5,fill:"var(--pad)"},s)});
+ el("text",{x:34,y:yP(21)+4,"font-size":9,fill:"var(--w-coral)"},s,"never to radio");
+ el("text",{x:34,y:yP(13)+4,"font-size":9,fill:"var(--w-coral)"},s,"strapping, avoid");
+ // SX1262 module
+ const mx=575;
+ el("rect",{x:mx,y:yP(1)-16,width:150,height:yP(22)-yP(1)+32,rx:8,fill:"var(--mod)"},s);
+ el("text",{x:mx+75,y:yP(9),"text-anchor":"middle",fill:"var(--on-pcb)","font-size":14,"font-weight":600},s,"SX1262");
+ el("text",{x:mx+75,y:yP(10)-4,"text-anchor":"middle",fill:"var(--on-pcb)","font-size":10,opacity:.75},s,"LoRa module (SPI)");
+ el("rect",{x:mx+120,y:yP(13)-8,width:18,height:40,rx:2,fill:"none",stroke:"var(--pad)"},s);
+ el("text",{x:mx+129,y:yP(13)+50,"text-anchor":"middle",fill:"var(--pad)","font-size":9},s,"ANT");
+ W.forEach(w=>{
+  if(w.g==="opt"&&!showOpt)return;
+  const y=yP(w.p),g=el("g",{class:"hot wire","data-p":w.p,tabindex:0},s);
+  const x2=w.dev==="sx"?mx:470;
+  el("line",{x1:240,y1:y,x2,y2:y,stroke:`var(--w-${w.c})`,"stroke-width":4,"stroke-linecap":"round","stroke-dasharray":w.dash?"8 6":"none"},g);
+  el("line",{x1:240,y1:y,x2,y2:y,stroke:"transparent","stroke-width":16},g);
+  el("text",{x:250,y:y-5,"font-size":10,fill:"var(--muted)"},g,w.fn);
+  if(w.dev==="sx"){el("circle",{cx:mx,cy:y,r:5,fill:"var(--pad)"},g);el("text",{x:mx+10,y:y+4,"font-size":11,fill:"var(--on-pcb)"},g,w.to)}
+  else{const fw=w.to.length*7+16;el("path",{d:`M470 ${y} l8 -9 h${fw} v18 h-${fw} z`,fill:"var(--surface)",stroke:`var(--w-${w.c})`,"stroke-width":1.5},g);el("text",{x:482,y:y+4,"font-size":10,fill:"var(--ink)"},g,w.to)}
+  g.onmouseenter=g.onfocus=g.onclick=()=>pickWire(w.p)});
+ // net-label parts
+ el("text",{x:20,y:548,"font-size":11,fill:"var(--muted)"},s,"BAT_SENSE ← middle of the 100k/100k battery divider (see Power tab)");
+ if(showOpt)el("text",{x:20,y:568,"font-size":11,fill:"var(--muted)"},s,"OLED SSD1306: VCC→3V3, GND, SDA, SCL · GPS NEO-M8N: VCC→3V3, GND, RX, TX · BTN → GND");
+ applyFilter()}
+function applyFilter(){
+ $$("#schem .wire").forEach(g=>{const w=W.find(x=>x.p==+g.dataset.p);g.classList.toggle("dim",!(wFilter==="all"||wFilter==="opt"||w.g===wFilter))});
+ $$("#pinTable tbody tr").forEach(r=>{const w=W.find(x=>x.p==+r.dataset.p);r.hidden=w.g==="opt"&&wFilter!=="opt"})}
+function pickWire(p){
+ const w=W.find(x=>x.p===p);
+ $$("#schem .wire").forEach(g=>g.classList.toggle("dim",+g.dataset.p!==p));
+ $$("#pinTable tbody tr").forEach(r=>r.classList.toggle("hl",+r.dataset.p===p));
+ $("#wireInfo").innerHTML=`<h3><span class="sw" style="background:var(--w-${w.c})"></span>${w.fn}</h3><p class="small"><b>J1 pin ${w.p} (${J1[w.p-1]})</b> → <b>${w.to}</b>${w.dash&&w.g!=="opt"?' · only if your module has it':''}${w.g==="opt"?' · optional':''}</p><p class="small">${w.d}</p>`}
+const pt=$("#pinTable tbody");
+W.forEach(w=>{const r=document.createElement("tr");r.dataset.p=w.p;r.innerHTML=`<td><span class="sw" style="background:var(--w-${w.c})"></span>${w.c}${w.dash?" (dashed)":""}</td><td class="mono">pin ${w.p}, ${J1[w.p-1]}</td><td class="mono">${w.dev==="sx"?"SX1262 ":""}${w.to}</td><td>${w.fn}</td>`;r.onmouseenter=r.onclick=()=>pickWire(w.p);pt.appendChild(r)});
+$$("#wireTb button").forEach(b=>b.onclick=()=>{wFilter=b.dataset.f;$$("#wireTb button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawSchem()});
+drawSchem();
+
+/* ---------- breadboard ---------- */
+(function(){
+ const s=$("#bb"),X0=40,P=13,col=c=>X0+(c-1)*P;
+ const Y={rp:200,rn:213,a:236,b:249,c:262,d:275,e:288,f:320,g:333,h:346,i:359,j:372,rp2:396,rn2:409};
+ const info=(t,d)=>$("#bbInfo").innerHTML=`<h3>${t}</h3><p class="small">${d}</p>`;
+ const hot=(g,t,d)=>{g.classList.add("hot");g.setAttribute("tabindex",0);g.onmouseenter=g.onfocus=g.onclick=()=>info(t,d)};
+ // board
+ el("rect",{x:X0-18,y:186,width:63*P+24,height:236,rx:6,fill:"var(--bb)",stroke:"var(--bb-hole)"},s);
+ el("rect",{x:X0-18,y:300,width:63*P+24,height:8,fill:"var(--bb-hole)",opacity:.35},s);
+ [["rp","var(--w-red)","+"],["rn","var(--w-blue)","−"],["rp2","var(--w-red)","+"],["rn2","var(--w-blue)","−"]].forEach(([k,c,l])=>{el("line",{x1:X0-6,y1:Y[k]+(k.startsWith("rp")?-7:7),x2:col(63)+6,y2:Y[k]+(k.startsWith("rp")?-7:7),stroke:c,"stroke-width":1.5},s);el("text",{x:X0-14,y:Y[k]+4,"font-size":11,fill:c},s,l)});
+ for(let c=1;c<=63;c++){
+  ["a","b","c","d","e","f","g","h","i","j"].forEach(r=>el("rect",{x:col(c)-2.5,y:Y[r]-2.5,width:5,height:5,fill:"var(--bb-hole)"},s));
+  if(c%6!==0)["rp","rn","rp2","rn2"].forEach(r=>el("rect",{x:col(c)-2.5,y:Y[r]-2.5,width:5,height:5,fill:"var(--bb-hole)"},s));
+  if(c%5===0||c===1)el("text",{x:col(c),y:430,"font-size":8,"text-anchor":"middle",fill:"var(--muted)"},s,c)}
+ ["a","b","c","d","e","f","g","h","i","j"].forEach(r=>el("text",{x:X0-12,y:Y[r]+3,"font-size":8,fill:"var(--muted)"},s,r));
+ // ESP32
+ const eg=el("g",{},s);
+ el("rect",{x:col(4),y:Y.c-9,width:col(34)-col(4),height:Y.j-Y.c+18,rx:4,fill:"var(--pcb)",opacity:.94},eg);
+ el("rect",{x:col(4)-10,y:Y.e+2,width:22,height:20,rx:3,fill:"#9aa3a2"},eg);
+ el("rect",{x:col(4)-10,y:Y.h-6,width:22,height:20,rx:3,fill:"#9aa3a2"},eg);
+ el("text",{x:col(4)+16,y:Y.e+16,"font-size":8,fill:"var(--on-pcb)"},eg,"UART");
+ el("text",{x:col(4)+16,y:Y.h+8,"font-size":8,fill:"var(--on-pcb)"},eg,"USB");
+ el("rect",{x:col(30)+4,y:Y.d,width:col(34)-col(30)-8,height:Y.h-Y.d,rx:2,fill:"none",stroke:"var(--pad)"},eg);
+ el("text",{x:col(32),y:Y.f+4,"font-size":8,"text-anchor":"middle",fill:"var(--pad)"},eg,"WiFi/BLE ant");
+ el("text",{x:col(12),y:Y.f+4,"font-size":12,"font-weight":600,fill:"var(--on-pcb)"},eg,"ESP32-S3-DevKitC-1");
+ for(let k=1;k<=22;k++){const c=30-k;el("circle",{cx:col(c),cy:Y.c,r:3.2,fill:"var(--pad)"},eg);el("circle",{cx:col(c),cy:Y.j,r:3.2,fill:"var(--pad)"},eg)}
+ el("text",{x:col(8)-3,y:Y.d+4,"font-size":7,fill:"var(--on-pcb)"},eg,"G");
+ el("text",{x:col(29)-6,y:Y.d+4,"font-size":7,fill:"var(--on-pcb)"},eg,"3V3");
+ el("text",{x:col(19),y:Y.i,"font-size":8,fill:"var(--on-pcb)",opacity:.7},eg,"J3 (row j): no wires");
+ hot(eg,"ESP32-S3-DevKitC-1","Straddles the centre gap. J1 sits in row c (pin 22 G in column 8, pin 1 3V3 in column 29), J3 in row j. Two USB-C ports on the left: UART for flashing and serial monitor, USB for native USB.");
+ // SX1262 module
+ const sx=el("g",{},s),MX=150,MY=36,MW=440;
+ el("rect",{x:MX,y:MY,width:MW,height:74,rx:6,fill:"var(--mod)"},sx);
+ el("text",{x:MX+14,y:MY+22,"font-size":13,"font-weight":600,fill:"var(--on-pcb)"},sx,"SX1262 LoRa module");
+ el("text",{x:MX+14,y:MY+38,"font-size":10,fill:"var(--on-pcb)",opacity:.75},sx,"off-board, on M-F jumpers · match pins by printed names");
+ el("rect",{x:MX+MW,y:MY+28,width:14,height:12,fill:"var(--pad)"},sx);
+ el("rect",{x:MX+MW+14,y:MY+20,width:40,height:8,rx:4,fill:"var(--w-blk)"},sx);
+ el("text",{x:MX+MW+16,y:MY+48,"font-size":9,fill:"var(--muted)"},sx,"antenna (SMA/u.FL)");
+ hot(sx,"SX1262 module","Sits above the breadboard on female jumper ends, so its own pin spacing never matters. Attach the antenna before power. The real pin order on your module will differ from this drawing.");
+ const sig=[["MISO",11,"purple"],["SCK",12,"teal"],["MOSI",13,"green"],["NSS",14,"blue"],["DIO1",18,"pink"],["TXEN",23,"grey",1],["RXEN",24,"grey",1],["RESET",25,"coral"],["BUSY",26,"amber"],["3V3",45,"red"],["GND",46,"blk"]];
+ sig.forEach((q,i)=>{const px=MX+22+i*38,py=MY+74;
+  el("circle",{cx:px,cy:py,r:4,fill:"var(--pad)"},sx);
+  el("text",{x:px,y:py-8,"font-size":8.5,"text-anchor":"middle",fill:"var(--on-pcb)"},sx,q[0]);
+  const fy=q[1]>=45?Y.rp-(q[0]==="GND"?-13:0):Y.a;
+  const g=el("g",{},s);
+  el("path",{d:`M${col(q[1])} ${fy} C${col(q[1])} ${fy-50} ${px} ${py+50} ${px} ${py}`,fill:"none",stroke:`var(--w-${q[2]})`,"stroke-width":3.2,"stroke-linecap":"round","stroke-dasharray":q[3]?"7 5":"none"},g);
+  el("path",{d:`M${col(q[1])} ${fy} C${col(q[1])} ${fy-50} ${px} ${py+50} ${px} ${py}`,fill:"none",stroke:"transparent","stroke-width":12},g);
+  el("circle",{cx:col(q[1]),cy:fy,r:3.5,fill:`var(--w-${q[2]})`},g);
+  const w=W.find(x=>x.to===q[0]);
+  hot(g,`${q[0]} jumper (M-F)`,q[1]>=45?`From the ${q[0]==="3V3"?"+":"−"} rail at column ${q[1]} to the module ${q[0]} pin. ${w?w.d:""}`:`Male end in column ${q[1]} row a (J1 pin ${30-q[1]}, ${J1[29-q[1]]}). Female end on module ${q[0]}. ${w?w.d:""}`)});
+ // rail wires from ESP32
+ [[8,"rn","blk","GND rail wire","Column 8 row a (J1 pin 22, G) to the − rail. Makes the rail the common ground."],[29,"rp","red","3V3 rail wire","Column 29 row a (J1 pin 1, 3V3) to the + rail. The battery regulator also feeds this rail, which is why USB and battery must not be on together."]].forEach(([c,r,co,t,d])=>{const g=el("g",{},s);const x2=c===8?col(6):col(31);el("path",{d:`M${col(c)} ${Y.a} Q${(col(c)+x2)/2} ${Y.a-34} ${x2} ${Y[r]}`,fill:"none",stroke:`var(--w-${co})`,"stroke-width":3.5,"stroke-linecap":"round"},g);el("circle",{cx:col(c),cy:Y.a,r:3.5,fill:`var(--w-${co})`},g);el("circle",{cx:x2,cy:Y[r],r:3.5,fill:`var(--w-${co})`},g);hot(g,t,d)});
+ // caps
+ const cg=el("g",{},s);
+ el("line",{x1:col(40),y1:Y.rp,x2:col(40),y2:Y.rn,stroke:"var(--ink)","stroke-width":2},cg);
+ el("circle",{cx:col(40),cy:Y.rp-18,r:9,fill:"#2b4c8c"},cg);el("rect",{x:col(40)+3,y:Y.rp-27,width:3,height:18,fill:"#dfe6f2"},cg);
+ el("line",{x1:col(40),y1:Y.rp-9,x2:col(40),y2:Y.rp,stroke:"var(--ink)","stroke-width":2},cg);
+ el("text",{x:col(40)-12,y:Y.rp-31,"font-size":8,fill:"var(--muted)"},cg,"100µF");
+ hot(cg,"100 µF electrolytic (≥10 V)","Across + and − rails. A reservoir for the transmit current spike so the 3V3 rail does not dip and reset the ESP32. Striped leg is negative and goes on the − rail.");
+ const cg2=el("g",{},s);
+ el("line",{x1:col(42),y1:Y.rp,x2:col(42),y2:Y.rp-12,stroke:"var(--ink)","stroke-width":2},cg2);
+ el("rect",{x:col(42)-6,y:Y.rp-22,width:12,height:10,rx:3,fill:"#d9a441"},cg2);
+ el("line",{x1:col(42),y1:Y.rp-12,x2:col(42),y2:Y.rn,stroke:"var(--ink)","stroke-width":2,opacity:0},cg2);
+ el("text",{x:col(42)-2,y:Y.rp-26,"font-size":8,fill:"var(--muted)"},cg2,"100nF");
+ hot(cg2,"100 nF ceramic","Filters fast, high-frequency noise that the big electrolytic is too slow for. Not polarised.");
+ // divider
+ const dg=el("g",{},s);
+ el("rect",{x:col(44),y:Y.c-4,width:col(47)-col(44),height:8,rx:3,fill:"#c8a27a"},dg);
+ el("text",{x:col(44),y:Y.d+6,"font-size":8,fill:"var(--muted)"},dg,"R1 100k");
+ el("line",{x1:col(47),y1:Y.b,x2:col(47),y2:Y.rn,stroke:"var(--ink)","stroke-width":1.5},dg);
+ el("rect",{x:col(47)-4,y:Y.rn+4,width:8,height:Y.b-Y.rn-8,rx:3,fill:"#c8a27a"},dg);
+ el("text",{x:col(47)+7,y:Y.a+3,"font-size":8,fill:"var(--muted)"},dg,"R2");
+ hot(dg,"Battery-sense divider (2 × 100 kΩ)","R1 from column 44 (switched battery voltage) to column 47. R2 from column 47 to the − rail. Column 47 carries half the battery voltage, which the brown jumper takes to GPIO9.");
+ const bs=el("g",{},s);
+ el("path",{d:`M${col(47)} ${Y.a} C${col(47)} ${Y.a-70} ${col(15)} ${Y.a-70} ${col(15)} ${Y.a}`,fill:"none",stroke:"var(--w-brown)","stroke-width":3.2},bs);
+ el("circle",{cx:col(15),cy:Y.a,r:3.5,fill:"var(--w-brown)"},bs);el("circle",{cx:col(47),cy:Y.a,r:3.5,fill:"var(--w-brown)"},bs);
+ hot(bs,"BAT_SENSE jumper (M-M)","Column 47 row a to column 15 row a (J1 pin 15, GPIO9, ADC). Read it with analogReadMilliVolts(9) × 2.");
+ // power modules (top right)
+ const pg=el("g",{},s),PX=670;
+ el("rect",{x:PX,y:24,width:110,height:50,rx:5,fill:"#1f3f8a"},pg);el("text",{x:PX+8,y:44,"font-size":11,"font-weight":600,fill:"#fff"},pg,"TP4056");el("text",{x:PX+8,y:60,"font-size":8.5,fill:"#dfe6f2"},pg,"USB-C in · protected");
+ el("rect",{x:PX+130,y:24,width:110,height:50,rx:5,fill:"#6a1f6e"},pg);el("text",{x:PX+138,y:44,"font-size":11,"font-weight":600,fill:"#fff"},pg,"Buck-boost");el("text",{x:PX+138,y:60,"font-size":8.5,fill:"#f1dff2"},pg,"TPS63802 → 3.3 V");
+ el("rect",{x:PX,y:104,width:90,height:46,rx:8,fill:"#3b6e3b"},pg);el("text",{x:PX+8,y:124,"font-size":11,"font-weight":600,fill:"#fff"},pg,"Li-ion 1S");el("text",{x:PX+8,y:140,"font-size":8.5,fill:"#e3f0e3"},pg,"3.7 V 4000 mAh");
+ el("rect",{x:PX+112,y:118,width:26,height:16,rx:3,fill:"var(--surface)",stroke:"var(--ink)"},pg);el("text",{x:PX+104,y:150,"font-size":8.5,fill:"var(--muted)"},pg,"ON/OFF");
+ el("path",{d:`M${PX+30} 104 V74 M${PX+60} 104 V74`,stroke:"var(--w-red)","stroke-width":2.5},pg);
+ el("path",{d:`M${PX+110} 40 H${PX+125} V126 H${PX+138} M${PX+125} 126 H${PX+112}`,stroke:"var(--w-red)","stroke-width":2.5,fill:"none"},pg);
+ el("path",{d:`M${PX+138} 126 H${PX+150} V60 H${PX+130}`,stroke:"var(--w-red)","stroke-width":2.5,fill:"none"},pg);
+ el("text",{x:PX+152,y:96,"font-size":8,fill:"var(--muted)"},pg,"VSYS");
+ hot(pg,"Power modules","Battery → TP4056 (B+/B−). TP4056 OUT+ → ON/OFF switch → buck-boost VIN (this switched line is VSYS). Buck-boost VOUT 3.3 V → + rail, GND → − rail. Detailed drawing in the Power tab.");
+ [[55,"rp","red","3.3 V from buck-boost","Buck-boost VOUT to the + rail at column 55. This powers the ESP32 (through its 3V3 pin) and the radio."],[56,"rn","blk","GND from power modules","TP4056 OUT− and buck-boost GND to the − rail at column 56. One common ground for everything."],[44,"a","brown","VSYS to divider","Switched battery line (after the ON/OFF switch) into column 44, the top of R1. Switching it off also stops the divider draining the battery."]].forEach(([c,r,co,t,d],i)=>{const g=el("g",{},s);const sx2=[PX+190,PX+200,PX+150][i],sy=[74,74,90][i];el("path",{d:`M${sx2} ${sy} C${sx2} ${sy+70} ${col(c)} ${Y[r]-60} ${col(c)} ${Y[r]}`,fill:"none",stroke:`var(--w-${co})`,"stroke-width":3,"stroke-linecap":"round"},g);el("circle",{cx:col(c),cy:Y[r],r:3.5,fill:`var(--w-${co})`},g);hot(g,t,d)});
+ el("text",{x:X0,y:470,"font-size":11,fill:"var(--muted)"},s,"Dashed grey = RXEN/TXEN, only if your module has them. Rails shown continuous; bridge split rails.");
+ // column table
+ const ct=$("#colTable tbody");
+ [[8,22,"Black → − rail"],[11,19,"MISO (purple)"],[12,18,"SCK (teal)"],[13,17,"MOSI (green)"],[14,16,"NSS (blue)"],[15,15,"BAT_SENSE ← column 47 (brown)"],[18,12,"DIO1 (pink)"],[23,7,"TXEN, if present (grey)"],[24,6,"RXEN, if present (grey)"],[25,5,"RESET (coral)"],[26,4,"BUSY (amber)"],[29,1,"Red → + rail"]].forEach(r=>{ct.insertAdjacentHTML("beforeend",`<tr><td class="mono">${r[0]}</td><td class="mono">${r[1]} (${J1[r[1]-1]})</td><td>${r[2]}</td></tr>`)});
+ ct.insertAdjacentHTML("beforeend",`<tr><td class="mono">40, 42</td><td>–</td><td>100 µF and 100 nF across rails</td></tr><tr><td class="mono">44–47</td><td>–</td><td>Battery divider R1, R2</td></tr><tr><td class="mono">45, 46</td><td>–</td><td>Module 3V3 / GND from rails</td></tr><tr><td class="mono">55, 56</td><td>–</td><td>Buck-boost 3.3 V / GND in</td></tr>`);
+})();
+
+/* ---------- power schematic ---------- */
+(function(){
+ const s=$("#pwr");
+ const info=(t,d)=>$("#pwrInfo").innerHTML=`<h3>${t}</h3><p class="small">${d}</p>`;
+ const part=(x,y,w,h,fill,t1,t2,title,desc)=>{const g=el("g",{class:"hot",tabindex:0},s);el("rect",{x,y,width:w,height:h,rx:6,fill},g);el("text",{x:x+w/2,y:y+h/2-3,"text-anchor":"middle","font-size":12,"font-weight":600,fill:"#fff"},g,t1);el("text",{x:x+w/2,y:y+h/2+13,"text-anchor":"middle","font-size":9,fill:"#fff",opacity:.85},g,t2);g.onmouseenter=g.onfocus=g.onclick=()=>info(title,desc);return g};
+ const line=(d,c="red",w=3)=>el("path",{d,fill:"none",stroke:`var(--w-${c})`,"stroke-width":w,"stroke-linejoin":"round"},s);
+ const lbl=(x,y,t,c="muted")=>el("text",{x,y,"font-size":10,fill:`var(--${c})`},s,t);
+ const GY=320;
+ line(`M20 ${GY} H780`,"blk",2.5);lbl(24,GY+16,"GND (common)");
+ // USB
+ line("M70 80 H120");line(`M50 100 V${GY}`,"blk",2.5);
+ part(20,56,50,48,"#5b6670","USB-C","5 V in","USB-C 5 V input","Phone charger or laptop. Charges the cell at about 1 A through the TP4056. The ESP32's own USB-C is only for flashing.");
+ lbl(76,72,"5V");
+ // TP4056
+ part(120,40,150,100,"#1f3f8a","TP4056 + DW01A","charger · protection","TP4056 charger with protection","Charges the 1S cell to 4.2 V. The DW01A + FS8205A on the same board cut the load at over-charge, over-discharge (~2.5 V) and short circuit. Buy the 6-pin version marked B+ B− OUT+ OUT−. It is not a 3.3 V regulator.");
+ lbl(124,154,"B+");lbl(250,154,"B−");lbl(274,74,"OUT+");lbl(274,128,"OUT−");
+ line("M140 140 V190");line(`M255 140 V170 H255`,"blk",2.5);
+ part(110,190,120,60,"#3b6e3b","Li-ion 1S","3.7 V · 3000–5000 mAh","Li-ion / LiPo cell","Protected 1S cell, 4.2 V full, 3.0 V empty for planning. 4000 mAh is the recommended start. JST-PH 2.0 connector; check polarity, since JST-PH red/black order is not standard across sellers.");
+ line(`M230 230 H255 V140`,"blk",2.5);
+ line(`M270 128 H290 V${GY}`,"blk",2.5);
+ // switch
+ line("M270 80 H330");
+ const sw=el("g",{class:"hot",tabindex:0},s);el("circle",{cx:334,cy:80,r:4,fill:"var(--ink)"},sw);el("circle",{cx:376,cy:80,r:4,fill:"var(--ink)"},sw);el("line",{x1:334,y1:80,x2:372,y2:66,stroke:"var(--ink)","stroke-width":3},sw);el("text",{x:330,y:56,"font-size":10,fill:"var(--muted)"},sw,"SW1 ON/OFF");el("rect",{x:320,y:50,width:70,height:40,fill:"transparent"},sw);
+ sw.onmouseenter=sw.onfocus=sw.onclick=()=>info("SW1 ON/OFF switch","SPST slide or rocker switch on the protected OUT+ line. Off disconnects the regulator and the battery divider, so a stored node does not drain.");
+ line("M380 80 H470");lbl(386,100,"VSYS 3.0–4.2 V");
+ // divider
+ line("M420 80 V150");
+ const dv=el("g",{class:"hot",tabindex:0},s);
+ el("rect",{x:412,y:150,width:16,height:40,rx:3,fill:"#c8a27a"},dv);el("text",{x:434,y:174,"font-size":10,fill:"var(--ink)"},dv,"R1 100k");
+ el("rect",{x:412,y:220,width:16,height:40,rx:3,fill:"#c8a27a"},dv);el("text",{x:434,y:244,"font-size":10,fill:"var(--ink)"},dv,"R2 100k");
+ el("rect",{x:398,y:146,width:90,height:120,fill:"transparent"},dv);
+ dv.onmouseenter=dv.onfocus=dv.onclick=()=>info("Battery-sense divider","Two equal resistors halve VSYS (4.2 V → 2.1 V) so it is safe for the ESP32 ADC. The middle point goes to GPIO9. A 100 nF capacitor from the middle to GND is optional and steadies the reading.");
+ line("M420 190 V220","brown");line("M420 205 H360","brown");lbl(300,209,"→ GPIO9","ink");
+ line(`M420 260 V${GY}`,"blk",2.5);
+ // regulator
+ part(470,40,150,100,"#6a1f6e","TPS63802","buck-boost · 3.3 V · 2 A","3.3 V buck-boost regulator","Keeps 3.3 V whether the cell is above or below 3.3 V. Needs ≥1 A continuous, 1.5–2 A peak for ESP32 + SX1262 spikes. Verified local price Rs. 1,330. Alternatives: TPS63020/TPS63070 module, or a low-dropout LDO (AP2112K, RT9080) for bench tests only.");
+ lbl(474,154,"VIN");lbl(590,154,"GND");lbl(624,74,"VOUT");
+ line(`M600 140 V${GY}`,"blk",2.5);
+ line("M620 80 H795");lbl(668,72,"3V3 rail");
+ // caps
+ const cp=el("g",{class:"hot",tabindex:0},s);
+ line(`M660 80 V180`);line(`M700 80 V180`);
+ el("rect",{x:648,y:180,width:24,height:6,fill:"var(--ink)"},cp);el("rect",{x:648,y:192,width:24,height:6,fill:"var(--ink)"},cp);
+ el("rect",{x:688,y:180,width:24,height:6,fill:"var(--ink)"},cp);el("rect",{x:688,y:192,width:24,height:6,fill:"var(--ink)"},cp);
+ el("text",{x:640,y:214,"font-size":9,fill:"var(--ink)"},cp,"C1 100µF");el("text",{x:686,y:228,"font-size":9,fill:"var(--ink)"},cp,"C2 100nF");
+ el("rect",{x:640,y:170,width:80,height:62,fill:"transparent"},cp);
+ cp.onmouseenter=cp.onfocus=cp.onclick=()=>info("Decoupling capacitors","C1 100 µF electrolytic holds charge for the transmit spike; C2 100 nF ceramic kills fast noise. Place them close to the radio's 3V3 and GND.");
+ line(`M660 198 V${GY}`,"blk",2.5);line(`M700 198 V${GY}`,"blk",2.5);
+ // loads
+ part(730,96,60,52,"var(--pcb)","ESP32","3V3 pin","ESP32-S3 3V3 pin","The regulator feeds J1 pin 1 directly, bypassing the board's own LDO. Average 40–100 mA with BLE active, short peaks higher.");
+ part(730,170,60,52,"var(--mod)","SX1262","3V3","SX1262 3V3","About 5 mA receiving, up to about 118 mA transmitting at +22 dBm.");
+ line("M760 80 V96");line("M795 80 V196 H790");
+ line(`M760 222 V${GY}`,"blk",2.5);line(`M740 148 V158 H724 V${GY}`,"blk",2.5);
+})();
+
+/* ---------- battery estimator ---------- */
+function txmA(dbm){return 25+(dbm-10)*(118-25)/12*(dbm>10?1:0)-(dbm<10?(10-dbm)*1.5:0)}
+function life(){
+ const bat=+$("#pBat").value,mcu=+$("#pMcu").value,tx=+$("#pTx").value,duty=+$("#pDuty").value/100;
+ $("#oBat").value=bat;$("#oMcu").value=mcu+" mA";$("#oTx").value=tx+" dBm";$("#oDuty").value=(duty*100).toFixed(1)+"%";
+ const t=txmA(tx),radio=duty*t+(1-duty)*5,avg=(mcu+radio)/0.9,peak=(mcu+60+t)/0.9;
+ const hrs=bat*0.85/avg;
+ $("#rAvg").textContent=avg.toFixed(0)+" mA";$("#rPeak").textContent="≈"+peak.toFixed(0)+" mA";
+ $("#rLife").textContent=hrs>=48?(hrs/24).toFixed(1)+" days":hrs.toFixed(0)+" h"}
+["#pBat","#pMcu","#pTx","#pDuty"].forEach(i=>$(i).oninput=life);life();
+
+/* ---------- BOM ---------- */
+const CAT={core:"Node core",power:"Power",small:"Small parts",proto:"Prototyping",tools:"Tools",opt:"Optional"};
+const BOM=[
+ {c:"core",n:"ESP32-S3-DevKitC-1 (N8R8)",sp:"ESP32-S3-WROOM-1-N8R8 · 8 MB flash · 8 MB PSRAM · 3.3 V logic · BLE 5 · USB",q6:7,q2:2,pr:[1750,9783],why:"The node's brain: runs the mesh protocol, routing, encryption and the BLE link to the phone.",at:"Drives the SX1262 over SPI from header J1.",alt:["ESP32-S3 DevKitC N16R8 clone (same pinout, very common locally)","Heltec WiFi LoRa 32 V3: ESP32-S3 + SX1262 on one board, no wiring","LilyGO T3-S3 SX1262 version (integrated radio)","ESP32-S3 Super Mini: cheap and tiny, fewer pins, harder to debug"],note:"6 nodes + 1 spare. Ampflick Rs. 1,750 vs Daraz Rs. 9,783: check it is genuine N8R8 before buying the cheap one."},
+ {c:"core",n:"SX1262 LoRa module (SPI)",sp:"Semtech SX1262 · SPI exposed · sub-GHz · 3.3 V · up to ≈ +22 dBm · band matched to Pakistan approval",q6:7,q2:2,pr:[3000,4000],why:"The radio that sends and receives LoRa packets. Specified in your accepted proposal.",at:"9 signal wires + 3V3 + GND to ESP32 J1.",alt:["Waveshare Core1262-868M (or -LF for 433 MHz), 2.54 mm pins, has RXEN/TXEN","Ebyte E22-900M22S / E22-400M22S: SMD stamp holes, needs an adapter board","LLCC68: Ebyte E220-900M22S, cheaper SX126x family, SF limited to 5–11 at 125 kHz","SX1278 Ai-Thinker Ra-02 (433 MHz), mature and cheap","SX1276 RFM95W / RFM96: Rs. 1,750–2,624 locally, needs supervisor approval"],note:"Do NOT buy UART modules (E22-xxxT22D, E220-xxxT22D). The proposal needs SPI. No stable local listing was found; price is an estimate.",bad:"UART modules"},
+ {c:"core",n:"LoRa antenna",sp:"Matched to the final band · 50 Ω · omnidirectional · 2–5 dBi · vertical · connector matching module",q6:8,q2:2,pr:[500,1000],why:"Without a matched antenna range collapses and transmitting can damage the radio.",at:"SMA or u.FL socket on the SX1262 module.",alt:["Flexible whip","Rubber-duck SMA","Quarter-wave wire: ≈ 8.6 cm at 868 MHz, ≈ 17.3 cm at 433 MHz (cut slightly long, trim)"],note:"6 + 2 spares. Never mix bands: an 868 MHz antenna on a 433 MHz radio performs badly."},
+ {c:"core",n:"u.FL (IPEX) to SMA pigtail",sp:"IPEX-1 to SMA female bulkhead · 10–15 cm",q6:8,q2:2,pr:[150,300],add:1,why:"Many SX1262 modules only have a tiny u.FL socket; this lets you screw on a normal antenna.",at:"Module u.FL socket → SMA antenna.",alt:["Module with an onboard SMA connector (skip the pigtail)"],note:"Only needed if your module has u.FL. u.FL is rated for a few dozen plug cycles, so plug once and leave it. Price is my estimate."},
+ {c:"power",n:"3.7 V Li-ion / LiPo battery (1S)",sp:"3.7 V nominal · 4.2 V full · 3000–5000 mAh (4000 recommended) · protected cell",q6:7,q2:2,pr:[700,1100],why:"Lets nodes run off-grid around campus for the field tests.",at:"TP4056 B+ / B−.",alt:["3000 mAh protected 1S","5000 mAh protected 1S","18650 cell + single-cell holder"],note:"Choose final capacity after measuring the real node current. Digilog 4000 mAh Rs. 710 (sold out), Daraz Rs. 1,099."},
+ {c:"power",n:"TP4056 charger + protection (Type-C)",sp:"1S · 5 V in · ≈1 A charge · over-charge, over-discharge, short-circuit protection (DW01A + FS8205A)",q6:7,q2:2,pr:[70,180],why:"Charges the cell safely from USB and protects it from abuse.",at:"USB-C in · B+/B− to battery · OUT+/OUT− to switch and regulator.",alt:["MCP73831 charger module (add a protection board)","IP5306 power-bank module (gives 5 V, feed the ESP32 5V pin instead)","18650 battery shield (V3/V8): charger + 5 V/3.3 V outputs in one board"],note:"Get the 6-pin version with OUT+/OUT−. A charger is not a 3.3 V regulator."},
+ {c:"power",n:"3.3 V buck-boost regulator",sp:"Stable 3.3 V out · ≥1 A continuous · 1.5–2 A peak · works from 3.0 to 4.2 V in",q6:7,q2:2,pr:[800,1350],why:"Makes a steady 3.3 V across the whole battery discharge for ESP32 + SX1262 transmit spikes.",at:"VIN from switched OUT+ · VOUT to the 3V3 rail.",alt:["TPS63802 1–2 A module (Rs. 1,330 verified)","TPS63020 / TPS63070 buck-boost module","AP2112K-3.3 or RT9080 LDO, bench prototype only","Avoid AMS1117 (needs ≈4.4 V in) and MP1584 buck (stops below ≈4 V)"],note:"The Rs. 545 600 mA module is likely too weak for TX peaks."},
+ {c:"power",n:"ON/OFF power switch (SPST)",sp:"Small slide or rocker · ≥1 A rating",q6:7,q2:2,pr:[50,100],why:"Turns the node off and stops the battery divider draining the cell.",at:"Between TP4056 OUT+ and regulator VIN.",alt:["SS12D00 slide switch","KCD1 mini rocker"]},
+ {c:"power",n:"Battery connectors (JST-PH 2.0)",sp:"Matching the battery plug · male + female pairs",q6:10,q2:4,pr:[100,200],why:"Lets you unplug batteries for charging and transport without cutting wires.",at:"Battery ↔ TP4056 B+/B−.",alt:["JST-XH or another locking connector that matches your battery"],note:"Check polarity with a multimeter: red/black order is not consistent across sellers."},
+ {c:"power",n:"Battery-sense divider: 2 × 100 kΩ (+ 100 nF)",sp:"1/4 W resistors · optional 100 nF ceramic",q6:6,q2:2,pr:[0,0],add:1,kit:1,why:"Your adaptive routing uses battery level. This is how the ESP32 measures it.",at:"VSYS → R1 → GPIO9 → R2 → GND.",alt:["Fuel-gauge IC such as MAX17048 over I²C (more accurate, extra cost)"],note:"Comes from the resistor kit. My addition."},
+ {c:"small",n:"Decoupling capacitors: 100 µF + 100 nF",sp:"100 µF electrolytic ≥10 V · 100 nF ceramic (104)",q6:6,q2:2,pr:[0,0],add:1,kit:1,why:"Stops the 3V3 rail dipping when the radio transmits, which otherwise resets the ESP32.",at:"Across + and − rails, close to the radio's power wires.",alt:["47–220 µF electrolytic works","Tantalum 47 µF"],note:"From the capacitor kit."},
+ {c:"small",n:"10 kΩ pull-up on NSS",sp:"1/4 W resistor",q6:6,q2:2,pr:[0,0],add:1,kit:1,opt:1,why:"Keeps the radio deselected while the ESP32 boots. Most modules already have one.",at:"NSS ↔ 3V3.",alt:["Skip if the module has an onboard pull-up"]},
+ {c:"small",n:"Status LED + 220 Ω",sp:"3 mm or 5 mm LED · 220 Ω series resistor",q6:6,q2:2,pr:[0,0],kit:1,opt:1,why:"Shows TX/RX activity during field tests.",at:"Any free GPIO → 220 Ω → LED → GND.",alt:["Use the onboard RGB LED (GPIO48 on v1.0, GPIO38 on v1.1), no extra parts"]},
+ {c:"small",n:"Tactile push buttons",sp:"6 × 6 mm momentary",q6:12,q2:4,pr:[10,20],opt:1,why:"Test-send or SOS button per node.",at:"GPIO14 → button → GND (internal pull-up).",alt:["Use the onboard BOOT button (GPIO0) during development"]},
+ {c:"small",n:"Hook-up wire (22/24 AWG)",sp:"Solid core for breadboard, stranded for battery leads · 1 roll",q6:1,q2:1,pr:[300,600],why:"Short rail jumpers and soldered battery leads.",at:"Rails and power modules.",alt:["Cut-up jumper wires for short runs"]},
+ {c:"small",n:"Heat-shrink tubing",sp:"Assorted sizes · 1 pack",q6:1,q2:1,pr:[200,400],why:"Insulates soldered battery and switch joints. Shorted Li-ion leads can start a fire.",at:"Battery, switch and regulator joints.",alt:["Electrical tape (temporary only)"]},
+ {c:"proto",n:"830-point breadboard",sp:"Full size, solderless",q6:6,q2:2,pr:[200,200],why:"Holds the ESP32, rails, capacitors and divider without soldering.",at:"See Breadboard tab.",alt:["Half-size (400-point) for compact tests: ESP32 then needs two boards side by side"],note:"Hardware list says 6, price list says 3–4."},
+ {c:"proto",n:"Male-to-female jumpers",sp:"20 cm · 40-pin pack",q6:3,q2:2,pr:[150,150],why:"The main radio wires: 9 signals + 2 power per node.",at:"Breadboard column → module pin.",alt:["Dupont crimp kit to make your own"]},
+ {c:"proto",n:"Male-to-male jumpers",sp:"20 cm · 40-pin pack",q6:3,q2:2,pr:[150,150],why:"Rail wires and the battery-sense jumper.",at:"Rows a → rails.",alt:["Pre-cut breadboard jumper kit (neater, flatter)"]},
+ {c:"proto",n:"Female-to-female jumpers",sp:"20 cm · 40-pin pack",q6:2,q2:1,pr:[150,300],why:"Module-to-module links off the board, logic-analyzer probing.",at:"Off-board connections.",alt:["M-F plus a header pin"]},
+ {c:"proto",n:"Pin headers 2.54 mm (male + female)",sp:"Breakaway strips",q6:3,q2:2,pr:[100,200],why:"Many radio and power modules ship with loose headers you must solder.",at:"Module pins.",alt:["Right-angle headers for the final layout"]},
+ {c:"proto",n:"Resistor kit",sp:"Includes 220 Ω, 1 kΩ, 4.7 kΩ, 10 kΩ, 100 kΩ",q6:1,q2:1,pr:[300,500],why:"Source of the divider, pull-up and LED resistors.",at:"–",alt:["Buy only the values listed, in 10s"]},
+ {c:"proto",n:"Capacitor kit",sp:"Ceramic (incl. 100 nF) + electrolytic (incl. 100 µF)",q6:1,q2:1,pr:[300,500],why:"Source of the decoupling capacitors.",at:"–",alt:["Buy 100 nF and 100 µF in 10s"]},
+ {c:"proto",n:"LEDs",sp:"General purpose, assorted",q6:20,q2:10,pr:[10,20],why:"Indicators and quick GPIO tests.",at:"–",alt:["Onboard RGB LED"]},
+ {c:"proto",n:"USB data cables",sp:"Fits the DevKitC USB-C ports · data, not charge-only",q6:8,q2:2,pr:[100,100],why:"Flashing firmware and serial logs.",at:"Laptop ↔ ESP32 UART port.",alt:["Any USB-C cable proven to transfer data"],note:"Charge-only cables are the most common reason a board does not show up."},
+ {c:"proto",n:"USB 5 V power adapters",sp:"5 V ≥ 1 A",q6:3,q2:2,pr:[0,0],np:1,why:"Charging batteries and powering bench nodes without a laptop.",at:"TP4056 USB-C.",alt:["Phone chargers you already own","Power bank"]},
+ {c:"proto",n:"Perfboard / protoboard 7 × 9 cm",sp:"Double-sided, plated holes",q6:6,q2:0,pr:[100,250],add:1,why:"For Phase 2: a soldered, permanent node that survives being carried around campus.",at:"ESP32 and module on female headers, power modules soldered.",alt:["Custom PCB later (JLCPCB-style) if time allows"],note:"Price is my estimate."},
+ {c:"proto",n:"M3 nylon standoffs, foam tape, zip ties",sp:"Small kit",q6:1,q2:1,pr:[300,600],add:1,why:"Keeps the battery and boards fixed inside the enclosure.",at:"Final assembly.",alt:["Hot glue (not on the battery)"],note:"Price is my estimate."},
+ {c:"tools",n:"Digital multimeter",sp:"DC V, A, Ω, continuity",q6:1,q2:1,pr:[1320,3700],why:"Short checks before power, battery voltage, current draw.",at:"–",alt:["DT9205A Rs. 1,320","A830L Rs. 1,380","ET8102 True RMS Rs. 3,280","UNI-T UT123 Rs. 3,700"]},
+ {c:"tools",n:"USB logic analyzer",sp:"8 channels · 24 MHz",q6:1,q2:1,pr:[1752,3830],why:"Shows SCK, MOSI, MISO, NSS so you can see exactly why SPI fails.",at:"Clips on J1 pins 16–19.",alt:["Any sigrok/PulseView compatible analyzer"]},
+ {c:"tools",n:"USB power meter",sp:"Inline V/A/mAh",q6:1,q2:1,pr:[500,1000],why:"Measures real node consumption for the energy metric and battery sizing.",at:"Between USB supply and node.",alt:["Multimeter in series (harder to read spikes)"]},
+ {c:"tools",n:"Soldering iron",sp:"Temperature controlled preferred",q6:1,q2:1,pr:[1210,1500],why:"Headers, battery leads, switches, perfboard nodes.",at:"–",alt:["KADA T12-D+ 72 W station, Rs. 7,560 (upgrade)"]},
+ {c:"tools",n:"Solder wire + flux",sp:"0.8 mm 63/37 rosin core + flux paste",q6:1,q2:1,pr:[400,900],why:"Clean joints on headers and power leads.",at:"–",alt:["Lead-free solder (needs hotter iron)"]},
+ {c:"tools",n:"Wire cutter / stripper",sp:"Flush cutter + stripper",q6:1,q2:1,pr:[300,800],why:"Cutting and stripping hook-up wire.",at:"–",alt:["Combined crimp/strip tool"]},
+ {c:"tools",n:"Tweezers, desolder wick or pump",sp:"ESD tweezers · 2 mm wick",q6:1,q2:1,pr:[300,700],add:1,why:"Fixing solder bridges on headers.",at:"–",alt:["Solder sucker only"],note:"Price is my estimate."},
+ {c:"opt",n:"OLED 0.96\" 128×64 SSD1306 (I²C)",sp:"4-pin VCC GND SCL SDA",q6:6,q2:0,pr:[450,450],opt:1,why:"Stretch goal: shows node ID, neighbours and battery without a phone.",at:"GPIO17 SDA, GPIO18 SCL, 3V3, GND.",alt:["1.3\" SH1106 I²C OLED"],note:"Only after the core mesh is stable."},
+ {c:"opt",n:"GPS / GNSS module",sp:"u-blox NEO-M8N or comparable UART",q6:1,q2:0,pr:[0,0],np:1,opt:1,why:"Stretch goal: node positions on the topology map.",at:"GPIO15 → GPS RX, GPIO16 ← GPS TX, 3V3, GND.",alt:["Other u-blox M8 modules","ATGM336H (cheaper)","NEO-6M (older)"],note:"Get a quote before buying. Do not buy until the core mesh works."},
+ {c:"opt",n:"Solar charging",sp:"Small panel + Li-ion solar charging/power board",q6:1,q2:0,pr:[0,0],np:1,opt:1,why:"Stretch goal: long-term outdoor nodes.",at:"Replaces USB input of the charger.",alt:["Power bank charging for the demo"]},
+ {c:"opt",n:"Node enclosure",sp:"3D-printed around final wiring",q6:6,q2:0,pr:[0,0],np:1,opt:1,why:"Protects nodes during campus field tests.",at:"Final assembly.",alt:["ABS / polycarbonate electronics box"],note:"Design after electronics are final."},
+ {c:"opt",n:"RTL-SDR dongle",sp:"RTL-SDR v3 + small antenna",q6:1,q2:0,pr:[0,0],np:1,opt:1,add:1,why:"Lets you show LoRa chirps on a waterfall during the viva and check you are on the right frequency.",at:"Laptop USB.",alt:["Skip; not required"]}];
+let bomCat="all";
+const tb=$("#bomTb");
+[["all","All"],...Object.entries(CAT)].forEach(([k,v])=>{const b=document.createElement("button");b.dataset.c=k;b.textContent=v;b.setAttribute("aria-pressed",k==="all");b.onclick=()=>{bomCat=k;$$("#bomTb button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderBom()};tb.appendChild(b)});
+const rs=n=>"Rs. "+Math.round(n).toLocaleString("en-US");
+function renderBom(){
+ const q=$("#bomSearch").value.toLowerCase(),L=$("#bomList");L.innerHTML="";let n=0;
+ BOM.forEach((it,i)=>{
+  if(bomCat!=="all"&&it.c!==bomCat)return;
+  if(q&&!JSON.stringify(it).toLowerCase().includes(q))return;n++;
+  const price=it.kit?"from kit":it.np||!it.pr[1]?"quote needed":it.pr[0]===it.pr[1]?rs(it.pr[0]):`${rs(it.pr[0])}–${it.pr[1].toLocaleString("en-US")}`;
+  const d=document.createElement("details");
+  d.innerHTML=`<summary><span class="n">${String(i+1).padStart(2,"0")}</span><span class="nm">${it.n}<small>${CAT[it.c]} · qty ${it.q6} (6-node) / ${it.q2} (2-node) · ${price}</small></span><span class="meta">${it.opt?'<span class="chip opt">optional</span>':'<span class="chip core">needed</span>'}${it.add?'<span class="chip add">added</span>':''}</span></summary>
+  <div class="body"><dl class="kv"><dt>Spec</dt><dd>${it.sp}</dd><dt>Why</dt><dd>${it.why}</dd><dt>Connects</dt><dd>${it.at}</dd><dt>Unit price</dt><dd>${price}</dd></dl>
+  <div><b class="small">Alternatives if not available</b><ul class="small">${it.alt.map(a=>`<li>${a}</li>`).join("")}</ul></div>${it.note?`<div class="callout${it.bad?' red':''} small">${it.note}</div>`:""}</div>`;
+  L.appendChild(d)});
+ $("#bomCount").textContent=`${n} of ${BOM.length} items`}
+$("#bomSearch").oninput=renderBom;renderBom();
+let bud=2;
+function budget(){
+ const opt=$("#budOpt").checked,tools=$("#budTools").checked;let lo=0,hi=0,np=0;
+ BOM.forEach(it=>{const q=bud===2?it.q2:it.q6;if(!q)return;if(it.opt&&!opt)return;if(it.c==="tools"&&!tools)return;if(it.np){np++;return}lo+=q*it.pr[0];hi+=q*it.pr[1]});
+ $("#bLo").textContent=rs(lo);$("#bHi").textContent=rs(hi);$("#bNp").textContent=np}
+$$("#budTb button").forEach(b=>b.onclick=()=>{bud=+b.dataset.b;$$("#budTb button").forEach(x=>x.setAttribute("aria-pressed",x===b));budget()});
+$("#budOpt").onchange=$("#budTools").onchange=budget;budget();
+
+/* ---------- build plan ---------- */
+const PH=[
+ ["Phase 1 · Two-node prototype",["Confirm the approved RF band (868 or 433 MHz) with your supervisor before ordering radios and antennas","Buy Phase 1 parts: 2 × ESP32-S3, 2 × SX1262 (SPI), 2 antennas, batteries, TP4056, buck-boost, switches, breadboards, jumpers, multimeter, logic analyzer, data cables","Install Arduino IDE + ESP32 core + RadioLib; flash Blink to each ESP32","Wire node A on the breadboard; continuity check between rails","Run Test 1 on node A until it prints 0; repeat for node B","Run Test 2: NODE_A HELLO → NODE_B HELLO ACK","Log RSSI, SNR, packet success/failure and latency at 1 m, 10 m, 100 m","Add the battery path and measure current with the USB power meter"]],
+ ["Phase 2 · Replicate",["Build the remaining 4 nodes on breadboard or perfboard","Label each node with its ID; keep 1 spare ESP32 and 1 spare radio","Run Test 1 and Test 2 on every node pair"]],
+ ["Phase 3 · Mesh",["Node IDs and packet format","Neighbour discovery beacons","Forwarding with TTL and duplicate detection","ACK, retransmission, store-and-forward","Route recovery when a node is switched off","BLE bridge to the Android app"]],
+ ["Phase 4 · Adaptive routing and evaluation",["Collect RSSI, SNR, packet-loss and battery per neighbour","Normalise metrics and build the composite score","Compare flooding vs shortest-hop vs adaptive on the same topology","Field tests: direct, 2-hop, 4+ hop, node failure, interference, battery life"]]];
+const done=store("mx-build")||{};
+const ph=$("#phases");
+PH.forEach((p,pi)=>{const w=document.createElement("div");w.innerHTML=`<div class="phase-h"><h3>${p[0]}</h3></div><div class="steps">${p[1].map((t,i)=>{const id=`s${pi}_${i}`;return `<label for="${id}"><input type="checkbox" id="${id}" ${done[id]?"checked":""}><span class="t small">${t}</span></label>`}).join("")}</div>`;ph.appendChild(w)});
+function prog(){const c=$$("#phases input"),k=c.filter(x=>x.checked).length;$("#buildBar").style.width=(k/c.length*100)+"%";$("#buildPct").textContent=`${k} of ${c.length} steps done`}
+$$("#phases input").forEach(i=>i.onchange=()=>{done[i.id]=i.checked;store("mx-build",done);prog()});prog();
+$$("[data-copy]").forEach(b=>b.onclick=()=>{const pre=$("#"+b.dataset.copy);navigator.clipboard.writeText(pre.textContent).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1500)}).catch(()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, press Ctrl+C"})});
+
+/* ---------- concepts ---------- */
+const CON=[
+ ["LoRa","Long-range, low-power radio modulation. Data is sent as chirps (tones sweeping up in frequency). Spreading the signal makes it decodable even below the noise floor, giving kilometres of range at low data rate."],
+ ["Spreading factor (SF7–SF12)","Each step up doubles the chirp length: more range and noise tolerance, half the data rate, double the airtime and energy. SF7 for short dense links, SF10–12 for long weak ones."],
+ ["Bandwidth & coding rate","Wider bandwidth (125→500 kHz) is faster but less sensitive. Coding rate 4/5→4/8 adds error-correction bits: more robust, more airtime."],
+ ["RSSI and SNR","RSSI is received power in dBm (−40 strong, −120 near the limit). SNR is signal above noise in dB; LoRa still decodes at negative SNR, down to about −20 dB at SF12. Both feed your link score."],
+ ["SPI","4-wire bus. ESP32 is the master: clock (SCK), data out (MOSI), data in (MISO), select (NSS). SX126x adds BUSY so the master waits until the radio is ready."],
+ ["BLE GATT","Phone and node exchange data through characteristics: the phone writes a message to one, the node notifies new messages on another. Short range, low power, built into ESP32-S3."],
+ ["Mesh flooding","Every node rebroadcasts each new packet once. Simple and robust, but wastes airtime and battery. Duplicate detection and TTL stop endless loops. Your baseline #1."],
+ ["Shortest-hop routing","Choose the path with the fewest hops. Ignores link quality, so it often picks a long, weak hop that drops packets. Your baseline #2."],
+ ["Adaptive routing","Score each link from RSSI, SNR, delivery ratio and battery; pick the best-scoring path even if it has more hops. Your original contribution."],
+ ["TTL & duplicate detection","TTL is a hop budget decremented at each relay; at 0 the packet is dropped. Each node remembers recent (source, packet ID) pairs and ignores repeats."],
+ ["ACK & retransmission","Destination sends an ACK back. If the source hears nothing within a timeout it resends, up to N tries. This is what gives you a 'delivered' tick in the app."],
+ ["AES-256-GCM","Symmetric encryption with a built-in authentication tag. One shared key encrypts; any change to the ciphertext makes decryption fail. Never reuse a nonce with the same key."]];
+$("#conceptCards").innerHTML=CON.map(c=>`<div class="panel"><h3>${c[0]}</h3><p class="small">${c[1]}</p></div>`).join("");
+function airtime(){
+ const SF=+$("#aSf").value,BW=+$("#aBw").value*1000,CR=+$("#aCr").value-4,PL=+$("#aPl").value;
+ $("#oSf").value="SF"+SF;$("#oCr").value="4/"+(CR+4);$("#oPl").value=PL+" B";
+ const Ts=Math.pow(2,SF)/BW,DE=Ts*1000>16?1:0;
+ const nP=8+Math.max(Math.ceil((8*PL-4*SF+28+16)/(4*(SF-2*DE)))*(CR+4),0);
+ const toa=((8+4.25)+nP)*Ts*1000;
+ const br=SF*(4/(CR+4))/(Math.pow(2,SF)/BW);
+ $("#rToa").textContent=toa<1000?toa.toFixed(1)+" ms":(toa/1000).toFixed(2)+" s";
+ $("#rBr").textContent=br>=1000?(br/1000).toFixed(2)+" kb/s":br.toFixed(0)+" b/s";
+ $("#rPph").textContent=Math.floor(36000/toa)}
+["#aSf","#aBw","#aCr","#aPl"].forEach(i=>$(i).oninput=airtime);airtime();
+function score(){
+ const R=+$("#lR").value,S=+$("#lS").value,P=+$("#lP").value,B=+$("#lB").value;
+ $("#oR").value=R;$("#oS").value=S;$("#oP").value=P+"%";$("#oB").value=B+"%";
+ const v=.30*(R+125)/85+.25*(S+20)/32+.30*P/100+.15*B/100;
+ $("#lScore").textContent=v.toFixed(2);
+ $("#lVerdict").textContent=v>=.7?"Strong link: prefer this neighbour as next hop.":v>=.45?"Usable link: pick it if no better neighbour exists.":"Weak link: avoid unless it is the only path.";
+ $("#lScore").style.color=v>=.7?"var(--ok)":v>=.45?"var(--warn)":"var(--bad)"}
+["#lR","#lS","#lP","#lB"].forEach(i=>$(i).oninput=score);score();
+</script>

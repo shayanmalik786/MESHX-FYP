@@ -1,0 +1,1062 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>MeshX — FYP Mid-Year Readiness Pack</title>
+<style>
+:root{--bg:#eef2f6;--cd:#fff;--tx:#0f1c2e;--mu:#5a6678;--bd:#d3dae4;--ac:#0e7c86;--ok:#2b8a3e;--hl:#fff4c2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1520;--cd:#152233;--tx:#e6edf5;--mu:#93a1b5;--bd:#26364b;--ac:#3cc4cf;--ok:#5fd07a;--hl:#4a4217}}
+:root[data-theme="dark"]{--bg:#0d1520;--cd:#152233;--tx:#e6edf5;--mu:#93a1b5;--bd:#26364b;--ac:#3cc4cf;--ok:#5fd07a;--hl:#4a4217}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);scroll-behavior:smooth}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 "Segoe UI",system-ui,sans-serif}
+header{max-width:1100px;margin:auto;padding:18px 16px 6px}h1{font:700 26px/1.2 Georgia,serif;margin:0 0 6px}header p{margin:0;color:var(--mu)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--bd)}.bi{max-width:1100px;margin:auto;padding:8px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.bi input[type=search]{flex:1 1 200px;padding:8px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--cd);color:var(--tx);font:inherit}
+button,.chip{border:1px solid var(--bd);background:var(--cd);color:var(--tx);padding:7px 13px;border-radius:20px;cursor:pointer;font:inherit;font-size:13px}.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.pg{height:8px;background:var(--bd);border-radius:4px;overflow:hidden;min-width:120px;flex:0 1 160px}.pg i{display:block;height:100%;background:var(--ok);width:0;transition:width .2s}
+nav.tn{max-width:1100px;margin:auto;padding:0 16px 8px;display:flex;gap:6px;overflow-x:auto}nav.tn a{white-space:nowrap;font-size:12.5px;color:var(--tx);text-decoration:none;border:1px solid var(--bd);background:var(--cd);padding:4px 10px;border-radius:14px}nav.tn a.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+main{max-width:1100px;margin:auto;padding:12px 16px 50px}.sec{background:var(--cd);border:1px solid var(--bd);border-radius:8px;margin:12px 0}
+summary{cursor:pointer;padding:12px 16px;list-style:none;display:flex;align-items:center;gap:8px}summary::-webkit-details-marker{display:none}summary::before{content:"\25B8";color:var(--ac);transition:transform .15s}details[open]>summary::before{transform:rotate(90deg)}
+summary h2{margin:0;font-size:19px}.sb{padding:0 16px 14px;overflow-wrap:anywhere}.sb h3{font-size:16px;margin:18px 0 6px;color:var(--ac)}
+.tw{overflow-x:auto;margin:10px 0;border:1px solid var(--bd);border-radius:6px}table{border-collapse:collapse;width:100%;font-size:13.5px}th{background:color-mix(in srgb,var(--ac) 14%,transparent);text-align:left;position:sticky;top:0}td,th{border-bottom:1px solid var(--bd);padding:7px 9px;vertical-align:top;min-width:90px}tr:last-child td{border-bottom:0}
+tr:hover td{background:color-mix(in srgb,var(--ac) 7%,transparent)}li{margin:3px 0}code{font-family:ui-monospace,Consolas,monospace;font-size:12.5px}a{color:var(--ac)}
+li.t{list-style:none;margin-left:-22px}li.t label{display:flex;gap:8px;cursor:pointer;align-items:flex-start}li.t input,td input.ck{margin-top:5px;accent-color:var(--ok)}li.t.d span,tr.d td{opacity:.55;text-decoration:line-through}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;align-items:center}.hl td{background:var(--hl)!important}.note{color:var(--mu);font-size:13px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.tool{border:1px solid var(--bd);border-radius:8px;padding:12px}.tool h3{margin-top:0!important}
+.f{display:grid;grid-template-columns:110px 1fr 56px;gap:6px;align-items:center;font-size:13px;margin:4px 0}.f select,.f input[type=number]{padding:4px;border:1px solid var(--bd);border-radius:4px;background:var(--cd);color:var(--tx);grid-column:2/4}
+.res{font-size:20px;font-weight:700;margin-top:8px}.pc{border:1px solid var(--bd);border-left:4px solid var(--ac);border-radius:6px;padding:10px 12px;margin:8px 0}.pc h4{margin:0 0 2px;font-size:15px}.pc .m{color:var(--mu);font-size:12.5px}.v{font-size:11px;background:var(--ok);color:#fff;border-radius:8px;padding:1px 7px;margin-left:6px}
+@media print{.bar,nav.tn,.chips{display:none}.sec{break-inside:auto}details>*{display:block!important}body{background:#fff}}
+</style></head><body>
+<header><h1>MeshX — FYP Mid-Year Readiness Pack</h1><p>The exact date is not known; plan to be ready by <strong>Fri 11 Dec</strong> and keep the following week as buffer. Ask for the evaluation rubric and panel expectations.</p></header>
+<div class="bar"><div class="bi"><input type="search" id="q" placeholder="Search the whole pack (e.g. SX1262, TTL, Order 2)"><button id="ex">Expand all</button><button id="co">Collapse all</button><button onclick="print()">Print</button><div class="pg" title="Checklist progress"><i id="pi"></i></div><span class="note" id="pt"></span></div><nav class="tn" id="tn"><a href="#s0">0. Read this first</a><a href="#s1">1. Meeting of 2 Oct 2026: every point explained</a><a href="#s2">2. What we must show at the mid-year evaluation</a><a href="#s3">3. Project parts and work division</a><a href="#s4">4. Hardware: what to buy and when</a><a href="#s5">5. Research on the small components</a><a href="#s6">6. Everything we have to do</a><a href="#s7">7. Weekly milestones: 12 Oct to mid-December</a><a href="#s8">8. Research notes</a><a href="#s9">9. Documentation workflow: Overleaf and references</a><a href="#s10">10. The research paper: candidates and how to use them</a><a href="#s11">11. Questions to ask the supervisors</a><a href="#s12">12. References and sources</a><a href="#s13">13. Interactive tools</a><a href="#s14">14. Research papers and learning material</a></nav></div>
+<main id="m"><section class="sec" id="s0"><details open><summary><h2>0. Read this first</h2></summary><div class="sb"><ul>
+<li><p><strong>Goal for December:</strong> show a working, measured start of MeshX: a verified ESP32-S3 + SX1262 link, a phone-to-phone message through BLE, and a multi-hop chain (target 4 nodes) with forwarding, TTL and duplicate suppression.</p></li>
+<li><p><strong>The 2 Oct meeting in one line:</strong> apply for Ignite funding, borrow 2 ESP32 boards from NCCS, study the small components, write weekly milestones, distribute tasks on Monday, pick one research paper, write on Overleaf with references from day one, aim for a big target by Ramzan (about 8–9 Feb 2027), share the doc with Dr. Sumayya and keep her informed about meetings with Sir Basit.</p></li>
+<li><p><strong>Buy now (Order 1):</strong> 3 SX1262 SPI modules, 3 matched antennas, power parts for 2 nodes, wiring parts and test tools. The 2 ESP32 boards come from NCCS (Section 4).</p></li>
+<li><p><strong>Decide this week:</strong> the radio band (433 MHz or 865–868 MHz). It decides which radio module and antenna to buy.</p></li>
+<li><p>Items marked <strong>(confirm)</strong> are my reading of the handwritten notes, or something I could not verify. Ask your supervisor.</p></li>
+</ul></div></details></section><section class="sec" id="s1"><details open><summary><h2>1. Meeting of 2 Oct 2026: every point explained</h2></summary><div class="sb"><div class="tw"><table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Note as written</th>
+<th>What it means</th>
+<th>What we must do</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Ignite funding</td>
+<td>Ignite National Technology Fund (Ministry of IT &amp; Telecom) funds final-year ICT projects through nominations from universities. An older round capped funding at PKR 80,000 per project; the amount and rules change every call (confirm). Our proposal has Funded unticked and Section 7 (industrial support) empty.</td>
+<td>Ask the supervisor / FYP coordinator how NED nominates projects and the deadline. Prepare a 1-page summary and a budget (use Section 4). Keep quotations and receipts.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>ESP32 from NCCS</td>
+<td>NCCS (Sir Basit's centre) will lend ESP32 boards, which saves the biggest line in the budget.</td>
+<td>Collect them. Check the exact model: the proposal needs ESP32-S3 (ideally N8R8). If it is a different ESP32, tell Dr. Sumayya because it deviates from the accepted proposal. Ask if they must be returned.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Get those 2 boards available</td>
+<td>The 2 boards must be physically in your hands soon; they unblock the first radio test.</td>
+<td>Follow up with Sir Basit this week. Set a deadline (suggested: Fri 16 Oct).</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Research on those little components</td>
+<td>Study the small parts (capacitors, resistors, regulator, charger, connectors, antenna) before buying so nothing is wrong or missing.</td>
+<td>Section 5 is that research. Read it, then check every cart against it.</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Design weekly milestones</td>
+<td>One measurable deliverable per week, reported to the supervisor.</td>
+<td>Section 7 has a 9-week plan to mid-December. Confirm and adjust on Monday.</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Monday 12:20 pm / 1:00 pm: task distribution (the word Leader is crossed out)</td>
+<td>The Monday slot is for assigning tasks. A single team leader seems not required (confirm).</td>
+<td>Bring Section 3 to the meeting, finalise owners, write minutes in the shared doc.</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>1 research paper</td>
+<td>Probably: pick one paper related to LoRa mesh routing, read it and present a summary. It could also mean each member reads one, or the group must write one (confirm).</td>
+<td>Section 10 lists candidate papers. Ask which meaning applies.</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Overleaf simpler than MiKTeX; shareable cloud</td>
+<td>Write the report in LaTeX on Overleaf (browser, shareable) instead of installing MiKTeX locally.</td>
+<td>Create one Overleaf project, invite all members and Dr. Sumayya. Check collaborator limits of your plan or a university licence.</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Including referencing in rough doc too</td>
+<td>Add citations and a bibliography from the first rough draft, not at the end.</td>
+<td>Use a references.bib file from day one (Section 9).</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Target: Ramzan</td>
+<td>Ramzan 2027 is expected to start about 8 Feb (likely Tue 9 Feb in Pakistan, subject to moon sighting). The target is not clear: most likely the core system or first full draft should be done before it (confirm).</td>
+<td>We plan to be feature-complete (mesh + adaptive routing + security) by about 5 Feb 2027, so March–April is for evaluation.</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Share doc on Dr Sumayya group</td>
+<td>Post the Overleaf link in her group.</td>
+<td>Give her comment access.</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Tell miss about meetings with Sir Basit</td>
+<td>Dr. Sumayya must know about every meeting with the co-supervisor.</td>
+<td>Send a 3-line summary after each meeting.</td>
+</tr>
+</tbody>
+</table></div></div></details></section><section class="sec" id="s2"><details open><summary><h2>2. What we must show at the mid-year evaluation</h2></summary><div class="sb"><p>The exact date is not known; plan to be ready by <strong>Fri 11 Dec</strong> and keep the following week as buffer. Ask for the evaluation rubric and panel expectations.</p><div class="tw"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Deliverables</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Minimum (must)</strong></td>
+<td>Two nodes exchanging LoRa messages with logged RSSI and SNR. Phone A to Phone B text through two nodes over BLE. A chain of 3–4 nodes with forwarding, TTL and duplicate detection working live. Overleaf report draft with literature review, design and hardware chapters. GitHub repository.</td>
+</tr>
+<tr class="even">
+<td><strong>Target</strong></td>
+<td>ACK and retransmission working. Neighbour table with RSSI, SNR and loss per link. Python plots of measured link quality. Basic Android chat UI. Firmware switch between flooding and shortest-hop modes.</td>
+</tr>
+<tr class="odd">
+<td><strong>Stretch</strong></td>
+<td>Adaptive link score computed offline from real logs. AES-256-GCM encrypt/decrypt round trip on ESP32.</td>
+</tr>
+</tbody>
+</table></div><p><strong>Demo script (5 minutes):</strong> (1) one node boots and shows its ID; (2) two nodes link and print RSSI/SNR; (3) type a message on Phone A, receive it on Phone B through 2 nodes; (4) extend to 4 nodes placed apart and show hop count and TTL; (5) show the graphs and the plan for January–May.</p></div></details></section><section class="sec" id="s3"><details open><summary><h2>3. Project parts and work division</h2></summary><div class="sb"><p>The project splits into five work packages (WP). With four members, each WP has an owner and a buddy so nobody is a single point of failure. Names are assigned at the Monday meeting.</p><div class="tw"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>WP</th>
+<th>Scope</th>
+<th>Delivered by mid-December</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>WP1 Hardware and radio</strong></td>
+<td>Power chain (battery, charger, regulator, switch), wiring, perfboard nodes, SX1262 bring-up with RadioLib, antenna tests, RSSI/SNR logging, current measurement</td>
+<td>2 nodes exchanging HELLO / HELLO-ACK with logs; 4 nodes assembled; power budget table</td>
+</tr>
+<tr class="even">
+<td><strong>WP2 Mesh protocol and routing</strong></td>
+<td>Packet format, node IDs, HELLO beacons, neighbour table, forwarding, TTL, duplicate cache, ACK and retransmission, route table, three routing modes (flooding, shortest-hop, adaptive)</td>
+<td>Forwarding, TTL, duplicate suppression on a 4-node chain; ACK/retransmit started. Adaptive scoring follows in Feb–Mar</td>
+</tr>
+<tr class="odd">
+<td><strong>WP3 Security</strong></td>
+<td>AES-256-GCM, nonce and replay protection, signed node identities, key provisioning</td>
+<td>Design note and an AES-GCM test on ESP32. Implementation in Jan–Feb (per Gantt)</td>
+</tr>
+<tr class="even">
+<td><strong>WP4 Android and BLE</strong></td>
+<td>NimBLE GATT service on the node; Kotlin app: scan, connect, send, receive, node info; topology view later</td>
+<td>Phone A to Phone B text through two nodes</td>
+</tr>
+<tr class="odd">
+<td><strong>WP5 Evaluation, tooling, documentation</strong></td>
+<td>CSV logging format, Python analysis and graphs, test plan, Overleaf report, references, minutes, mid-year slides and demo script, Ignite paperwork</td>
+<td>Link-measurement plots, Overleaf draft, slides</td>
+</tr>
+</tbody>
+</table></div><p><strong>Suggested roles (map to names on Monday):</strong> Member A owns WP1 and procurement. Member B owns WP2 (the heaviest). Member C owns WP4 and the BLE side of the firmware. Member D owns WP5 and the WP3 design. <strong>Buddies:</strong> A with B (radio driver API), B with C (message API), C with D (log format), D with A (measurements).</p><p><strong>Interface contracts (agree these in week 1):</strong></p><div class="tw"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Between</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Radio driver to mesh layer</td>
+<td>send(frame, length); onReceive(frame, length, rssi, snr)</td>
+</tr>
+<tr class="even">
+<td>Mesh layer to BLE layer</td>
+<td>sendText(dst, text); onText(src, text, hopCount); getNeighbours()</td>
+</tr>
+<tr class="odd">
+<td>All firmware to Python</td>
+<td>One CSV line per event: timestamp_ms, node, event, src, dst, pktid, ttl, hops, rssi, snr, len</td>
+</tr>
+</tbody>
+</table></div><p><strong>Team rules:</strong> one GitHub repository with folders firmware, android, analysis, docs; short branches and pull requests; each WP shows a working demo at the weekly meeting; minutes shared the same day.</p></div></details></section><section class="sec" id="s4"><details open><summary><h2>4. Hardware: what to buy and when</h2></summary><div class="sb"><h3 id="order-1-buy-now-2-node-prototype-and-tools">4.1 Order 1: buy now (2-node prototype and tools)</h3><div class="tw"><table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Qty</th>
+<th>Exact specification to ask for</th>
+<th>Check before paying</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ESP32-S3 DevKitC-1 N8R8</td>
+<td>2 (from NCCS)</td>
+<td>ESP32-S3-WROOM-1 module, dual-core 240 MHz, 8 MB flash, 8 MB PSRAM, BLE 5, 3.3 V logic, 2 USB-C ports</td>
+<td>Read the module marking. N8R8 uses GPIO35–37 for PSRAM, never wire to them. If NCCS gives another model, buy 2 S3 boards (Rs 1,750–9,783 each)</td>
+</tr>
+<tr class="even">
+<td>SX1262 LoRa module</td>
+<td>3 (2 + 1 spare)</td>
+<td>SX1262 chip, SPI, up to +22 dBm, 3.3 V, pins NSS, SCK, MOSI, MISO, RESET, BUSY, DIO1; 2.54 mm headers preferred (e.g. Waveshare Core1262)</td>
+<td>Not a UART module (Ebyte E22-xxxT). Not SX1276/RFM95 (different chip). 1.27 mm SMD modules (E22-xxxM22S, Ra-62) need an adapter board. Datasheet must explain TCXO and RF-switch pins</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>Est. Rs 3,000–4,000 each</td>
+<td>Band must match the decision in 4.5</td>
+</tr>
+<tr class="even">
+<td>LoRa antenna</td>
+<td>3</td>
+<td>50 ohm, same band as the module, vertical, 2–3 dBi, SMA male rubber-duck</td>
+<td>Band printed on antenna; connector matches module</td>
+</tr>
+<tr class="odd">
+<td>u.FL to SMA pigtail</td>
+<td>3 (only if module has u.FL)</td>
+<td>50 ohm, RG178, 10–15 cm</td>
+<td>Skip if module already has SMA</td>
+</tr>
+<tr class="even">
+<td>Li-ion battery</td>
+<td>2</td>
+<td>1S, 3.7 V, protected, 3000–4000 mAh, JST-PH 2.0 or loose leads</td>
+<td>Real capacity; polarity of connector</td>
+</tr>
+<tr class="odd">
+<td>Charger with protection</td>
+<td>2</td>
+<td>TP4056 with DW01A + FS8205A, 5 V input, 1 A, 4.2 V end voltage</td>
+<td>Board must have 6 pads (IN, B, OUT)</td>
+</tr>
+<tr class="even">
+<td>3.3 V regulator</td>
+<td>2</td>
+<td>TPS63802 buck-boost 3.3 V, 2 A (or MT3608 boost to 5 V into the DevKit 5V pin)</td>
+<td>Output 3.3 V, at least 1 A; no buck-only or AMS1117</td>
+</tr>
+<tr class="odd">
+<td>Slide switch</td>
+<td>2</td>
+<td>SPDT slide, rated 0.5 A or more</td>
+<td>Pin spacing 2.54 mm</td>
+</tr>
+<tr class="even">
+<td>JST-PH 2.0 connector with leads</td>
+<td>4</td>
+<td>2-pin, 10–15 cm leads</td>
+<td>Same pitch as battery plug</td>
+</tr>
+<tr class="odd">
+<td>USB-C data cable</td>
+<td>2</td>
+<td>With data lines, 1 m</td>
+<td>Not charge-only</td>
+</tr>
+<tr class="even">
+<td>Breadboard</td>
+<td>2</td>
+<td>830 points</td>
+<td>ESP32 DevKit is about 25 mm wide; use two boards if tight</td>
+</tr>
+<tr class="odd">
+<td>Jumper wires</td>
+<td>M-M 2, M-F 2, F-F 1 packs</td>
+<td>20 cm, 2.54 mm Dupont</td>
+<td>Buy all three kinds</td>
+</tr>
+<tr class="even">
+<td>Pin headers</td>
+<td>1 pack</td>
+<td>2.54 mm male and female strips</td>
+<td>Female 1x22 strips to socket the ESP32 later</td>
+</tr>
+<tr class="odd">
+<td>Multimeter</td>
+<td>1</td>
+<td>Auto-ranging DMM (DT9205A class), 10 A, continuity</td>
+<td>Borrow if possible</td>
+</tr>
+<tr class="even">
+<td>USB logic analyzer</td>
+<td>1</td>
+<td>8 channels, 24 MHz, sigrok / PulseView compatible</td>
+<td>Needed to debug SPI</td>
+</tr>
+<tr class="odd">
+<td>USB power meter</td>
+<td>1</td>
+<td>Inline, 4–24 V, current display, mAh counter</td>
+<td>For energy measurements</td>
+</tr>
+<tr class="even">
+<td>Soldering iron, solder, flux, cutter/stripper</td>
+<td>1 set</td>
+<td>Adjustable 200–450 degrees C, 60 W, 220 V; solder 0.6–0.8 mm 60/40 rosin core; no-clean flux; side cutter and wire stripper</td>
+<td>Skip if the lab provides them</td>
+</tr>
+</tbody>
+</table></div><p><strong>Estimated Order 1 cost (from your price list, without ESP32 boards):</strong> about Rs 22,000–38,000. The low end assumes you borrow the multimeter and soldering tools. Buying 2 ESP32-S3 boards adds Rs 3,500–19,566. Prices change with seller, stock and duties.</p><h3 id="order-2-after-the-2-node-link-works-target-end-of-october">4.2 Order 2: after the 2-node link works (target end of October)</h3><p>For nodes 3 and 4 (needed for the December chain): 2 ESP32-S3 (if NCCS lent only 2), 2 SX1262, 2 antennas (and pigtails), 2 batteries, 2 chargers, 2 regulators, 2 switches, 4 JST connectors, 4 perfboards (5x7 cm), plus resistor kit, capacitor kit (must contain 100 nF and 100 uF), 20 LEDs, 12 push buttons, heat-shrink assortment and hook-up wire. Order by about 9 Nov so parts arrive before the 23 Nov chain tests.</p><h3 id="order-3-january-nodes-5-and-6-plus-spares">4.3 Order 3: January (nodes 5 and 6 plus spares)</h3><p>Two more complete nodes, plus 1 spare ESP32-S3 and 1 spare radio, 2 extra antennas, USB adapters (2–3 of 5 V 2 A), and extra batteries for the field tests.</p><h3 id="buy-last-optional-stretch-goals">4.4 Buy last (optional stretch goals)</h3><p>0.96 inch SSD1306 I2C OLED (up to 6), u-blox NEO-M8N GPS (quote needed), solar panel with Li-ion solar charger (quote needed), 3D-printed or ABS enclosures (6). Do not buy these until the core mesh works.</p><h3 id="band-decision-do-this-first">4.5 Band decision (do this first)</h3><p>LoRa Alliance regional parameters list Pakistan with 433.05–434.79 MHz, 865–869 MHz and 920–925 MHz. This is a reference listing, not a legal ruling, so confirm the permitted band, power limit and duty cycle with Dr. Sumayya, Sir Basit (NCCS) or PTA before ordering.</p><div class="tw"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Option</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>433 MHz</strong></td>
+<td>Longer range per dB, easy hardware</td>
+<td>Longer antenna (quarter-wave about 17 cm), crowded band, shared with amateur radio</td>
+</tr>
+<tr class="even">
+<td><strong>865–868 MHz</strong></td>
+<td>Small antenna (about 8.6 cm quarter-wave), many modules and examples</td>
+<td>Check power and duty-cycle limits for Pakistan</td>
+</tr>
+<tr class="odd">
+<td><strong>915 MHz modules</strong></td>
+<td>Cheap and common</td>
+<td>Not in the Pakistan listing above; avoid unless confirmed</td>
+</tr>
+</tbody>
+</table></div><p>Your earlier price list included 915 MHz RFM95 options. Do not buy those unless your supervisor confirms that band.</p></div></details></section><section class="sec" id="s5"><details open><summary><h2>5. Research on the small components</h2></summary><div class="sb"><p>The meeting asked for research on the small parts. These are cheap, but most first-time failures (random resets, a radio that never initialises, a dead battery) come from them.</p><div class="tw"><table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Part</th>
+<th>Its job in MeshX</th>
+<th>Specification and how to use it</th>
+<th>Common mistake</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Decoupling capacitors</td>
+<td>Keep the 3.3 V rail steady when the radio transmits</td>
+<td>100 nF ceramic and 10 uF right next to the SX1262 supply pins, plus 100–470 uF on the 3.3 V rail. A +22 dBm transmission draws roughly 100–120 mA in bursts</td>
+<td>Capacitors far from the module, so the ESP32 browns out and resets during TX</td>
+</tr>
+<tr class="even">
+<td>Pull-up on NSS (chip select)</td>
+<td>Keeps the radio deselected while the ESP32 boots or is flashed</td>
+<td>10 kohm from NSS to 3.3 V (many modules already include it)</td>
+<td>Floating chip-select gives random SPI noise at boot</td>
+</tr>
+<tr class="odd">
+<td>I2C pull-ups</td>
+<td>Needed only for the OLED</td>
+<td>4.7 kohm on SDA and SCL (OLED boards usually have them)</td>
+<td>Adding extra pull-ups on top of the module's own</td>
+</tr>
+<tr class="even">
+<td>LED series resistor</td>
+<td>Status LEDs (TX, RX, link, error)</td>
+<td>R = (3.3 V - Vf) / I. Red LED (Vf about 2.0 V) at 5 mA: about 260 ohm, so use 220–330 ohm. Blue or white (Vf about 3.0 V) need about 100 ohm and stay dim</td>
+<td>No resistor at all</td>
+</tr>
+<tr class="odd">
+<td>Battery voltage divider</td>
+<td>Gives battery percentage for the adaptive routing score</td>
+<td>100 kohm + 100 kohm from battery positive to GND, midpoint to an ADC pin, 100 nF across the lower resistor. 4.2 V becomes 2.1 V (safe for the ADC). Draws about 21 uA. Calibrate against a multimeter</td>
+<td>Connecting the battery directly to an ADC pin</td>
+</tr>
+<tr class="even">
+<td>Battery percentage curve</td>
+<td>Converts voltage to percent</td>
+<td>Approximate resting values: 4.20 V = 100 %, 4.00 V = 80 %, 3.85 V = 60 %, 3.75 V = 40 %, 3.65 V = 20 %, 3.30 V = 0 %. Voltage sags under TX, so average over time</td>
+<td>Reading the voltage during a transmission</td>
+</tr>
+<tr class="odd">
+<td>TP4056 charger board</td>
+<td>Charges the cell from USB and protects it</td>
+<td>Version with DW01A + FS8205A protection. Default charge current 1 A (set by the programming resistor; a 2 kohm resistor gives about 600 mA). Red LED = charging, green = full. It is not a true power-path charger: the node can run while charging but the board is not designed for it</td>
+<td>Using the 4-pad version without protection; charging unattended</td>
+</tr>
+<tr class="even">
+<td>3.3 V regulator</td>
+<td>Gives the ESP32 and radio a stable 3.3 V from a 4.2–3.0 V battery</td>
+<td>Buck-boost such as TPS63802 (1.3–5.5 V in, 2 A). Alternative: MT3608 boost set to 5.0 V with a multimeter before connecting, feeding the DevKit 5V pin; then check the DevKit's on-board regulator copes with peak current using the USB power meter</td>
+<td>AMS1117 (wastes battery); buck-only modules; a 600 mA module</td>
+</tr>
+<tr class="odd">
+<td>ON/OFF switch</td>
+<td>Cuts the battery</td>
+<td>In series with the battery positive wire; rated 0.5 A or more</td>
+<td>Switching the ground side of a USB-connected board</td>
+</tr>
+<tr class="even">
+<td>JST-PH 2.0 connector</td>
+<td>Detachable battery</td>
+<td>2.0 mm pitch, 2 pins. Battery plugs from different sellers have different polarity and pitch</td>
+<td>Plugging in without comparing red/black to the PCB marking</td>
+</tr>
+<tr class="odd">
+<td>Antenna, SMA and u.FL</td>
+<td>Radiates the signal</td>
+<td>50 ohm, band-matched, vertical; SMA male on the antenna, u.FL to SMA pigtail if the module has a u.FL socket. Quarter-wave wire: about 17.3 cm at 433 MHz, 8.6 cm at 868 MHz. Keep it away from metal, the battery and USB cables</td>
+<td>Transmitting with no antenna (can destroy the radio); wrong band antenna</td>
+</tr>
+<tr class="even">
+<td>Wire gauge</td>
+<td>Power and signal wiring</td>
+<td>22–24 AWG for battery and power lines (1 A), 26–28 AWG for signals. Keep SPI wires under about 10 cm</td>
+<td>Long thin jumpers on SPI</td>
+</tr>
+<tr class="odd">
+<td>Breadboard</td>
+<td>Early prototyping</td>
+<td>Thin rails have contact resistance; do not carry transmit current through them. If the radio fails to initialise, shorten wires and reduce SPI to 2 MHz</td>
+<td>Blaming the code for a loose breadboard contact</td>
+</tr>
+<tr class="even">
+<td>Perfboard and female headers</td>
+<td>Final nodes</td>
+<td>5 x 7 cm double-sided perfboard; solder female headers so the ESP32 and radio can be replaced</td>
+<td>Soldering modules directly with no way to swap them</td>
+</tr>
+<tr class="odd">
+<td>Heat-shrink and hook-up wire</td>
+<td>Insulation and fixed wiring</td>
+<td>2–10 mm assorted heat-shrink; stranded silicone wire in several colours</td>
+<td>Bare joints near the battery</td>
+</tr>
+<tr class="even">
+<td>Logic analyzer</td>
+<td>Debug SPI between ESP32 and SX1262</td>
+<td>CH0 SCK, CH1 MOSI, CH2 MISO, CH3 NSS, CH4 BUSY, CH5 DIO1, plus ground. Sample at least 4 times the SPI clock; at 24 MS/s run SPI at 2 MHz while debugging. Decode with PulseView</td>
+<td>Forgetting the ground lead</td>
+</tr>
+<tr class="odd">
+<td>Multimeter</td>
+<td>Rails, battery, continuity</td>
+<td>Check continuity and the 3.3 V rail before inserting boards; measure current in series</td>
+<td>Measuring current with the probes in the voltage socket</td>
+</tr>
+<tr class="even">
+<td>USB power meter</td>
+<td>Energy measurements</td>
+<td>Inline on the 5 V supply; read mA and mAh</td>
+<td>Reading the idle value only</td>
+</tr>
+<tr class="odd">
+<td>Soldering</td>
+<td>Joints</td>
+<td>320–350 degrees C with 60/40 leaded solder (melts about 183–190 degrees C), flux, 2–4 seconds per joint</td>
+<td>Overheating the radio module</td>
+</tr>
+<tr class="even">
+<td>Level shifting</td>
+<td>Not needed</td>
+<td>ESP32-S3, SX1262, OLED and the GPS module all use 3.3 V logic</td>
+<td>Buying a level shifter you do not need</td>
+</tr>
+</tbody>
+</table></div><h3 id="wiring-esp32-s3-to-sx1262-suggested-gpios">5.1 Wiring: ESP32-S3 to SX1262 (suggested GPIOs)</h3><div class="tw"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>SX1262 pin</th>
+<th>ESP32-S3</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3V3 and GND</td>
+<td>3V3 and GND</td>
+<td>Power</td>
+</tr>
+<tr class="even">
+<td>NSS</td>
+<td>GPIO10</td>
+<td>SPI chip select</td>
+</tr>
+<tr class="odd">
+<td>SCK</td>
+<td>GPIO12</td>
+<td>SPI clock</td>
+</tr>
+<tr class="even">
+<td>MOSI</td>
+<td>GPIO11</td>
+<td>Data to radio</td>
+</tr>
+<tr class="odd">
+<td>MISO</td>
+<td>GPIO13</td>
+<td>Data from radio</td>
+</tr>
+<tr class="even">
+<td>RESET</td>
+<td>GPIO5</td>
+<td>Radio reset</td>
+</tr>
+<tr class="odd">
+<td>BUSY</td>
+<td>GPIO4</td>
+<td>Radio ready flag (wait for low before commands)</td>
+</tr>
+<tr class="even">
+<td>DIO1</td>
+<td>GPIO8</td>
+<td>Interrupt: RX done, TX done</td>
+</tr>
+<tr class="odd">
+<td>RXEN / TXEN or DIO2</td>
+<td>GPIO6 / GPIO7 (module dependent)</td>
+<td>RF switch</td>
+</tr>
+</tbody>
+</table></div><p>Any free GPIO works if the firmware matches. Avoid GPIO35–37 (PSRAM on N8R8) and strapping pins GPIO0, 3, 45, 46.</p><h3 id="radio-start-up-notes">5.2 Radio start-up notes</h3><ul>
+<li><p>Use the RadioLib library. Typical first configuration: SF7, bandwidth 125 kHz, coding rate 4/5, private sync word 0x12 (avoids LoRaWAN traffic), preamble 8, CRC on.</p></li>
+<li><p>The most common reason a new SX1262 module does not initialise is the TCXO (controlled through DIO3) or the RF switch (DIO2 or RXEN/TXEN). Read the module datasheet for both.</p></li>
+<li><p>Bench testing: keep nodes at least 1 m apart and use low power (2–10 dBm). Two radios touching at full power can saturate the receiver.</p></li>
+<li><p>Use channel activity detection (CAD) plus a random backoff before every transmission.</p></li>
+</ul></div></details></section><section class="sec" id="s6"><details open><summary><h2>6. Everything we have to do</h2></summary><div class="sb"><p>Task IDs match the work packages in Section 3. Tick them off in the shared tracker.</p><div class="chips" id="rolebar"></div><div class="grp" data-wp="PM"><h3 id="project-management-everyone">Project management (everyone)</h3><ul>
+<li><p>Create the GitHub repository, the Overleaf project, a shared drive for logs and photos, and a procurement tracker (item, supplier, price, date ordered, date received).</p></li>
+<li><p>Run the weekly meeting; write minutes the same day; send Dr. Sumayya a short note after each meeting with Sir Basit.</p></li>
+<li><p>Prepare Ignite paperwork and the budget; keep every quotation and receipt.</p></li>
+<li><p>Keep a risk log (Section 7).</p></li>
+</ul></div><div class="grp" data-wp="WP1"><h3 id="wp1-hardware-and-radio">WP1 Hardware and radio</h3><ol type="1">
+<li><p>Decide and confirm the RF band and power limit.</p></li>
+<li><p>Place Order 1; track delivery.</p></li>
+<li><p>Collect the NCCS boards; identify the exact model; run a blink test; install the toolchain (Arduino-ESP32 or PlatformIO).</p></li>
+<li><p>Wire two nodes on breadboards using the table in 5.1.</p></li>
+<li><p>Run the RadioLib SX1262 initialisation test; fix TCXO and RF-switch settings.</p></li>
+<li><p>Ping-pong test: NODE_A sends HELLO, NODE_B replies HELLO ACK; print RSSI and SNR.</p></li>
+<li><p>Range and placement test: log RSSI, SNR and success rate at 1, 10, 50, 100 and 200 m for SF7 and SF9.</p></li>
+<li><p>Build and test the power chain (battery, TP4056, regulator, switch); measure idle, receive and transmit current.</p></li>
+<li><p>Add the battery voltage divider and a battery-percentage function.</p></li>
+<li><p>Build perfboard nodes 1–4; label IDs; photograph each node.</p></li>
+</ol></div><div class="grp" data-wp="WP2"><h3 id="wp2-mesh-protocol-and-routing">WP2 Mesh protocol and routing</h3><ol type="1">
+<li><p>Define the packet format and test encode/decode on a PC.</p></li>
+<li><p>Node ID scheme (16-bit, derived from the chip MAC address).</p></li>
+<li><p>Radio abstraction and transmit queue with CAD, random backoff and airtime accounting.</p></li>
+<li><p>HELLO beacons with random jitter; neighbour table with smoothed RSSI, SNR and loss from beacon sequence gaps.</p></li>
+<li><p>Duplicate cache (source ID + packet ID) and TTL decrement on forwarding.</p></li>
+<li><p>Flooding mode with random rebroadcast delay and suppression.</p></li>
+<li><p>Shortest-hop mode (hop count only).</p></li>
+<li><p>ACK and retransmission (hop-by-hop plus end-to-end), sequence numbers, timeouts based on airtime.</p></li>
+<li><p>Store-and-forward queue and route recovery when a next hop disappears.</p></li>
+<li><p>Adaptive mode: link score, path cost, anti-flapping rule (Section 8.5).</p></li>
+<li><p>Serial CSV logging for every send, receive, forward, drop and ACK.</p></li>
+<li><p>Optional: a small Python simulator to check routing logic before field tests.</p></li>
+</ol></div><div class="grp" data-wp="WP3"><h3 id="wp3-security">WP3 Security</h3><ol type="1">
+<li><p>Threat model: eavesdropping, spoofing, replay, tampering.</p></li>
+<li><p>Key provisioning plan (pre-shared key loaded over serial or BLE).</p></li>
+<li><p>AES-256-GCM with mbedTLS; header authenticated as additional data.</p></li>
+<li><p>Nonce scheme (node ID plus counter) with the counter saved in flash so it never repeats after reboot.</p></li>
+<li><p>Replay window per source.</p></li>
+<li><p>Per-node signing key pair; signed HELLO beacons; list of trusted node keys.</p></li>
+<li><p>Measure the overhead (36 extra bytes per packet) and its airtime cost.</p></li>
+<li><p>Tests: a modified packet must be rejected; a replayed packet must be rejected.</p></li>
+</ol></div><div class="grp" data-wp="WP4"><h3 id="wp4-android-and-ble">WP4 Android and BLE</h3><ol type="1">
+<li><p>Android Studio project in Kotlin; handle the Bluetooth scan and connect permissions of recent Android versions.</p></li>
+<li><p>GATT service design: one characteristic the phone writes to, one the node notifies on, one for status.</p></li>
+<li><p>NimBLE GATT server on the ESP32.</p></li>
+<li><p>Request a larger MTU and split long messages into chunks.</p></li>
+<li><p>App screens: scan and connect, chat, delivery status.</p></li>
+<li><p>Node-info screen: connected node, RSSI, hop count.</p></li>
+<li><p>Topology graph screen (later).</p></li>
+<li><p>Reconnect handling; test with two phones.</p></li>
+</ol></div><div class="grp" data-wp="WP5"><h3 id="wp5-evaluation-tooling-and-documentation">WP5 Evaluation, tooling and documentation</h3><ol type="1">
+<li><p>Fix the CSV schema (Section 3).</p></li>
+<li><p>Python logger using pyserial, one file per node, merged by timestamp.</p></li>
+<li><p>Plot scripts: RSSI versus distance, delivery ratio versus hops, delay distribution, energy per message.</p></li>
+<li><p>Written test plan with repeat counts (Section 8.8).</p></li>
+<li><p>Overleaf skeleton (Section 9).</p></li>
+<li><p>Literature review with at least 15 references.</p></li>
+<li><p>Mid-year slides, demo script and two rehearsals.</p></li>
+<li><p>Ignite paperwork and budget.</p></li>
+<li><p>Weekly minutes.</p></li>
+</ol></div></div></details></section><section class="sec" id="s7"><details open><summary><h2>7. Weekly milestones: 12 Oct to mid-December</h2></summary><div class="sb"><p>One measurable result per week. Present it at the weekly meeting. Confirm the plan on Monday.</p><div class="tw"><table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Dates</th>
+<th>Goal</th>
+<th>Done when</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>W1</td>
+<td>12–18 Oct</td>
+<td>Kick-off: roles, repo, Overleaf, band decision, Order 1 placed, NCCS boards collected, toolchain installed</td>
+<td>Roles written in minutes; both boards run a blink program; order placed</td>
+</tr>
+<tr class="even">
+<td>W2</td>
+<td>19–25 Oct</td>
+<td>Radio bring-up; packet format and GATT service designed on paper; one research paper chosen</td>
+<td>NODE_A HELLO received by NODE_B with RSSI and SNR printed</td>
+</tr>
+<tr class="odd">
+<td>W3</td>
+<td>26 Oct–1 Nov</td>
+<td>Reliable point-to-point link; Python parser; Order 2 placed</td>
+<td>Table of success rate, RSSI and SNR from 100 packets at 3 distances; first graph plotted</td>
+</tr>
+<tr class="even">
+<td>W4</td>
+<td>2–8 Nov</td>
+<td>BLE bridge; node 1 running on battery; report introduction and related work drafted</td>
+<td>Text typed on the phone appears on the node serial output, and a node message appears on the phone</td>
+</tr>
+<tr class="odd">
+<td>W5</td>
+<td>9–15 Nov</td>
+<td>Phone-to-phone through two nodes; packet format v1; single-hop ACK</td>
+<td>Live text from Phone A to Phone B with delivery status in the app</td>
+</tr>
+<tr class="even">
+<td>W6</td>
+<td>16–22 Nov</td>
+<td>Nodes 3 and 4 assembled; HELLO beacons and neighbour table</td>
+<td>Every node lists neighbours with RSSI, SNR and loss; 4 nodes run on batteries</td>
+</tr>
+<tr class="odd">
+<td>W7</td>
+<td>23–29 Nov</td>
+<td>Multi-hop forwarding on a 3–4 node chain with TTL, duplicate cache and flooding mode</td>
+<td>A message crosses 3 hops, hop count shown, duplicates dropped, logs saved</td>
+</tr>
+<tr class="even">
+<td>W8</td>
+<td>30 Nov–6 Dec</td>
+<td>ACK and retransmission across hops; shortest-hop mode; node switched off during a run; AES-GCM round trip on ESP32</td>
+<td>Delivery ratio measured for 1, 2 and 3 hops; recovery behaviour recorded</td>
+</tr>
+<tr class="odd">
+<td>W9</td>
+<td>7–13 Dec</td>
+<td>Freeze features on Mon 7 Dec; fix bugs; graphs, slides, report draft; two full rehearsals; record a backup video of the demo</td>
+<td>Two clean rehearsals; slides and report sent to the supervisor</td>
+</tr>
+</tbody>
+</table></div><p><strong>After December (from the Gantt chart):</strong> January reliability and security; February adaptive routing, feature-complete by about 5 Feb 2027 (before Ramzan); March comparative evaluation; April field tests across campus; May results, thesis, poster, final demonstration.</p><p><strong>Risks and fallbacks</strong></p><div class="tw"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Risk</th>
+<th>Fallback</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Radio modules arrive late</td>
+<td>Work on BLE, packet format and a Python simulator meanwhile; buy from a local seller in stock</td>
+</tr>
+<tr class="even">
+<td>Radio does not initialise</td>
+<td>Check TCXO and RF-switch pins, shorten wires, lower SPI speed, inspect SPI with the logic analyzer</td>
+</tr>
+<tr class="odd">
+<td>NCCS boards are not ESP32-S3</td>
+<td>Buy two S3 boards immediately; keep the same model for all nodes</td>
+</tr>
+<tr class="even">
+<td>A node dies during the demo</td>
+<td>Carry a spare node, charged batteries and the backup video</td>
+</tr>
+<tr class="odd">
+<td>Multi-hop cannot be forced on a small campus</td>
+<td>Reduce transmit power and place nodes behind buildings (Section 8.2)</td>
+</tr>
+</tbody>
+</table></div></div></details></section><section class="sec" id="s8"><details open><summary><h2>8. Research notes</h2></summary><div class="sb"><h3 id="how-lora-works">8.1 How LoRa works</h3><p>LoRa uses chirp spread spectrum. Three settings control it: spreading factor SF (7 to 12), bandwidth BW (125, 250 or 500 kHz) and coding rate CR (4/5 to 4/8). A higher SF gives more range but a much longer transmission time and a lower data rate. Symbol time is 2^SF / BW, and the Semtech airtime formula adds preamble and payload symbols.</p><p><strong>Airtime at 125 kHz, CR 4/5, 8-symbol preamble, explicit header, CRC on (calculated with the Semtech formula):</strong></p><div class="tw"><table style="width:100%;">
+<colgroup>
+<col style="width: 16%"/>
+<col style="width: 16%"/>
+<col style="width: 16%"/>
+<col style="width: 16%"/>
+<col style="width: 16%"/>
+<col style="width: 16%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>SF</th>
+<th>20-byte payload</th>
+<th>50-byte payload</th>
+<th>100-byte payload</th>
+<th>Bit rate</th>
+<th>Minimum SNR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>7</td>
+<td>57 ms</td>
+<td>98 ms</td>
+<td>174 ms</td>
+<td>about 5.5 kbps</td>
+<td>-7.5 dB</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>103 ms</td>
+<td>175 ms</td>
+<td>308 ms</td>
+<td>about 3.1 kbps</td>
+<td>-10 dB</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>185 ms</td>
+<td>329 ms</td>
+<td>554 ms</td>
+<td>about 1.8 kbps</td>
+<td>-12.5 dB</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>371 ms</td>
+<td>616 ms</td>
+<td>1026 ms</td>
+<td>about 1.0 kbps</td>
+<td>-15 dB</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>741 ms</td>
+<td>1315 ms</td>
+<td>2216 ms</td>
+<td>about 0.54 kbps</td>
+<td>-17.5 dB</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>1319 ms</td>
+<td>2302 ms</td>
+<td>3940 ms</td>
+<td>about 0.29 kbps</td>
+<td>-20 dB</td>
+</tr>
+</tbody>
+</table></div><p>Receiver sensitivity is roughly -123 dBm (SF7) to -137 dBm (SF12) at 125 kHz for SX127x-class chips; the SX1262 is slightly better (see its datasheet). Every hop re-sends the whole packet, so end-to-end delay is at least hops x (airtime + backoff + processing). Four hops at SF9 with 50 bytes is already over 1.3 s.</p><h3 id="link-budget-and-forcing-multi-hop-on-campus">8.2 Link budget and forcing multi-hop on campus</h3><p>Received power = transmit power + antenna gains - path loss. Free-space path loss in dB is 32.44 + 20 log10(distance in km) + 20 log10(frequency in MHz).</p><div class="tw"><table>
+<colgroup>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+<col style="width: 33%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Distance</th>
+<th>433 MHz</th>
+<th>868 MHz</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>100 m</td>
+<td>65 dB</td>
+<td>71 dB</td>
+</tr>
+<tr class="even">
+<td>500 m</td>
+<td>79 dB</td>
+<td>85 dB</td>
+</tr>
+<tr class="odd">
+<td>1 km</td>
+<td>85 dB</td>
+<td>91 dB</td>
+</tr>
+<tr class="even">
+<td>2 km</td>
+<td>91 dB</td>
+<td>97 dB</td>
+</tr>
+<tr class="odd">
+<td>5 km</td>
+<td>99 dB</td>
+<td>105 dB</td>
+</tr>
+</tbody>
+</table></div><p>Real campus paths are worse than free space: model them with a log-distance exponent of about 2.7–3.5 plus shadowing from buildings and trees. With nodes 100–300 m apart, SF7–SF9 is enough. A small campus tends to make every node hear every other node, which would remove the multi-hop behaviour you want to show. To force multi-hop: lower transmit power (for example 2–10 dBm), place nodes behind buildings, and check each link's RSSI to confirm that non-neighbours cannot hear each other.</p><h3 id="channel-access-and-duty-cycle">8.3 Channel access and duty cycle</h3><p>LoRa has no built-in collision avoidance (basic ALOHA). Use channel activity detection and a random backoff before sending. Regions often limit duty cycle (in the EU 868 MHz band, 1 % is a common limit); the limit for Pakistan must be confirmed. As a design budget, assume 1 %: with 330 ms packets that is about one packet per 33 s per node. Flooding multiplies transmissions, so airtime used per delivered message is a key result for comparing flooding, shortest-hop and adaptive routing.</p><h3 id="mesh-routing-background">8.4 Mesh routing background</h3><ul>
+<li><p><strong>Flooding:</strong> every node rebroadcasts once. Simple and robust, but wastes airtime.</p></li>
+<li><p><strong>Managed flooding (Meshtastic):</strong> a hop limit, suppression when a node hears another node already rebroadcasting, and a rebroadcast delay that depends on SNR so distant nodes go first. The documentation gives a default hop limit of 3 and a maximum of 7. Your proposal uses Meshtastic only as a design reference.</p></li>
+<li><p><strong>Proactive, reactive and link-state protocols (DSDV, AODV, OLSR):</strong> maintain routes with tables; AODV-style and RSSI-based variants have been tried on LoRa.</p></li>
+<li><p><strong>ETX:</strong> expected number of transmissions on a link, 1 / (forward delivery x reverse delivery); the classic delivery-based metric.</p></li>
+<li><p><strong>Opportunistic routing:</strong> several candidate relays per hop, as in OppLoRa.</p></li>
+<li><p><strong>Energy-aware routing:</strong> includes battery state in route choice; this is the closest idea to your battery term.</p></li>
+</ul><p>MeshX takes a custom link-state approach with a composite score from RSSI, SNR, loss and battery.</p><h3 id="adaptive-link-quality-design-proposal">8.5 Adaptive link-quality design (proposal)</h3><p><strong>Measurements per neighbour, from HELLO beacons:</strong> RSSI and SNR smoothed with an exponential moving average (alpha about 0.2); loss rate from gaps in the beacon sequence number over the last 10–20 beacons; battery percentage carried inside the beacon.</p><p><strong>Normalisation (each value 0 to 1):</strong></p><ul>
+<li><p>R = clamp((RSSI + 120) / 60, 0, 1)</p></li>
+<li><p>N = clamp((SNR - SNR_min(SF)) / 15, 0, 1), where SNR_min(SF) = -7.5 - 2.5 x (SF - 7)</p></li>
+<li><p>Q = 1 - loss</p></li>
+<li><p>B = battery percent / 100</p></li>
+</ul><p><strong>Link score:</strong> S = wR x R + wN x N + wQ x Q + wB x B, weights summing to 1. Start with 0.35, 0.25, 0.25, 0.15 (the same defaults as the interactive schematic) and tune in February–March by switching each weight off in turn (ablation).</p><p><strong>Path choice:</strong> link cost c = -ln(max(S, 0.05)) + 0.1, where 0.1 is a small per-hop penalty. Each node gossips its neighbour scores in beacons, builds the graph and runs Dijkstra. For asymmetric links use the lower of the two directions.</p><p><strong>Avoid route flapping:</strong> change the route only if the new path is at least 20 % cheaper for 3 consecutive beacon intervals. Declare a neighbour dead after 3–4 missed beacons. Add a penalty for next hops below 20 % battery rather than excluding them.</p><h3 id="protocol-design-notes">8.6 Protocol design notes</h3><ul>
+<li><p><strong>Header:</strong> destination 2 B, source 2 B, packet ID 2 B, TTL 1 B, type 1 B = 8 bytes. With nonce 12 B and authentication tag 16 B the overhead is 36 bytes, leaving about 219 bytes for text in a 255-byte LoRa frame.</p></li>
+<li><p><strong>Packet types:</strong> DATA, ACK, HELLO, link-state update.</p></li>
+<li><p><strong>ACKs:</strong> hop-by-hop ACK for fast recovery and an optional end-to-end ACK for delivery status in the app. Retransmission timeout is about 2 x data airtime + ACK airtime + jitter, with at most 3 retries.</p></li>
+<li><p><strong>Duplicate cache:</strong> ring buffer of the last 32–64 (source, packet ID) pairs.</p></li>
+<li><p><strong>Discovery:</strong> HELLO beacons with TTL 1 for neighbours; link-state updates with a larger TTL.</p></li>
+<li><p><strong>BLE:</strong> a Nordic-UART-style service: one write characteristic from the phone, one notify characteristic to the phone, larger MTU, chunking for long text.</p></li>
+</ul><h3 id="security-design-notes">8.7 Security design notes</h3><ul>
+<li><p><strong>Encryption:</strong> AES-256-GCM through mbedTLS (it uses hardware acceleration on the ESP32). The 96-bit nonce must never repeat under one key: build it from node ID plus a counter stored in flash.</p></li>
+<li><p><strong>Replay protection:</strong> keep the highest counter seen per source and reject older ones.</p></li>
+<li><p><strong>Identity:</strong> a shared network key means any holder can forge any node, so each node also signs its HELLO beacons with its own key pair (for example Ed25519). A 64-byte signature is too large for every data packet, so sign beacons only.</p></li>
+<li><p><strong>Honest limits to state in the report:</strong> key provisioning is manual; no key rotation; flash encryption and secure boot are out of scope.</p></li>
+</ul><h3 id="evaluation-methodology">8.8 Evaluation methodology</h3><div class="tw"><table>
+<colgroup>
+<col style="width: 50%"/>
+<col style="width: 50%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>How to measure</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Packet Delivery Ratio</td>
+<td>Delivered divided by sent, per flow</td>
+</tr>
+<tr class="even">
+<td>End-to-end delay</td>
+<td>No clock sync between nodes, so use round-trip time of the end-to-end ACK divided by 2</td>
+</tr>
+<tr class="odd">
+<td>Throughput</td>
+<td>Delivered payload bytes divided by time</td>
+</tr>
+<tr class="even">
+<td>Energy</td>
+<td>Voltage x current over time from the meter, reported as mAh per delivered message</td>
+</tr>
+<tr class="odd">
+<td>Route recovery time</td>
+<td>Time from switching off an intermediate node to the first successful delivery by another path</td>
+</tr>
+</tbody>
+</table></div><p><strong>Test matrix:</strong> topologies (direct, 2-hop, 3-hop, 4+ hops) x routing modes (flooding, shortest-hop, adaptive), at least 30 messages per run, at least 3 repeats, payloads of 20, 50 and 100 bytes. Use the same physical topology for all three modes. Node-failure test: switch off a relay in the middle of a 50-message run. Interference test: add another LoRa transmitter on the same channel or raise traffic. Report mean and standard deviation or a 95 % confidence interval, and log everything.</p><h3 id="energy-and-battery-life-estimate-approximate-replace-with-measurements">8.9 Energy and battery-life estimate (approximate, replace with measurements)</h3><p>Datasheet-class values: SX1262 receive about 5 mA, transmit at +22 dBm about 100–120 mA, sleep far below 1 uA; ESP32-S3 with BLE active about 60–120 mA average with higher peaks. An always-on node therefore draws about 100 mA: a 4000 mAh battery gives about 40 hours ideal, about 30–35 hours after regulator losses. Duty-cycled receive and light sleep are stretch goals.</p></div></details></section><section class="sec" id="s9"><details open><summary><h2>9. Documentation workflow: Overleaf and references</h2></summary><div class="sb"><ul>
+<li><p><strong>One Overleaf project</strong> for the whole report: main.tex, a chapters folder, a references.bib file and a figures folder. If the department gives a thesis template, use it (ask).</p></li>
+<li><p><strong>Chapters:</strong> Abstract; 1 Introduction (problem and objectives); 2 Literature review; 3 System design (hardware, protocol, routing, security, app); 4 Implementation; 5 Evaluation; 6 Conclusion and future work; Appendices (bill of materials, wiring, test logs).</p></li>
+<li><p><strong>References from the first draft:</strong> write \cite commands even in rough text. Keep one Zotero library, export to BibTeX, and name keys like cotrim2020lorawan. Always paraphrase; store the DOI or link for each source.</p></li>
+<li><p><strong>Sharing:</strong> use Share to add teammates with edit access and Dr. Sumayya with comment access; post the link in her group. Overleaf keeps version history.</p></li>
+<li><p><strong>Where things live:</strong> code in GitHub; report in Overleaf; logs and photos in the shared drive.</p></li>
+<li><p><strong>Minutes template:</strong> date, attendees, done since last meeting, blockers, decisions, next week.</p></li>
+</ul></div></details></section><section class="sec" id="s10"><details open><summary><h2>10. The research paper: candidates and how to use them</h2></summary><div class="sb"><p>The note is ambiguous (see Section 11). A safe plan: the group picks one anchor paper closest to MeshX, and each member reads at least one more and writes a half-page summary (problem, method, metrics, result, limitation, relevance to MeshX). I only saw abstracts or summaries of the papers below, so read each in full and verify details before citing.</p><div class="tw"><table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th>#</th>
+<th>Paper</th>
+<th>Why it fits</th>
+<th>Use it for</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Cotrim and Kleinschmidt, LoRaWAN Mesh Networks: A Review and Classification of Multihop Communication, Sensors, 2020</td>
+<td>Survey of multi-hop LoRa approaches</td>
+<td>Literature review structure</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>A Position- and Energy-Aware Routing Strategy for Subterranean LoRa Mesh Networks (arXiv 2510.03714)</td>
+<td>LoRa mesh routing that considers energy; closest to the battery term</td>
+<td>Suggested anchor paper</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Opportunistic Routing in LoRa-based Wireless Mesh Networks (CCS Labs, 2023)</td>
+<td>LoRa routing using link quality and several candidate relays</td>
+<td>Contrast with your single best path</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Analytic Model of a Mesh Topology based on LoRa Technology (ICACT 2020)</td>
+<td>RSSI-based route selection with a queueing model</td>
+<td>Simple RSSI-only baseline</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>A Meshtastic-based LoRa Mesh System for Smart Campus Applications (arXiv 2605.20379)</td>
+<td>Campus deployment evaluated with RSSI and SNR</td>
+<td>Test methodology</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Liaqat, Branch and But, LoRa Based Linear Network Applications, Design Considerations and Open Challenges: A Review, SenSys 2022</td>
+<td>Chains of LoRa nodes, like the 4+ hop tests</td>
+<td>Chain topology issues</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>De Couto et al., A High-Throughput Path Metric for Multi-Hop Wireless Routing, MobiCom 2003</td>
+<td>Origin of the ETX metric</td>
+<td>Justifying loss-based link cost</td>
+</tr>
+</tbody>
+</table></div><p class="note">Full list with verified links: <a href="#s14">Section 14</a>.</p></div></details></section><section class="sec" id="s11"><details open><summary><h2>11. Questions to ask the supervisors</h2></summary><div class="sb"><ol type="1">
+<li><p>What does Target: Ramzan refer to (core system, first full draft, paper, something else)?</p></li>
+<li><p>What does 1 research paper mean: one paper to read, one per member, or one to write?</p></li>
+<li><p>What is the exact date, format and rubric of the mid-year evaluation?</p></li>
+<li><p>Which ESP32 model will NCCS provide, and must the boards be returned?</p></li>
+<li><p>Which RF band, power limit and duty cycle are allowed for the field tests?</p></li>
+<li><p>Ignite: how are projects nominated, what is the deadline and the maximum amount?</p></li>
+<li><p>Is a team leader needed (the word Leader is crossed out in the notes)?</p></li>
+<li><p>Is there a required thesis template for the LaTeX report?</p></li>
+<li><p>The proposal ticks Industrial Collaboration but Section 7 and the Industrial Advisor row are empty. Should NCCS be named there?</p></li>
+<li><p>How often should we meet Sir Basit, and what should we report to Dr. Sumayya?</p></li>
+</ol></div></details></section><section class="sec" id="s12"><details open><summary><h2>12. References and sources</h2></summary><div class="sb"><ol type="1">
+<li><p>J. R. Cotrim and J. H. Kleinschmidt, LoRaWAN Mesh Networks: A Review and Classification of Multihop Communication, Sensors, vol. 20, no. 15, 2020.</p></li>
+<li><p>R. M. Liaqat, P. Branch and J. But, LoRa Based Linear Network Applications, Design Considerations and Open Challenges: A Review, ACM SenSys, 2022.</p></li>
+<li><p>Analytic Model of a Mesh Topology based on LoRa Technology, 22nd International Conference on Advanced Communication Technology (ICACT), 2020, doi 10.23919/ICACT48636.2020.9061519 (check author list).</p></li>
+<li><p>Opportunistic Routing in LoRa-based Wireless Mesh Networks, CCS Labs, 2023 (check author list): https://www.ccs-labs.org/bib/roesler2023opportunistic/roesler2023opportunistic.pdf</p></li>
+<li><p>A Position- and Energy-Aware Routing Strategy for Subterranean LoRa Mesh Networks, arXiv:2510.03714.</p></li>
+<li><p>A Meshtastic-based LoRa Mesh System for Smart Campus Applications, arXiv:2605.20379.</p></li>
+<li><p>Meshtastic, Mesh Broadcast Algorithm: https://meshtastic.org/docs/overview/mesh-algo/</p></li>
+<li><p>D. S. J. De Couto, D. Aguayo, J. Bicket and R. Morris, A High-Throughput Path Metric for Multi-Hop Wireless Routing, ACM MobiCom, 2003.</p></li>
+<li><p>Semtech, SX1261/SX1262 datasheet, and the LoRa modem designer's guide (airtime formula).</p></li>
+<li><p>LoRa Alliance, Regional Parameters (Pakistan band listing): https://lora-alliance.org/wp-content/uploads/2020/11/RP_2-1.0.2.pdf</p></li>
+<li><p>Ignite National Technology Fund, National Grassroots ICT Research Initiative (final-year project funding): https://itu.int/net4/wsis/stocktaking/Prizes/2024/Details/15155857930000000</p></li>
+<li><p>Libraries and tools: RadioLib, NimBLE-Arduino, mbedTLS, PulseView / sigrok.</p></li>
+</ol></div></details></section><section class="sec" id="s13"><details open><summary><h2>13. Interactive tools</h2></summary><div class="sb"><div class="tools">
+<div class="tool"><h3>Countdown to mid-year evaluation</h3><div class="res" id="cd"></div><p class="note">Feature freeze Mon 7 Dec; ready by Fri 11 Dec (Section 7). Ramzan 2027 is expected about 8 to 9 Feb.</p></div>
+<div class="tool"><h3>LoRa airtime calculator</h3>
+<div class="f"><span>SF</span><select id="sf"><option>7</option><option>8</option><option selected>9</option><option>10</option><option>11</option><option>12</option></select></div>
+<div class="f"><span>Bandwidth</span><select id="bw"><option value="125000" selected>125 kHz</option><option value="250000">250 kHz</option><option value="500000">500 kHz</option></select></div>
+<div class="f"><span>Coding rate</span><select id="cr"><option value="1" selected>4/5</option><option value="2">4/6</option><option value="3">4/7</option><option value="4">4/8</option></select></div>
+<div class="f"><span>Payload (bytes)</span><input type="number" id="pl" value="50" min="1" max="255"></div>
+<div class="res" id="at"></div><p class="note" id="at2"></p></div>
+<div class="tool"><h3>Link score and cost (Section 8.5)</h3>
+<div class="f"><span>RSSI dBm</span><input type="range" id="rs" min="-130" max="-50" value="-95"><b id="rsv"></b></div>
+<div class="f"><span>SNR dB</span><input type="range" id="sn" min="-20" max="15" value="3"><b id="snv"></b></div>
+<div class="f"><span>Loss %</span><input type="range" id="ls" min="0" max="60" value="8"><b id="lsv"></b></div>
+<div class="f"><span>Battery %</span><input type="range" id="bt" min="0" max="100" value="70"><b id="btv"></b></div>
+<div class="f"><span>Spreading factor</span><select id="sf2"><option>7</option><option selected>9</option><option>12</option></select></div>
+<div class="res" id="ls2"></div><p class="note">Weights 0.35, 0.25, 0.25, 0.15. Cost = -ln(max(S, 0.05)) + 0.1.</p></div>
+<div class="tool"><h3>Routing lab (separate page)</h3><p>Power nodes off, switch between flooding, shortest-hop and adaptive routing, and change the weights.</p><p><a href="https://claude.ai/artifact/LPHkCrujwqjWbowuh9YFRd" target="_blank" rel="noopener">Open the interactive MeshX schematic and routing lab</a></p></div>
+</div></div></details></section>
+<section class="sec" id="s14"><details open><summary><h2>14. Research papers and learning material</h2></summary><div class="sb">
+<p class="note">Green VERIFIED = I opened or saw the record of this paper in a search while preparing this pack. Papers without it have a Google Scholar search link; find the exact paper there. Read each paper in full before citing it.</p>
+<div class="chips" id="pf"></div><div id="pl2"></div>
+<h3>Learning material and official sources</h3><div id="rl"></div></div></details></section>
+<script>document.addEventListener('DOMContentLoaded',()=>{
+const ph=new Date(2026,11,11);const dl=Math.ceil((ph-new Date())/864e5);$('#cd').textContent=dl>0?dl+' days to Fri 11 Dec 2026':'The 11 Dec target date has passed';
+function air(){const sf=+$('#sf').value,bw=+$('#bw').value,cr=+$('#cr').value,pl=+$('#pl').value,ts=2**sf/bw,de=ts>0.016?1:0;const ns=8+Math.max(Math.ceil((8*pl-4*sf+28+16-0)/(4*(sf-2*de)))*(cr+4),0);const t=(8+4.25)*ts+ns*ts;$('#at').textContent=(t*1000).toFixed(0)+' ms';$('#at2').textContent='Bit rate about '+(sf*(4/(4+cr))/ts/1000).toFixed(2)+' kbps. At a 1% duty-cycle budget: one packet every '+(t*100).toFixed(0)+' s. Four hops take at least '+(t*4).toFixed(2)+' s.'}
+['sf','bw','cr','pl'].forEach(i=>$('#'+i).oninput=air);air();
+function ls(){const r=+$('#rs').value,s=+$('#sn').value,l=+$('#ls').value,b=+$('#bt').value,sf=+$('#sf2').value;$('#rsv').textContent=r;$('#snv').textContent=s;$('#lsv').textContent=l;$('#btv').textContent=b;const c=(x)=>Math.max(0,Math.min(1,x));const R=c((r+120)/60),N=c((s-(-7.5-2.5*(sf-7)))/15),Q=1-l/100,B=b/100;const S=.35*R+.25*N+.25*Q+.15*B;$('#ls2').textContent='S = '+S.toFixed(2)+'   cost = '+(-Math.log(Math.max(S,.05))+.1).toFixed(2)}
+['rs','sn','ls','bt','sf2'].forEach(i=>$('#'+i).oninput=ls);ls();
+const G=q=>'https://scholar.google.com/scholar?q='+encodeURIComponent(q);
+const P=[
+['Survey','LoRaWAN Mesh Networks: A Review and Classification of Multihop Communication','Cotrim and Kleinschmidt, Sensors 20(15), 2020','Best overview of multi-hop LoRa; classification of approaches. Start here for the literature review.',[['Paper','https://www.mdpi.com/1424-8220/20/15/4273'],['DOI','https://doi.org/10.3390/s20154273']],1],
+['Survey','Multi-Hop and Mesh for LoRa Networks: Recent Advancements, Issues, and Recommended Applications','ACM, 2024 (papers 2015 to 2023)','Newer review of multi-hop and mesh LoRa work covering simulations and real experiments.',[['DOI','https://doi.org/10.1145/3638241']],1],
+['Survey','Understanding the Limits of LoRaWAN','Adelantado et al., IEEE Communications Magazine 55(9), 2017','Capacity, duty cycle and airtime limits. Explains why airtime is the scarce resource.',[['arXiv','https://arxiv.org/abs/1607.08011'],['DOI','https://doi.org/10.1109/MCOM.2017.1600613']],1],
+['Routing','A Position- and Energy-Aware Routing Strategy for Subterranean LoRa Mesh Networks','arXiv 2510.03714','Energy-aware LoRa mesh routing; closest to your battery term. Suggested anchor paper.',[['arXiv','https://arxiv.org/abs/2510.03714']],1],
+['Routing','Opportunistic Routing in LoRa-based Wireless Mesh Networks','CCS Labs, 2023','LoRa routing using link quality with several candidate relays; contrast with your single best path.',[['PDF','https://www.ccs-labs.org/bib/roesler2023opportunistic/roesler2023opportunistic.pdf']],1],
+['Routing','Analytic Model of a Mesh Topology based on LoRa Technology','22nd ICACT, 2020','RSSI-based route selection with a queueing model; a simple RSSI-only baseline.',[['DOI','https://doi.org/10.23919/ICACT48636.2020.9061519']],1],
+['Routing','Static multi-hop LoRa routing from RSSI measurements with ESP32 and SX1276','JCOSINE journal','Same hardware family as yours (ESP32 plus LoRa) with RSSI-based routing tables.',[['PDF','https://jcosine.if.unram.ac.id/index.php/jcosine/article/download/701/163/']],1],
+['Measurement','A Meshtastic-based LoRa Mesh System for Smart Campus Applications','arXiv 2605.20379','Campus deployment evaluated with RSSI and SNR; useful for your test methodology.',[['arXiv','https://arxiv.org/abs/2605.20379']],1],
+['Measurement','Delay of LoRa multi-hop networks in a linear topology (SX1276, thesis)','Escuela Politecnica Nacional, 2022','Measured RSSI, SNR and an equation for multi-hop delay in urban and rural chains.',[['Record','https://bibdigital.epn.edu.ec/handle/15000/22721?locale=en']],1],
+['Measurement','LoRa Based Linear Network Applications, Design Considerations and Open Challenges: A Review','Liaqat, Branch and But, ACM SenSys 2022','Chain topologies like your 4+ hop tests.',[['Find it',G('LoRa Based Linear Network Applications, Design Considerations and Open Challenges: A Review')]],0],
+['Metrics','A High-Throughput Path Metric for Multi-Hop Wireless Routing (ETX)','De Couto, Aguayo, Bicket, Morris, ACM MobiCom 2003','The classic expected-transmission-count metric behind loss-aware link cost.',[['Find it',G('A High-Throughput Path Metric for Multi-Hop Wireless Routing')]],0],
+['Meshtastic','Mesh Broadcast Algorithm (documentation)','Meshtastic','Managed flooding, hop limit, SNR-based rebroadcast delay, next-hop fallback. Your baseline reference.',[['Docs','https://meshtastic.org/docs/overview/mesh-algo/']],1],
+['Meshtastic','Why Meshtastic Uses Managed Flood Routing','Meshtastic blog','Reasons for choosing flooding over route tables and its limitations.',[['Blog','https://meshtastic.org/blog/why-meshtastic-uses-managed-flood-routing/']],1]];
+const topics=['All','Survey','Routing','Measurement','Metrics','Meshtastic'];let tp='All';
+function rp(){$('#pl2').innerHTML=P.filter(p=>tp=='All'||p[0]==tp).map(p=>`<div class="pc"><h4>${p[1]}${p[5]?'<span class="v">VERIFIED</span>':''}</h4><div class="m">${p[0]} &middot; ${p[2]}</div><div>${p[3]}</div><div>${p[4].map(l=>`<a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a>`).join(' &middot; ')}</div></div>`).join('')}
+topics.forEach(t=>{const b=document.createElement('button');b.className='chip'+(t=='All'?' on':'');b.textContent=t;b.onclick=()=>{tp=t;$$('#pf .chip').forEach(c=>c.classList.toggle('on',c==b));rp()};$('#pf').append(b)});rp();
+const R=[['Regulation, funding and dates',[['LoRa Alliance regional parameters (Pakistan band listing)','https://lora-alliance.org/wp-content/uploads/2020/11/RP_2-1.0.2.pdf'],['Ignite National Technology Fund, FYP funding programme','https://itu.int/net4/wsis/stocktaking/Prizes/2024/Details/15155857930000000'],['Expected Ramzan 2027 dates','https://blog.wego.com/ramadan-2027/']]],
+['Datasheets and hardware',[['Semtech SX1262 product page and datasheet','https://www.semtech.com/products/wireless-rf/lora-connect/sx1262'],['ESP32-S3 datasheet (Espressif)','https://www.espressif.com/sites/default/files/documentation/esp32-s3_datasheet_en.pdf'],['Arduino-ESP32 documentation','https://docs.espressif.com/projects/arduino-esp32/en/latest/'],['The Things Network LoRa airtime calculator','https://www.thethingsnetwork.org/airtime-calculator']]],
+['Libraries and code',[['RadioLib (SX1262 driver, CAD, examples)','https://github.com/jgromes/RadioLib'],['NimBLE-Arduino (BLE GATT on ESP32)','https://github.com/h2zero/NimBLE-Arduino'],['mbedTLS (AES-GCM)','https://github.com/Mbed-TLS/mbedtls'],['Monocypher (small Ed25519 library)','https://monocypher.org/'],['PlatformIO','https://platformio.org']]],
+['Android and BLE',[['Android Bluetooth Low Energy overview','https://developer.android.com/develop/connectivity/bluetooth/ble/ble-overview']]],
+['Debugging',[['PulseView (sigrok) for the logic analyzer','https://sigrok.org/wiki/PulseView']]],
+['Writing and references',[['Overleaf Learn (LaTeX tutorials, BibTeX)','https://www.overleaf.com/learn'],['Zotero reference manager','https://www.zotero.org'],['Meshtastic encryption documentation','https://meshtastic.org/docs/overview/encryption/']]]];
+$('#rl').innerHTML=R.map(g=>`<h4 style="margin:10px 0 2px">${g[0]}</h4><ul>${g[1].map(l=>`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>`).join('');
+});</script>
+<p class="note" id="nr" hidden>No section matches your search.</p></main>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+let st={};try{st=JSON.parse(localStorage.getItem('meshxck')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('meshxck',JSON.stringify(st))}catch(e){}};
+let n=0;
+function mk(el,key,sec){const id=sec+'-'+key;const cb=document.createElement('input');cb.type='checkbox';cb.className='ck';cb.checked=!!st[id];cb.onchange=()=>{st[id]=cb.checked?1:0;save();el.classList.toggle('d',cb.checked);prog()};el.classList.toggle('d',cb.checked);return cb}
+$$('#s6 li').forEach((li,i)=>{const sp=document.createElement('span');while(li.firstChild)sp.append(li.firstChild);const lb=document.createElement('label');li.className='t';const cb=mk(li,i,'s6');lb.append(cb,sp);li.append(lb)});
+$$('#s4 table, #s7 table').forEach((t,ti)=>{const sec=t.closest('section').id;if(sec=='s7'&&!t.textContent.trim().startsWith('Week'))return;if(sec=='s4'&&!t.previousElementSibling&&!t.parentElement.previousElementSibling.textContent.includes('Order 1'))return;$$('tr',t).forEach((tr,ri)=>{if(!ri){const th=document.createElement('th');th.textContent='Done';tr.append(th);return}const td=document.createElement('td');td.append(mk(tr,ti+'-'+ri,sec));tr.append(td)})});
+$$('#s4 table').forEach((t,i)=>{if(i>0){$$('tr',t).forEach(tr=>{const l=tr.lastElementChild;if(l&&(l.textContent==='Done'||l.querySelector('input.ck'))){l.remove()}})}});
+function prog(){const all=$$('input.ck'),d=all.filter(c=>c.checked).length;$('#pi').style.width=(all.length?d/all.length*100:0)+'%';$('#pt').textContent=d+' / '+all.length+' done'}prog();
+// role filter
+const RM={A:['WP1'],B:['WP2'],C:['WP4'],D:['WP5','WP3']};let role='All';
+const rb=$('#rolebar');if(rb){rb.innerHTML='<b>Show:</b>';['All','Member A','Member B','Member C','Member D'].forEach(r=>{const b=document.createElement('button');b.className='chip'+(r=='All'?' on':'');b.textContent=r;b.onclick=()=>{role=r;$$('.chip',rb).forEach(c=>c.classList.toggle('on',c==b));const k=r.slice(-1);$$('#s6 .grp').forEach(g=>{g.hidden=r!='All'&&g.dataset.wp!='PM'&&!(RM[k]||[]).includes(g.dataset.wp)});$$('#s3 tr').forEach(tr=>{const c=tr.firstElementChild?tr.firstElementChild.textContent:'';tr.classList.toggle('hl',r!='All'&&(RM[k]||[]).some(w=>c.includes(w)))})};rb.append(b)});const nt=document.createElement('span');nt.className='note';nt.textContent='Roles A to D are suggestions from Section 3; names are assigned on Monday.';rb.append(nt)}
+// buttons
+$('#ex').onclick=()=>$$('details').forEach(d=>d.open=true);$('#co').onclick=()=>$$('details').forEach(d=>d.open=false);
+// search
+$('#q').oninput=e=>{const v=e.target.value.trim().toLowerCase();let c=0;$$('.sec').forEach(s=>{const m=!v||s.textContent.toLowerCase().includes(v);s.hidden=!m;if(m){c++;if(v)$('details',s).open=true}});$('#nr').hidden=c>0};
+// scrollspy
+const links=$$('#tn a');if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#'+e.target.id))}}),{rootMargin:'-120px 0px -70% 0px'});$$('.sec').forEach(s=>io.observe(s))}
+links.forEach(a=>a.onclick=()=>{const t=$(a.getAttribute('href'));if(t){t.hidden=false;$('details',t).open=true}});
+</script></body></html>

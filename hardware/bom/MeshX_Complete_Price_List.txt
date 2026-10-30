@@ -1,0 +1,266 @@
+MESHX — COMPLETE PROCUREMENT PRICE LIST
+===========================================
+Project: MeshX — Adaptive Off-Grid Communication System using LoRa
+Location/market: Pakistan
+Prices are approximate/current online prices gathered during the project planning stage.
+Important: prices can change with seller, stock, shipping, import duties, and exchange rates.
+
+A. MAIN 6-NODE HARDWARE
+-----------------------
+
+1. ESP32-S3 DevKitC-1 N8R8
+   Quantity: 6
+   Verified prices found:
+   - Ampflick: Rs. 1,750 each
+   - Daraz: Rs. 9,783 each
+   - StarShop: Rs. 11,080 each (imported)
+   Recommended budgeting figure: Rs. 1,750–9,783 each
+   Estimated 6-node cost: Rs. 10,500–58,698
+
+2. SX1262 LoRa Module
+   Quantity: 6
+   No stable standalone Pakistan listing was verified.
+   Working budget estimate: Rs. 3,000–4,000 each
+   Estimated 6-node cost: Rs. 18,000–24,000
+   NOTE: SX1262 is the primary radio specified in the accepted proposal.
+
+3. LoRa Antenna
+   Quantity: 6–8
+   Specification: 50-ohm, matching the final approved RF band, approximately 2–5 dBi
+   Budget estimate: Rs. 500–1,000 each
+   Estimated cost for 6: Rs. 3,000–6,000
+   NOTE: Confirm the final Pakistan RF band before purchasing antennas.
+
+4. 3.7V Li-ion/LiPo Battery
+   Quantity: 6
+   Recommended capacity: approximately 3000–5000mAh
+   Verified examples:
+   - Digilog 4000mAh: Rs. 710 (listing was sold out)
+   - Daraz 4000mAh: Rs. 1,099
+   Budget: Rs. 700–1,100 each
+   Estimated 6-node cost: Rs. 4,200–6,600
+
+5. TP4056 Charger + Protection
+   Quantity: 6
+   Verified examples:
+   - Electronics Hub: Rs. 40
+   - Rafiq: Rs. 69
+   - Daraz examples: approximately Rs. 98–250
+   Budget: Rs. 70–180 each
+   Estimated 6-node cost: Rs. 420–1,080
+
+6. 3.3V Power Regulator
+   Quantity: 6
+   Recommended: buck-boost regulator with suitable current capacity
+   Verified examples:
+   - 600mA module: Rs. 545 (may be too low for the intended design)
+   - TPS63802 1–2A module: Rs. 1,330
+   - MP1584 3A buck: Rs. 1,054 (buck-only; not automatically suitable for full Li-ion range)
+   Budget: Rs. 800–1,350 each
+   Estimated 6-node cost: Rs. 4,800–8,100
+
+7. Power ON/OFF Switch
+   Quantity: 6
+   Budget estimate: Rs. 50–100 each
+   Estimated cost: Rs. 300–600
+
+8. Battery Connectors / JST / Wires
+   Quantity: 6+
+   Budget estimate: Rs. 100–200 per node
+   Estimated cost: Rs. 600–1,200
+
+9. USB Data Cable
+   Quantity: 6
+   Verified example: approximately Rs. 100 each
+   Estimated cost: Rs. 600
+
+B. PROTOTYPE / WIRING
+---------------------
+
+10. 830-point Breadboard
+    Quantity: 3–4
+    Verified example: Rs. 200 each
+    Estimated cost: Rs. 600–800
+
+11. Male-Male Jumper Wires
+    Quantity: 2 sets
+    Verified example: Rs. 150 per set
+    Estimated cost: Rs. 300
+
+12. Male-Female Jumper Wires
+    Quantity: 2 sets
+    Verified example: Rs. 150 per set
+    Estimated cost: Rs. 300
+
+13. Female-Female Jumper Wires
+    Quantity: 1–2 sets
+    Budget estimate: Rs. 150–300 per set
+    Estimated cost: Rs. 150–600
+
+14. Pin Headers
+    Quantity: 2–3 sets
+    Budget estimate: Rs. 100–200 per set
+    Estimated cost: Rs. 200–600
+
+15. Resistor Kit
+    Quantity: 1
+    Budget estimate: Rs. 300–500
+
+16. Capacitor Kit
+    Quantity: 1
+    Budget estimate: Rs. 300–500
+
+17. LEDs
+    Quantity: 10–20
+    Budget estimate: Rs. 10–20 each
+    Estimated cost: Rs. 100–400
+
+18. Push Buttons
+    Quantity: 10
+    Budget estimate: Rs. 10–20 each
+    Estimated cost: Rs. 100–200
+
+19. Heat Shrink Tubing
+    Quantity: 1 set
+    Budget estimate: Rs. 200–400
+
+20. Hook-up Wire
+    Quantity: 1 roll
+    Budget estimate: Rs. 300–600
+
+C. TESTING / DEBUGGING EQUIPMENT
+--------------------------------
+
+21. USB Logic Analyzer
+    Quantity: 1
+    Verified examples:
+    - Daraz 8-channel 24MHz: Rs. 1,752
+    - Another listing: Rs. 3,830
+    Budget: Rs. 1,750–3,800
+
+22. Digital Multimeter
+    Quantity: 1
+    Verified examples:
+    - DT9205A: Rs. 1,320
+    - A830L: Rs. 1,380
+    - ET8102 True RMS: Rs. 3,280
+    - UNI-T UT123: Rs. 3,700
+    Budget: Rs. 1,300–3,700
+
+23. Soldering Iron
+    Quantity: 1
+    Verified example:
+    - 220V 100W iron: Rs. 1,210
+    Budget: approximately Rs. 1,200–1,500
+
+24. Soldering Station
+    Quantity: 1 (optional upgrade)
+    Verified example:
+    - KADA T12-D+ 72W: Rs. 7,560
+
+25. Solder Wire
+    Quantity: 1
+    Budget estimate: Rs. 300–600
+
+26. Flux
+    Quantity: 1
+    Budget estimate: Rs. 100–300
+
+27. Wire Cutter / Stripper
+    Quantity: 1
+    Budget estimate: Rs. 300–800
+
+28. USB Power Meter
+    Quantity: 1
+    Budget estimate: Rs. 500–1,000
+
+D. OPTIONAL / STRETCH GOALS
+---------------------------
+
+29. 0.96-inch OLED 128x64 I2C
+    Quantity: 6 (only if required later)
+    Verified example: Rs. 450 each
+    Estimated 6-node cost: Rs. 2,700
+
+30. GPS/GNSS Module
+    Quantity: 1–6 depending on design
+    Price: NOT fixed here; obtain a current quotation before buying.
+
+31. Solar Charging System
+    Quantity: project-dependent
+    Price: NOT fixed here; optional/stretch goal.
+
+32. Node Enclosures
+    Quantity: 6
+    Price: project-dependent; can be added after the electronics work.
+
+E. ALTERNATIVE RADIO
+--------------------
+
+SX1276 RFM95/RFM96
+   This is an alternative only, NOT the primary proposal choice.
+   Verified Pakistan examples:
+   - electronicstore.pk SX1276 RFM96 915MHz: Rs. 1,750
+   - epro.pk SX1276 RFM95 915MHz: Rs. 1,800
+   - Ampflick SX1276 RFM96 915MHz: Rs. 1,900
+   - Daraz SX1276 868MHz: Rs. 2,624
+
+   Potential saving versus a Rs. 3,500 estimated SX1262 module:
+   approximately Rs. 1,000–1,750 per node.
+   For 6 nodes: approximately Rs. 6,000–10,500.
+
+   IMPORTANT: Do not switch from SX1262 to SX1276 without supervisor
+   approval because the accepted proposal specifies ESP32-S3 + SX1262.
+
+F. ESTIMATED PROJECT BUDGET
+---------------------------
+
+1. Six-node core electronics:
+   Approximately Rs. 41,000–56,000
+   (depends heavily on ESP32-S3 and SX1262 supplier prices)
+
+2. Prototype/debug/testing equipment:
+   Approximately Rs. 8,000–15,000
+   (lower if tools such as multimeter/soldering equipment are already available)
+
+3. Wiring, small components, spares and miscellaneous:
+   Approximately Rs. 5,000–8,000
+
+4. Recommended overall working budget:
+   Approximately Rs. 60,000–80,000
+
+5. Safer budget including imported components, shipping and price variation:
+   Approximately Rs. 80,000–110,000+
+
+6. Suggested amount to request/allocate for the project:
+   Rs. 80,000 as a practical target budget.
+
+G. INITIAL 2-NODE PROTOTYPE
+---------------------------
+
+Before buying all six nodes, start with two complete nodes.
+
+Estimated 2-node prototype:
+- 2 × ESP32-S3
+- 2 × SX1262
+- 2 × antennas
+- 2 × batteries
+- 2 × TP4056
+- 2 × regulators
+- basic wiring/breadboard
+- USB cables
+
+Approximate prototype budget:
+Rs. 15,000–22,000 depending on ESP32-S3 and SX1262 supplier.
+
+H. PROCUREMENT NOTES
+--------------------
+
+1. Buy two complete nodes first and validate the point-to-point link.
+2. After successful ESP32-S3 + SX1262 communication, scale to six nodes.
+3. Verify the final approved Pakistan RF band before purchasing LoRa modules/antennas.
+4. SX1262 standalone pricing is an estimate because a stable local listing was not verified.
+5. Imported boards can be dramatically more expensive than local listings.
+6. Check whether shipping/customs are included before comparing prices.
+7. Keep at least one spare ESP32-S3/radio if the project budget allows.
+8. OLED, GPS, solar and final enclosures should be purchased later unless specifically required.
