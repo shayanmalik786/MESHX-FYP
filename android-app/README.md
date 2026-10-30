@@ -34,4 +34,4 @@ app/src/test/               unit tests (run: ./gradlew test)
 - Done: all 7 screens, navigation, demo mesh, BLE scan/connect/notify/write, protocol parser + tests.
 - Next: test BLE against the first firmware, save messages in a Room database, network key / encryption settings.
 - Note: written outside Android Studio. The protocol and demo logic are unit tested, but the full app has not been
-  compiled yet. If the first Gradle sync shows an error, paste it to Claude.
+  compiled yet. If the first Gradle sync shows an error, fix it in Android Studio or share it with the team.
